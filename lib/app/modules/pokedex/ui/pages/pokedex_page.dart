@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:poke_app/app/core/ui/app_theme.dart';
+import 'package:poke_app/app/core/ui/widgets/app_bar/custom_app_bar_widget.dart';
 import 'package:poke_app/app/core/ui/widgets/bottom_sheets/custom_bottom_sheet_widget.dart';
 import 'package:poke_app/app/core/ui/widgets/buttons/custom_button_widget.dart';
 import 'package:poke_app/app/core/ui/widgets/loadings/custom_loading_widget.dart';
@@ -64,6 +65,20 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: appTheme.colors.whiteColor,
+      appBar: CustomAppBarWidget(
+        child: SearchTextfieldWidget(
+          theme: appTheme,
+          onChanged: (value) {
+            store.changePokemonSearchText(value);
+            if (value.isNotEmpty) {
+              store.onSearchPokemonChanged(value);
+            } else {
+              store.showMainList;
+              store.changeButtonTypePokemons(text: 'Todos os tipos');
+            }
+          },
+        ),
+      ),
       body: Observer(builder: (_) => _buildBody()),
     );
   }
@@ -87,7 +102,6 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
       controller: store.isFilterTypeSelected ? null : _scrollController,
       physics: const BouncingScrollPhysics(),
       slivers: [
-        _buildAppBar(),
         if (store.showTypeButton) _buildTypeButton(),
         if (store.showSearchResult) _buildSearchedPokemon(),
         if (store.showSearchLoading) _buildLoading(),
@@ -99,27 +113,6 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
         if (store.isLoadingBottom) _buildLoading(),
         if (!store.hasMore) _buildNoMoreItemsMessage(),
       ],
-    );
-  }
-
-  Widget _buildAppBar() {
-    return SliverAppBar(
-      toolbarHeight: 88.0,
-      backgroundColor: appTheme.colors.whiteColor,
-      surfaceTintColor: appTheme.colors.whiteColor,
-      title: SearchTextfieldWidget(
-        theme: appTheme,
-        onChanged: (value) {
-          store.changePokemonSearchText(value);
-          if (value.isNotEmpty) {
-            store.onSearchPokemonChanged(value);
-          } else {
-            store.fetchInitial();
-            store.changeButtonTypePokemons(text: 'Todos os tipos');
-          }
-        },
-      ),
-      pinned: true,
     );
   }
 
