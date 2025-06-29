@@ -1,0 +1,69 @@
+name: poke_app
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.8.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_mobx: ^2.3.0
+  flutter_modular: ^6.4.1
+  flutter_svg: ^2.2.0
+  mobx: ^2.5.0
+  shared_preferences: ^2.5.3
+  http: ^1.4.0
+  dartz: ^0.10.1
+  shimmer: ^3.0.0
+  cached_network_image: ^3.4.1
+  modal_bottom_sheet: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  mobx_codegen: ^2.7.1
+  build_runner: ^2.5.3
+
+flutter:
+  uses-material-design: true
+  assets:
+      - assets/images/
+      - assets/images/svg/
+      - assets/images/svg/logos/
+      - assets/images/png/coaches/
+      - assets/images/png/others/
+      - assets/icons/
+      - assets/icons/svg/
+      - assets/icons/svg/bottom_menu/
+      - assets/icons/svg/search_textfield/
+      - assets/icons/svg/pokemons/elements/
+      - assets/icons/svg/pokemons/elements_with_transparency/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/poppins/Poppins-Regular.ttf
+          style: normal
+
+        - asset: assets/fonts/poppins/Poppins-Medium.ttf
+          weight: 400
+
+        - asset: assets/fonts/poppins/Poppins-SemiBold.ttf
+          weight: 500
+
+        - asset: assets/fonts/poppins/Poppins-Bold.ttf
+          weight: 700
+
+        - asset: assets/fonts/poppins/Poppins-ExtraBold.ttf
+          weight: 900
+
+        - asset: assets/fonts/poppins/Poppins-Italic.ttf
+          style: italic
+
+
+
+        
+

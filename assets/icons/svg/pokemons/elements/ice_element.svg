@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <g transform="matrix(1.023032, 0, 0, 1.02389, 94.856592, 35.647885)" style="transform-origin: 17.3498px 27.9818px;">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M34.0854 0.380371L34.5283 39.2914L0.589889 55.5833L0.171387 18.8439L34.0854 0.380371Z" fill="#73CEC0"/>
+  </g>
+  <g transform="matrix(1, 0, 0, 1, 94.896142, 77.385423)">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M68.107 17.6944L34.5102 36.9114L0.893555 17.664L34.4928 0.0150146L68.107 17.6944Z" fill="#73CEC0"/>
+  </g>
+  <g transform="matrix(1, 0, 0, 1, 23.943301, 76.742509)">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M67.9176 17.6944L34.3209 36.9114L0.704102 17.664L34.3035 0.0150146L67.9176 17.6944Z" fill="#73CEC0"/>
+  </g>
+  <g transform="matrix(1, 0, 0, -1, 57.270024, 153.386477)" style="">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M0.943359 0.221069L35.8144 17.4914L34.9229 55.1272L1.99805 38.8209L0.943359 0.221069Z" fill="#73CEC0"/>
+  </g>
+  <g transform="matrix(1, 0, 0, 1, 95.080774, 98.898782)">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M35.0344 55.5788L0.16333 38.3084L1.0549 0.672363L33.9797 16.979L35.0344 55.5788Z" fill="#73CEC0"/>
+  </g>
+  <g transform="matrix(-1, 0, 0, 1, 58.153642, 36.765591)" style="transform-origin: 17.883px 28.3275px;">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M1.14759 55.929L0.704346 17.018L34.6431 0.726074L35.0616 37.4652L1.14759 55.929Z" fill="#73CEC0"/>
+  </g>
+</svg>
