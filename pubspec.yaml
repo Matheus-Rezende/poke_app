@@ -19,6 +19,7 @@ dependencies:
   shimmer: ^3.0.0
   cached_network_image: ^3.4.1
   modal_bottom_sheet: ^3.0.0
+  just_audio: ^0.10.4
 
 dev_dependencies:
   flutter_test:
@@ -33,6 +34,7 @@ flutter:
       - assets/images/
       - assets/images/svg/
       - assets/images/svg/logos/
+      - assets/images/svg/pokemon_information/
       - assets/images/png/coaches/
       - assets/images/png/others/
       - assets/icons/
@@ -41,6 +43,8 @@ flutter:
       - assets/icons/svg/search_textfield/
       - assets/icons/svg/pokemons/elements/
       - assets/icons/svg/pokemons/elements_with_transparency/
+      - assets/icons/svg/pokemon_informations/
+      - assets/icons/svg/pokemons/favorite/
 
   fonts:
     - family: Poppins

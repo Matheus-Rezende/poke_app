@@ -55,7 +55,7 @@ class OnboardWidget extends StatelessWidget {
         SizedBox(height: sizeOf.height * 0.01),
         Text(
           subtitle,
-          style: appTheme.typography.poppins14px().copyWith(color: appTheme.colors.greyColor),
+          style: appTheme.typography.poppins14px().copyWith(color: appTheme.colors.grey66Color),
           textAlign: TextAlign.center,
         ),
       ],

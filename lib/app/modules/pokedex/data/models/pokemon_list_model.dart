@@ -1,11 +1,11 @@
-class PokemonModel {
+class PokemonListModel {
   final String name;
   final String url;
   final int id;
   final String imageUrl;
   List<String> types;
 
-  PokemonModel({
+  PokemonListModel({
     required this.name,
     required this.url,
     required this.id,
@@ -13,13 +13,13 @@ class PokemonModel {
     required this.types,
   });
 
-  factory PokemonModel.fromJson(Map<String, dynamic> json) {
+  factory PokemonListModel.fromJson(Map<String, dynamic> json) {
     final url = json['url'] as String;
 
     // Extraindo o ID da URL
     final id = int.parse(url.split('/')[url.split('/').length - 2]);
 
-    return PokemonModel(
+    return PokemonListModel(
       name: json['name'],
       types: [],
       url: url,

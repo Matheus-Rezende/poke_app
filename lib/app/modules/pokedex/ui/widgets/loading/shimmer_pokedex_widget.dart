@@ -18,8 +18,8 @@ class ShimmerPokedexWidget extends StatelessWidget {
             spacing: 12.0,
             children: [
               Shimmer.fromColors(
-                baseColor: appTheme.colors.greyColor.withValues(alpha: 0.4),
-                highlightColor: appTheme.colors.greyColor.withValues(alpha: 0.1),
+                baseColor: appTheme.colors.grey66Color.withValues(alpha: 0.4),
+                highlightColor: appTheme.colors.grey66Color.withValues(alpha: 0.1),
                 child: Container(
                   height: 42.0,
                   padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
@@ -31,8 +31,8 @@ class ShimmerPokedexWidget extends StatelessWidget {
               ),
               ...List.generate(10, (index) {
                 return Shimmer.fromColors(
-                  baseColor: appTheme.colors.greyColor.withValues(alpha: 0.4),
-                  highlightColor: appTheme.colors.greyColor.withValues(alpha: 0.1),
+                  baseColor: appTheme.colors.grey66Color.withValues(alpha: 0.4),
+                  highlightColor: appTheme.colors.grey66Color.withValues(alpha: 0.1),
                   enabled: true,
                   child: Container(
                     height: 120.0,

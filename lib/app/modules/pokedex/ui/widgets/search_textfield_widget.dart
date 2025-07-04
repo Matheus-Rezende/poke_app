@@ -5,12 +5,14 @@ import 'package:poke_app/app/core/ui/app_theme.dart';
 class SearchTextfieldWidget extends StatelessWidget {
   final Function(String)? onChanged;
   final AppTheme theme;
-  const SearchTextfieldWidget({super.key, this.onChanged, required this.theme});
+  final FocusNode? focus;
+  const SearchTextfieldWidget({super.key, this.onChanged, required this.theme, this.focus});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       onChanged: onChanged,
+      focusNode: focus,
       style: theme.typography.poppins14px().copyWith(color: theme.colors.grey99Color),
       decoration: InputDecoration(
         prefixIcon: Padding(

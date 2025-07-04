@@ -2,14 +2,28 @@ import 'package:flutter/material.dart';
 
 @immutable
 class AppColors {
-  // PRIMARY COLORS
+  //--- PRIMARY COLORS-----------
+
+  //--------- WHITE COLORS --------
   final Color whiteColor = const Color(0xFFFFFFFF);
-  final Color blackColor = const Color(0xFF000000);
-  final Color greyColor = const Color(0xFF666666);
-  final Color grey33Color = const Color(0xFF333333);
-  final Color grey99Color = const Color(0xFF999999);
-  final Color greyCCColor = const Color(0xFFCCCCCC);
+
+  //--------- GREY COLORS ---------
   final Color greyE6Color = const Color(0xFFE6E6E6);
+  final Color greyCCColor = const Color(0xFFCCCCCC);
+  final Color grey1AColor = const Color(0xFF1A1A1A);
+  final Color grey99Color = const Color(0xFF999999);
+  final Color grey66Color = const Color(0xFF666666);
+  final Color grey4DColor = const Color(0xFF4D4D4D);
+  final Color grey33Color = const Color(0xFF333333);
+
+  //--------- BLACK COLORS --------
+  final Color blackColor = const Color(0xFF000000);
+
+  //-------- BLUE COLORS ----------
+  final Color blueColor = const Color(0xFF2551C3);
+
+  //-------- PINK COLORS ----------
+  final Color pinkColor = const Color(0xFFFF7596);
 
   // SPLASH COLORS
   final Color splashBlueColor = const Color(0xFF1B75BB);

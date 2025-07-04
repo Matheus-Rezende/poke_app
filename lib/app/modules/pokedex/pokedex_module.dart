@@ -4,7 +4,11 @@ import 'package:poke_app/app/modules/pokedex/ui/pages/pokemon_details_page.dart'
 class PokedexModule extends Module {
   @override
   void routes(RouteManager r) {
-    r.child('/pokemon-details', child: (context) => PokemonDetailsPage(pokemonId: r.args.data));
+    r.child(
+      '/pokemon-details',
+      child: (context) => PokemonDetailsPage(pokemon: r.args.data),
+      transition: TransitionType.rightToLeftWithFade,
+    );
     super.routes(r);
   }
 }

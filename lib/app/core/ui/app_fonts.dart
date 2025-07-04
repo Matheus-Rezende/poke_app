@@ -13,4 +13,5 @@ class AppFonts {
   TextStyle poppins22px() => const TextStyle(fontFamily: 'Poppins', fontSize: 22);
   TextStyle poppins24px() => const TextStyle(fontFamily: 'Poppins', fontSize: 24);
   TextStyle poppins26px() => const TextStyle(fontFamily: 'Poppins', fontSize: 26);
+  TextStyle poppins32px() => const TextStyle(fontFamily: 'Poppins', fontSize: 32);
 }
