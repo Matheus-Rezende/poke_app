@@ -24,19 +24,20 @@ class MenuModule extends Module {
   void binds(Injector i) {
     i.addLazySingleton(CustomBottomMenuStore.new);
     i.addLazySingleton(PokemonsStore.new);
-    i.addLazySingleton<SearchPokemonStore>(
-      () => SearchPokemonStore(
-        searchPokemonRepository: i.get<SearchPokemonRepository>(),
-        onClearTypeSelection: null, // ou função real se tiver
-        isFilterTypeSelected: () => true, // função que retorna bool
-      ),
-    );
+    // Registra o TypesPokemonStore primeiro
     i.addLazySingleton<TypesPokemonStore>(
-      () => TypesPokemonStore(
-        typesPokemonRepository: i.get<TypesPokemonRepository>(),
-        isSearchTextEmpty: () => false, // função que retorna bool
-      ),
+      () => TypesPokemonStore(typesPokemonRepository: i.get<TypesPokemonRepository>()),
     );
+
+    // Agora SearchPokemonStore com dependência dele
+    i.addLazySingleton<SearchPokemonStore>(() {
+      final typesStore = i.get<TypesPokemonStore>();
+      return SearchPokemonStore(
+        searchPokemonRepository: i.get<SearchPokemonRepository>(),
+        onClearTypeSelection: typesStore.clearTypeSelection,
+        isFilterTypeSelected: () => typesStore.isFilterTypeSelected,
+      );
+    });
     i.addLazySingleton(InformationsPokemonStore.new);
     i.addLazySingleton(EvolutionsPokemonStore.new);
     i.addLazySingleton(FavoriteStore.new);

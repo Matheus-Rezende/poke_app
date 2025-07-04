@@ -111,7 +111,7 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
       controller: _scrollController,
       physics: const BouncingScrollPhysics(),
       slivers: [
-        if (typesPokemonStore.showTypeButton) _buildTypeButton(),
+        _buildTypeButton(),
         if (searchPokemonStore.showSearchResult) _buildSearchedPokemon(),
         if (searchPokemonStore.showSearchLoading) _buildLoading(),
         if (searchPokemonStore.showSearchError)

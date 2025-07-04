@@ -12,9 +12,8 @@ class TypesPokemonStore = TypesPokemonStoreBase with _$TypesPokemonStore;
 
 abstract class TypesPokemonStoreBase with Store {
   final TypesPokemonRepository typesPokemonRepository;
-  final bool Function() isSearchTextEmpty;
 
-  TypesPokemonStoreBase({required this.typesPokemonRepository, required this.isSearchTextEmpty});
+  TypesPokemonStoreBase({required this.typesPokemonRepository});
 
   @observable
   PokemonTypeState pokemonTypeState = InitPokemonTypeState();
@@ -44,8 +43,6 @@ abstract class TypesPokemonStoreBase with Store {
 
   @computed
   String get messageTypeError => (pokemonTypeState as ErrorPokemonTypeState).message;
-  @computed
-  bool get showTypeButton => isSearchTextEmpty();
   @computed
   bool get showTypeList => pokemonTypeState is SuccessPokemonTypeState && isFilterTypeSelected;
   @computed
@@ -89,5 +86,12 @@ abstract class TypesPokemonStoreBase with Store {
     } catch (e) {
       pokemonTypeDamageState = ErrorPokemonTypeDamageState(message: e.toString());
     }
+  }
+
+  @action
+  void clearTypeSelection() {
+    isFilterTypeSelected = false;
+    textButtonTypePokemons = 'Todos os tipos';
+    pokemonTypeState = InitPokemonTypeState();
   }
 }
