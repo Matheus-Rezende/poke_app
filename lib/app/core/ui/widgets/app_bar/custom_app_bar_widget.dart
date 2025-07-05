@@ -5,12 +5,14 @@ class CustomAppBarWidget extends StatelessWidget implements PreferredSizeWidget 
   final EdgeInsetsGeometry? padding;
   final bool isSliverWidget;
   final double appBarHeight;
+  final Color? backgroundColor;
   const CustomAppBarWidget({
     super.key,
     required this.widget,
     this.padding,
     this.isSliverWidget = false,
     this.appBarHeight = 100,
+    this.backgroundColor,
   });
 
   @override
@@ -18,6 +20,7 @@ class CustomAppBarWidget extends StatelessWidget implements PreferredSizeWidget 
     return isSliverWidget
         ? SliverAppBar(
             flexibleSpace: Container(
+              color: backgroundColor ?? Colors.white,
               padding: padding ?? EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
               width: MediaQuery.sizeOf(context).width,
               child: widget,
@@ -25,6 +28,7 @@ class CustomAppBarWidget extends StatelessWidget implements PreferredSizeWidget 
           )
         : SafeArea(
             child: Container(
+              color: backgroundColor ?? Colors.white,
               padding: padding ?? EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
               width: MediaQuery.sizeOf(context).width,
               child: widget,

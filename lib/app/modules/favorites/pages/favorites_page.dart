@@ -25,10 +25,10 @@ class FavoritesPage extends StatelessWidget {
           body: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) => [
               CustomAppBarWidget(
-                padding: EdgeInsets.only(top: 54.0),
+                padding: EdgeInsets.only(top: 46.0),
+                backgroundColor: appTheme.colors.whiteColor,
                 isSliverWidget: true,
                 widget: Column(
-                  spacing: 8.0,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
@@ -38,7 +38,10 @@ class FavoritesPage extends StatelessWidget {
                         style: appTheme.typography.poppins18px().copyWith(fontWeight: FontWeight.w600),
                       ),
                     ),
-                    Divider(color: appTheme.colors.greyE6Color),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: Divider(color: appTheme.colors.greyE6Color, height: 1.0),
+                    ),
                   ],
                 ),
               ),
