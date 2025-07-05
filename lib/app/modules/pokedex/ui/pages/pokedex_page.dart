@@ -196,7 +196,8 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
   Widget _buildTypeList() {
     final pokemons = typesPokemonStore.pokemonTypeState.pokemons;
     return SliverPadding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate((context, index) {
           final pokemon = pokemons[index];
@@ -206,6 +207,7 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
             types: pokemon.types,
             imagePath: pokemon.imageUrl,
             theme: appTheme,
+            margin: EdgeInsets.symmetric(vertical: 6.0),
             onPressed: () =>
                 Modular.to.pushNamed(AppRoutes.pokemonDetails(), arguments: pokemon.id.toString()),
             favoriteOnPressed: () => favoriteStore.toggleFavorite(pokemon),

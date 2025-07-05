@@ -9,25 +9,40 @@ import 'package:poke_app/app/core/interactor/utils/type_colors/pokemon_type_colo
 import 'package:poke_app/app/core/interactor/utils/type_icons/pokemon_type_transparency_icons.dart';
 import 'package:poke_app/app/core/ui/app_theme.dart';
 import 'package:poke_app/app/core/ui/clippers/bottom_circular_clipper.dart';
+import 'package:poke_app/app/modules/favorites/interactor/stories/favorite_store.dart';
+import 'package:poke_app/app/modules/pokedex/data/models/pokemons_model.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/states/pokemon_details_state.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/details/pokemon_informations/informations_pokemon_store.dart';
 import 'package:poke_app/app/modules/pokedex/ui/widgets/type_badge_widget.dart';
 
-class PokemonHeaderWidget extends StatelessWidget {
+class PokemonHeaderWidget extends StatefulWidget {
   final InformationsPokemonStore store;
   const PokemonHeaderWidget({super.key, required this.store});
 
   @override
-  Widget build(BuildContext context) {
-    final appTheme = Modular.get<AppTheme>();
+  State<PokemonHeaderWidget> createState() => _PokemonHeaderWidgetState();
+}
 
+class _PokemonHeaderWidgetState extends State<PokemonHeaderWidget> {
+  final appTheme = Modular.get<AppTheme>();
+  final favoriteStore = Modular.get<FavoriteStore>();
+  @override
+  void initState() {
+    super.initState();
+    if (widget.store.pokemonDetailsState is SuccessPokemonDetailsState) {
+      _playPokemonAudio(widget.store.pokemonDetailsState.pokemon.soundPath ?? '');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Observer(
         builder: (context) {
-          if (store.pokemonDetailsState is SuccessPokemonDetailsState) {
-            _playPokemonAudio(store.pokemonDetailsState.pokemon.soundPath ?? '');
-          }
-          return switch (store.pokemonDetailsState) {
+          final isPokemonFavorite = favoriteStore.pokemonsFavorites.any(
+            (pf) => pf.id == widget.store.pokemonDetailsState.pokemon.id,
+          );
+          return switch (widget.store.pokemonDetailsState) {
             InitPokemonDetailsState() => Container(),
             LoadingPokemonDetailsState() => Container(),
             SuccessPokemonDetailsState(:final pokemon) => Column(
@@ -69,7 +84,21 @@ class PokemonHeaderWidget extends StatelessWidget {
                                 child: Icon(Icons.chevron_left, color: appTheme.colors.whiteColor),
                               ),
                             ),
-                            Icon(Icons.favorite_border, color: appTheme.colors.whiteColor),
+                            InkWell(
+                              onTap: () => favoriteStore.toggleFavorite(
+                                PokemonsModel(
+                                  name: widget.store.pokemonDetailsState.pokemon.name ?? '',
+                                  id: widget.store.pokemonDetailsState.pokemon.id ?? 0,
+                                  imageUrl: widget.store.pokemonDetailsState.pokemon.imagePath ?? '',
+                                  types: widget.store.pokemonDetailsState.pokemon.types ?? [],
+                                ),
+                              ),
+                              child: SvgPicture.asset(
+                                isPokemonFavorite
+                                    ? 'assets/icons/svg/pokemons/favorite/favorite_filled_icon.svg'
+                                    : 'assets/icons/svg/pokemons/favorite/favorite_icon.svg',
+                              ),
+                            ),
                           ],
                         ),
                       ),
