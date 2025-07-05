@@ -39,15 +39,7 @@ class PokemonGenderRateWidget extends StatelessWidget {
               ),
             ),
 
-            ErrorPokemonDescriptionState(:final message) => Center(
-              child: Text(
-                message,
-                style: appTheme.typography.poppins12px().copyWith(
-                  fontWeight: FontWeight.w500,
-                  color: appTheme.colors.blackColor.withValues(alpha: 0.7),
-                ),
-              ),
-            ),
+            ErrorPokemonDescriptionState() => Container(),
           },
         );
       },

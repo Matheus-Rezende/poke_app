@@ -94,7 +94,13 @@ class _PokemonEvolutionsWidgetState extends State<PokemonEvolutionsWidget> {
                     }),
                   ),
                 ),
-                ErrorPokemonEvolutionStageState(:final message) => Text(message),
+                ErrorPokemonEvolutionStageState(:final message) => Padding(
+                  padding: const EdgeInsets.only(left: 16.0, bottom: 8.0),
+                  child: Text(
+                    message,
+                    style: appTheme.typography.poppins14px().copyWith(fontWeight: FontWeight.w700),
+                  ),
+                ),
               };
             },
           ),

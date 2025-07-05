@@ -146,7 +146,7 @@ class PokemonHeaderWidget extends StatelessWidget {
                 SizedBox(height: 24.0),
               ],
             ),
-            ErrorPokemonDetailsState(:final message) => Text(message),
+            ErrorPokemonDetailsState() => Container(),
           };
         },
       ),
@@ -164,7 +164,7 @@ class PokemonHeaderWidget extends StatelessWidget {
     } on PlayerException catch (e) {
       print('[Erro no áudio]: $e');
     } finally {
-      await player.dispose(); // sempre liberar recursos
+      await player.dispose();
     }
   }
 }

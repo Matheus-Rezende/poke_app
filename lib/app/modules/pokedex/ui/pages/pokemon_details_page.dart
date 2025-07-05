@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:poke_app/app/core/ui/app_theme.dart';
 import 'package:poke_app/app/core/ui/widgets/loadings/custom_loading_widget.dart';
+import 'package:poke_app/app/core/ui/widgets/messages/message_widget.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/states/pokemon_description_state.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/states/pokemon_details_state.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/details/pokemon_informations/informations_pokemon_store.dart';
@@ -37,8 +38,20 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> with TickerProv
     return Scaffold(
       body: Observer(
         builder: (context) {
-          if (!informationPokemonStore.isMainDetailsLoaded) {
+          if (informationPokemonStore.isLoadingMainDetails) {
             return const Center(child: CustomLoadingWidget(isSliverWidget: false));
+          }
+
+          if (informationPokemonStore.isErrorMainDetails) {
+            return Center(
+              child: MessageWidget(
+                theme: appTheme,
+                title: 'Um erro aconteceu',
+                subtitle: 'Houve uma falha na comunicação com o servidor',
+                useSliverWidget: false,
+                padding: EdgeInsetsGeometry.symmetric(horizontal: 32),
+              ),
+            );
           }
 
           return CustomScrollView(
@@ -78,7 +91,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> with TickerProv
         InitPokemonDetailsState() => Container(),
         SuccessPokemonDetailsState(:final pokemon) => PokemonDamagesWidget(urls: pokemon.typeUrls ?? []),
         LoadingPokemonDetailsState() => Container(),
-        ErrorPokemonDetailsState(:final message) => Text(message),
+        ErrorPokemonDetailsState() => Container(),
       },
     );
   }
@@ -91,9 +104,8 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> with TickerProv
           url: description.evolutionChainUrl ?? '',
         ),
         LoadingPokemonDescriptionState() => Container(),
-        ErrorPokemonDescriptionState(:final message) => Text(message),
+        ErrorPokemonDescriptionState() => Container(),
       },
     );
-    // return PokemonEvolutionsWidget();
   }
 }

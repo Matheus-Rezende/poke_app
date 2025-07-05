@@ -54,7 +54,7 @@ class PokemonDimensionsWidget extends StatelessWidget {
                 ],
               ),
             ),
-            ErrorPokemonDetailsState(:final message) => Text(message),
+            ErrorPokemonDetailsState() => Container(),
           },
         );
       },

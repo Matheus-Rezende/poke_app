@@ -27,9 +27,7 @@ class _PokemonDamagesWidgetState extends State<PokemonDamagesWidget> {
     super.didChangeDependencies();
 
     if (widget.urls.isNotEmpty) {
-      // Gera um hash para saber se as URLs mudaram
       final hash = widget.urls.join(',');
-
       if (_lastHash != hash) {
         _lastHash = hash;
         store.loadCombinedTypeDamages(widget.urls);
@@ -75,7 +73,13 @@ class _PokemonDamagesWidgetState extends State<PokemonDamagesWidget> {
                     )
                     .toList(),
               ),
-              ErrorPokemonTypeDamageState(:final message) => Text(message),
+              ErrorPokemonTypeDamageState(:final message) => Padding(
+                padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
+                child: Text(
+                  message,
+                  style: appTheme.typography.poppins14px().copyWith(fontWeight: FontWeight.w700),
+                ),
+              ),
             };
           },
         ),

@@ -24,12 +24,9 @@ class MenuModule extends Module {
   void binds(Injector i) {
     i.addLazySingleton(CustomBottomMenuStore.new);
     i.addLazySingleton(PokemonsStore.new);
-    // Registra o TypesPokemonStore primeiro
     i.addLazySingleton<TypesPokemonStore>(
       () => TypesPokemonStore(typesPokemonRepository: i.get<TypesPokemonRepository>()),
     );
-
-    // Agora SearchPokemonStore com dependência dele
     i.addLazySingleton<SearchPokemonStore>(() {
       final typesStore = i.get<TypesPokemonStore>();
       return SearchPokemonStore(

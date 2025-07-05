@@ -38,10 +38,14 @@ abstract class InformationsPokemonStoreBase with Store {
   }
 
   @computed
-  bool get isMainDetailsLoaded =>
-      pokemonDetailsState is SuccessPokemonDetailsState &&
-      (pokemonDescriptionState is SuccessPokemonDescriptionState ||
-          pokemonDescriptionState is ErrorPokemonDescriptionState);
+  bool get isSuccessMainDetails =>
+      pokemonDetailsState is SuccessPokemonDetailsState ||
+      pokemonDescriptionState is SuccessPokemonDescriptionState;
+
+  @computed
+  bool get isErrorMainDetails =>
+      pokemonDetailsState is ErrorPokemonDetailsState ||
+      pokemonDescriptionState is ErrorPokemonDescriptionState;
 
   @computed
   bool get isLoadingMainDetails =>

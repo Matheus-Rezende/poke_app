@@ -28,15 +28,7 @@ class PokemonDescriptionWidget extends StatelessWidget {
                 ),
               ),
             ),
-            ErrorPokemonDescriptionState(:final message) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                message,
-                style: appTheme.typography.poppins14px().copyWith(
-                  color: appTheme.colors.blackColor.withValues(alpha: 0.7),
-                ),
-              ),
-            ),
+            ErrorPokemonDescriptionState() => Container(),
           },
         );
       },

@@ -15,6 +15,9 @@ abstract class TypesPokemonStoreBase with Store {
 
   TypesPokemonStoreBase({required this.typesPokemonRepository});
 
+  //================= Pokemon Types filter =====================================================
+  // Tudo que está relacionado ao filtro de tipos de pokemons está aqui
+
   @observable
   PokemonTypeState pokemonTypeState = InitPokemonTypeState();
 
@@ -49,8 +52,9 @@ abstract class TypesPokemonStoreBase with Store {
   bool get showTypeError => pokemonTypeState is ErrorPokemonTypeState && isFilterTypeSelected;
   @computed
   bool get showTypeLoading => pokemonTypeState is LoadingPokemonTypeState && isFilterTypeSelected;
+  //================= Pokemon Types filter =====================================================
 
-  //================= Pokemon Type Damage =========================
+  //================= Pokemon Type Damage =====================================================
   // São os tipos de pokemons que causam dano (Fraqueza)
 
   @observable
@@ -94,4 +98,6 @@ abstract class TypesPokemonStoreBase with Store {
     textButtonTypePokemons = 'Todos os tipos';
     pokemonTypeState = InitPokemonTypeState();
   }
+
+  //================= Pokemon Type Damage =====================================================
 }

@@ -20,7 +20,7 @@ class MessageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return useSliverWidget
         ? sliverWidget(theme: theme, title: title, subtitle: subtitle)
-        : normalWidget(theme: theme, title: title);
+        : normalWidget(theme: theme, title: title, subtitle: subtitle);
   }
 
   Widget sliverWidget({required AppTheme theme, required String title, String subtitle = ''}) {
@@ -45,7 +45,7 @@ class MessageWidget extends StatelessWidget {
 
   Widget content({required AppTheme theme, required String title, String subtitle = ''}) {
     return Column(
-      spacing: 24.0,
+      spacing: 16.0,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset('assets/images/png/others/magikarp.png'),
@@ -54,7 +54,14 @@ class MessageWidget extends StatelessWidget {
           textAlign: TextAlign.center,
           style: theme.typography.poppins20px().copyWith(fontWeight: FontWeight.w600),
         ),
-        Text(subtitle, textAlign: TextAlign.center, style: theme.typography.poppins14px()),
+        Text(
+          subtitle,
+          textAlign: TextAlign.center,
+          style: theme.typography.poppins14px().copyWith(
+            color: theme.colors.grey4DColor,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
       ],
     );
   }

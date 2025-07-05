@@ -179,7 +179,7 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
               theme: appTheme,
               onPressed: () =>
                   Modular.to.pushNamed(AppRoutes.pokemonDetails(), arguments: pokemon.id.toString()),
-              // favoriteOnPressed: () => favoriteStore.toggleFavorite(pokemon.id),
+              favoriteOnPressed: () => favoriteStore.toggleFavorite(pokemon.id),
             );
           }, childCount: pokemonsStore.pokemons.length),
         ),

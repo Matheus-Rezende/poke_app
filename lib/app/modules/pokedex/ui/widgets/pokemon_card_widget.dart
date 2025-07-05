@@ -44,12 +44,12 @@ class PokemonCardWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // 🟦 Área de toque principal
           Expanded(
             flex: 2,
             child: Material(
               color: Colors.transparent,
               child: InkWell(
+                splashColor: Colors.transparent,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(15.0),
                   bottomLeft: Radius.circular(15.0),
@@ -94,7 +94,6 @@ class PokemonCardWidget extends StatelessWidget {
               ),
             ),
           ),
-
           Observer(
             builder: (context) {
               favoriteStore.isFavorite(id);
@@ -118,15 +117,10 @@ class PokemonCardWidget extends StatelessWidget {
                             color: theme.colors.whiteColor.withValues(alpha: 0.2),
                             shape: BoxShape.circle,
                           ),
-                          child: Observer(
-                            builder: (context) {
-                              return SvgPicture.asset(favoriteStore.getFavoriteImagePath(id));
-                            },
-                          ),
+                          child: SvgPicture.asset(favoriteStore.getFavoriteImagePath(id)),
                         ),
                       ),
 
-                      // Ícone de tipo ao fundo
                       Align(
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
@@ -141,8 +135,6 @@ class PokemonCardWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-
-                      // Imagem do Pokémon
                       Align(
                         alignment: Alignment.center,
                         child: Padding(
