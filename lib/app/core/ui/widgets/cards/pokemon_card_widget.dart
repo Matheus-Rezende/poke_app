@@ -19,6 +19,8 @@ class PokemonCardWidget extends StatelessWidget {
   final AppTheme theme;
   final VoidCallback? onPressed;
   final VoidCallback? favoriteOnPressed;
+  final bool isFavoritePage;
+  final EdgeInsetsGeometry? margin;
 
   const PokemonCardWidget({
     super.key,
@@ -29,6 +31,8 @@ class PokemonCardWidget extends StatelessWidget {
     required this.theme,
     this.onPressed,
     this.favoriteOnPressed,
+    this.isFavoritePage = false,
+    this.margin,
   });
 
   @override
@@ -39,66 +43,63 @@ class PokemonCardWidget extends StatelessWidget {
     final favoriteStore = Modular.get<FavoriteStore>();
 
     return Container(
-      margin: const EdgeInsets.only(top: 12.0),
+      margin: margin,
       decoration: BoxDecoration(color: primaryColor.withAlpha(51), borderRadius: BorderRadius.circular(15.0)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             flex: 2,
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                splashColor: Colors.transparent,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15.0),
-                  bottomLeft: Radius.circular(15.0),
-                ),
-                onTap: onPressed,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'N°${id.toString().padLeft(3, '0')}',
-                        style: theme.typography.poppins12px().copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: theme.colors.grey33Color,
-                        ),
+            child: InkWell(
+              splashColor: Colors.transparent,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(15.0),
+                bottomLeft: Radius.circular(15.0),
+              ),
+              onTap: onPressed,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'N°${id.toString().padLeft(3, '0')}',
+                      style: theme.typography.poppins12px().copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: theme.colors.grey33Color,
                       ),
-                      Text(
-                        name.toCapitalized,
-                        style: theme.typography.poppins21px().copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: theme.colors.blackColor,
-                        ),
+                    ),
+                    Text(
+                      name.toCapitalized,
+                      style: theme.typography.poppins21px().copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: theme.colors.blackColor,
                       ),
-                      const SizedBox(height: 8),
-                      FittedBox(
-                        child: Row(
-                          children: types
-                              .map(
-                                (type) => TypeBadgeWidget(
-                                  type: type,
-                                  theme: theme,
-                                  margin: const EdgeInsets.only(right: 8.0),
-                                ),
-                              )
-                              .toList(),
-                        ),
+                    ),
+                    const SizedBox(height: 8),
+                    FittedBox(
+                      child: Row(
+                        children: types
+                            .map(
+                              (type) => TypeBadgeWidget(
+                                type: type,
+                                theme: theme,
+                                margin: const EdgeInsets.only(right: 8.0),
+                              ),
+                            )
+                            .toList(),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
           Observer(
             builder: (context) {
-              favoriteStore.isFavorite(id);
+              final isPokemonFavorite = favoriteStore.pokemonsFavorites.any((pf) => pf.id == id);
               return GestureDetector(
-                onTap: favoriteOnPressed,
+                onTap: isFavoritePage ? null : favoriteOnPressed,
                 child: Container(
                   width: 126.0,
                   decoration: BoxDecoration(
@@ -117,7 +118,11 @@ class PokemonCardWidget extends StatelessWidget {
                             color: theme.colors.whiteColor.withValues(alpha: 0.2),
                             shape: BoxShape.circle,
                           ),
-                          child: SvgPicture.asset(favoriteStore.getFavoriteImagePath(id)),
+                          child: SvgPicture.asset(
+                            isPokemonFavorite
+                                ? 'assets/icons/svg/pokemons/favorite/favorite_with_border_filled_icon.svg'
+                                : 'assets/icons/svg/pokemons/favorite/favorite_with_border_icon.svg',
+                          ),
                         ),
                       ),
 

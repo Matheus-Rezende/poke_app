@@ -15,7 +15,7 @@ import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/search/
 import 'package:poke_app/app/modules/pokedex/interactor/utils/constants/background_color_type_button.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/utils/constants/foreground_color_type_button.dart';
 import 'package:poke_app/app/modules/pokedex/ui/widgets/bottom_sheet_types_widget.dart';
-import 'package:poke_app/app/modules/pokedex/ui/widgets/pokemon_card_widget.dart';
+import 'package:poke_app/app/core/ui/widgets/cards/pokemon_card_widget.dart';
 import 'package:poke_app/app/modules/pokedex/ui/widgets/search_textfield_widget.dart';
 import 'package:poke_app/app/modules/pokedex/ui/widgets/loading/shimmer_pokedex_widget.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/states/pokemon_state.dart';
@@ -61,6 +61,7 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
         _searchFocusNode.unfocus();
       }
     });
+    searchPokemonStore.pokemonSearchText = '';
   }
 
   @override
@@ -74,7 +75,7 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
     return Scaffold(
       backgroundColor: appTheme.colors.whiteColor,
       appBar: CustomAppBarWidget(
-        child: SearchTextfieldWidget(
+        widget: SearchTextfieldWidget(
           theme: appTheme,
           focus: _searchFocusNode,
           onChanged: (value) {
@@ -153,12 +154,14 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       sliver: SliverToBoxAdapter(
         child: PokemonCardWidget(
+          margin: EdgeInsets.only(top: 16.0),
           id: pokemon.id,
           name: pokemon.name,
           types: pokemon.types,
           imagePath: pokemon.imageUrl,
           theme: appTheme,
           onPressed: () => Modular.to.pushNamed(AppRoutes.pokemonDetails(), arguments: pokemon.id.toString()),
+          favoriteOnPressed: () => favoriteStore.toggleFavorite(pokemon),
         ),
       ),
     );
@@ -167,7 +170,7 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
   Widget _buildMainList() {
     if (searchPokemonStore.pokemonSearchText.isEmpty) {
       return SliverPadding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
         sliver: SliverList(
           delegate: SliverChildBuilderDelegate((context, index) {
             final pokemon = pokemonsStore.pokemons[index];
@@ -177,9 +180,10 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
               types: pokemon.types,
               imagePath: pokemon.imageUrl,
               theme: appTheme,
+              margin: EdgeInsets.symmetric(vertical: 6.0),
               onPressed: () =>
                   Modular.to.pushNamed(AppRoutes.pokemonDetails(), arguments: pokemon.id.toString()),
-              favoriteOnPressed: () => favoriteStore.toggleFavorite(pokemon.id),
+              favoriteOnPressed: () => favoriteStore.toggleFavorite(pokemon),
             );
           }, childCount: pokemonsStore.pokemons.length),
         ),
@@ -204,6 +208,7 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
             theme: appTheme,
             onPressed: () =>
                 Modular.to.pushNamed(AppRoutes.pokemonDetails(), arguments: pokemon.id.toString()),
+            favoriteOnPressed: () => favoriteStore.toggleFavorite(pokemon),
           );
         }, childCount: pokemons.length),
       ),

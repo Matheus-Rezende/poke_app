@@ -5,7 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:poke_app/app/core/data/services/http/http_service.dart';
 import 'package:poke_app/app/core/interactor/utils/constants/constants.dart';
 import 'package:poke_app/app/core/interactor/utils/translator/pokemon_type_translator.dart';
-import 'package:poke_app/app/modules/pokedex/data/models/pokemon_list_model.dart';
+import 'package:poke_app/app/modules/pokedex/data/models/pokemons_model.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/repositories/pokemons/pokemons_repository.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/states/pokemon_state.dart';
 
@@ -28,14 +28,14 @@ class PokemonsRepositoryImpl implements PokemonsRepository {
         final body = json.decode(response.body);
 
         if (body.isNotEmpty) {
-          List<PokemonListModel> pokemons = (body['results'] as List)
-              .map((pokemon) => PokemonListModel.fromJson(pokemon))
+          List<PokemonsModel> pokemons = (body['results'] as List)
+              .map((pokemon) => PokemonsModel.fromJson(pokemon))
               .toList();
 
           // Realiza as requisições dos detalhes em paralelo
           await Future.wait(
             pokemons.map((pokemon) async {
-              final detailsResponse = await http.get(url: pokemon.url);
+              final detailsResponse = await http.get(url: pokemon.url ?? '');
 
               if (detailsResponse.statusCode == 200) {
                 final detailsBody = json.decode(detailsResponse.body);

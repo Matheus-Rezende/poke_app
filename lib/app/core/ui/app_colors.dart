@@ -22,6 +22,9 @@ class AppColors {
   //-------- BLUE COLORS ----------
   final Color blueColor = const Color(0xFF2551C3);
 
+  //-------- RED COLORS ----------
+  final Color redColor = const Color(0xFFCD3131);
+
   //-------- PINK COLORS ----------
   final Color pinkColor = const Color(0xFFFF7596);
 

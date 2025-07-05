@@ -6,7 +6,7 @@ import 'package:poke_app/app/core/data/services/http/http_service.dart';
 import 'package:poke_app/app/core/interactor/utils/constants/constants.dart';
 import 'package:poke_app/app/core/interactor/utils/translator/pokemon_type_translator.dart';
 import 'package:poke_app/app/modules/pokedex/data/models/pokemon_details/pokemon_type_damage_model.dart';
-import 'package:poke_app/app/modules/pokedex/data/models/pokemon_type_model.dart';
+import 'package:poke_app/app/modules/pokedex/data/models/pokemons_model.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/repositories/pokemons/details/pokemon_types/types_pokemon_repository.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/states/pokemon_type_damage_state.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/states/pokemon_type_state.dart';
@@ -29,14 +29,13 @@ class TypesPokemonRepositoryImpl implements TypesPokemonRepository {
         final body = json.decode(response.body);
 
         if (body.isNotEmpty) {
-          List<PokemonTypeModel> pokemons = (body['pokemon'] as List)
-              .map((pokemon) => PokemonTypeModel.fromJson(pokemon))
+          List<PokemonsModel> pokemons = (body['pokemon'] as List)
+              .map((pokemon) => PokemonsModel.fromJson(pokemon))
               .toList();
 
-          // Realiza as requisições dos detalhes em paralelo
           await Future.wait(
             pokemons.map((pokemon) async {
-              final detailsResponse = await http.get(url: pokemon.url);
+              final detailsResponse = await http.get(url: pokemon.url ?? '');
 
               if (detailsResponse.statusCode == 200) {
                 final detailsBody = json.decode(detailsResponse.body);

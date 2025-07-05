@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:mobx/mobx.dart';
 
-import 'package:poke_app/app/modules/pokedex/data/models/pokemon_list_model.dart';
+import 'package:poke_app/app/modules/pokedex/data/models/pokemons_model.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/repositories/pokemons/pokemons_repository.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/states/pokemon_state.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/details/pokemon_types/types_pokemon_store.dart';
@@ -27,10 +27,10 @@ abstract class PokemonsStoreBase with Store {
   PokemonState pokemonState = InitPokemonState();
 
   @observable
-  ObservableList<PokemonListModel> pokemons = ObservableList();
+  ObservableList<PokemonsModel> pokemons = ObservableList();
 
   @observable
-  ObservableMap<int, List<PokemonListModel>> pageCache = ObservableMap();
+  ObservableMap<int, List<PokemonsModel>> pageCache = ObservableMap();
 
   @observable
   bool isLoadingBottom = false;

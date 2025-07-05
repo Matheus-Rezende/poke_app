@@ -1,7 +1,7 @@
-import 'package:poke_app/app/modules/pokedex/data/models/pokemon_type_model.dart';
+import 'package:poke_app/app/modules/pokedex/data/models/pokemons_model.dart';
 
 sealed class PokemonTypeState {
-  final List<PokemonTypeModel> pokemons;
+  final List<PokemonsModel> pokemons;
   final List<String>? types;
   PokemonTypeState({required this.pokemons, this.types});
 
@@ -13,7 +13,7 @@ sealed class PokemonTypeState {
     return ErrorPokemonTypeState(message: message);
   }
 
-  SuccessPokemonTypeState success({List<PokemonTypeModel>? pokemons, List<String>? types}) {
+  SuccessPokemonTypeState success({List<PokemonsModel>? pokemons, List<String>? types}) {
     return SuccessPokemonTypeState(pokemons: pokemons ?? this.pokemons, types: types ?? this.types);
   }
 

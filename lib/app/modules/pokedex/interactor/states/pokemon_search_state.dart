@@ -1,7 +1,7 @@
-import 'package:poke_app/app/modules/pokedex/data/models/pokemon_search_model.dart';
+import 'package:poke_app/app/modules/pokedex/data/models/pokemons_model.dart';
 
 sealed class PokemonSearchState {
-  final PokemonSearchModel pokemon;
+  final PokemonsModel pokemon;
   PokemonSearchState({required this.pokemon});
 
   InitPokemonSearchState init() {
@@ -12,7 +12,7 @@ sealed class PokemonSearchState {
     return ErrorPokemonSearchState(message: message);
   }
 
-  SuccessPokemonSearchState success({PokemonSearchModel? pokemon}) {
+  SuccessPokemonSearchState success({PokemonsModel? pokemon}) {
     return SuccessPokemonSearchState(pokemon: pokemon ?? this.pokemon);
   }
 
@@ -28,14 +28,14 @@ class SuccessPokemonSearchState extends PokemonSearchState {
 class LoadingPokemonSearchState extends PokemonSearchState {
   LoadingPokemonSearchState()
     : super(
-        pokemon: PokemonSearchModel(id: 0, imageUrl: '', name: '', types: []),
+        pokemon: PokemonsModel(id: 0, imageUrl: '', name: '', types: [], url: ''),
       );
 }
 
 class InitPokemonSearchState extends PokemonSearchState {
   InitPokemonSearchState()
     : super(
-        pokemon: PokemonSearchModel(id: 0, imageUrl: '', name: '', types: []),
+        pokemon: PokemonsModel(id: 0, imageUrl: '', name: '', types: [], url: ''),
       );
 }
 
@@ -43,6 +43,6 @@ class ErrorPokemonSearchState extends PokemonSearchState {
   final String message;
   ErrorPokemonSearchState({required this.message})
     : super(
-        pokemon: PokemonSearchModel(id: 0, imageUrl: '', name: '', types: []),
+        pokemon: PokemonsModel(id: 0, imageUrl: '', name: '', types: [], url: ''),
       );
 }
