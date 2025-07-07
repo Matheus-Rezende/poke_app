@@ -22,87 +22,91 @@ class FavoritesPage extends StatelessWidget {
       builder: (context) {
         return Scaffold(
           backgroundColor: appTheme.colors.whiteColor,
-          body: NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) => [
-              CustomAppBarWidget(
-                padding: EdgeInsets.only(top: 46.0),
-                backgroundColor: appTheme.colors.whiteColor,
-                isSliverWidget: true,
-                widget: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: Text(
-                        'Favoritos',
-                        style: appTheme.typography.poppins18px().copyWith(fontWeight: FontWeight.w600),
+          body: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                CustomAppBarWidget(
+                  padding: EdgeInsets.only(top: 46.0),
+                  backgroundColor: appTheme.colors.whiteColor,
+                  widget: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Text(
+                          'Favoritos',
+                          style: appTheme.typography.poppins18px().copyWith(fontWeight: FontWeight.w600),
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: Divider(color: appTheme.colors.greyE6Color, height: 1.0),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Divider(color: appTheme.colors.greyE6Color, height: 1.0),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-            body: favoriteStore.pokemonsFavorites.isEmpty
-                ? MessageWidget(
-                    theme: appTheme,
-                    useSliverWidget: false,
-                    title: 'Você não favoritou nenhum Pokémon :( ',
-                    padding: EdgeInsetsGeometry.symmetric(horizontal: 16.0),
-                    subtitle:
-                        'Clique no ícone de coração dos seus pokémons favoritos e eles aparecerão aqui.',
-                  )
-                : SingleChildScrollView(
-                    child: Column(
-                      children: List.generate(favoriteStore.pokemonsFavorites.length, (index) {
-                        final pokemon = favoriteStore.pokemonsFavorites[index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
-                          child: Dismissible(
-                            key: Key(pokemon.name),
-                            direction: DismissDirection.endToStart,
-                            background: Container(
-                              padding: EdgeInsets.only(right: 32.0),
-                              alignment: Alignment.centerRight,
-                              decoration: BoxDecoration(
-                                color: appTheme.colors.redColor,
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              child: SvgPicture.asset('assets/icons/svg/pokemons/favorite/trash_icon.svg'),
-                            ),
-                            onDismissed: (direction) {
-                              favoriteStore.removeFavorite(index);
-
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    '${pokemon.name.toCapitalized} removido',
-                                    style: appTheme.typography.poppins18px(),
+                favoriteStore.pokemonsFavorites.isEmpty
+                    ? MessageWidget(
+                        theme: appTheme,
+                        useSliverWidget: false,
+                        title: 'Você não favoritou nenhum Pokémon :( ',
+                        padding: EdgeInsetsGeometry.symmetric(horizontal: 16.0),
+                        subtitle:
+                            'Clique no ícone de coração dos seus pokémons favoritos e eles aparecerão aqui.',
+                      )
+                    : SingleChildScrollView(
+                        child: Column(
+                          children: List.generate(favoriteStore.pokemonsFavorites.length, (index) {
+                            final pokemon = favoriteStore.pokemonsFavorites[index];
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
+                              child: Dismissible(
+                                key: Key(pokemon.name),
+                                direction: DismissDirection.endToStart,
+                                background: Container(
+                                  padding: EdgeInsets.only(right: 32.0),
+                                  alignment: Alignment.centerRight,
+                                  decoration: BoxDecoration(
+                                    color: appTheme.colors.redColor,
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  child: SvgPicture.asset(
+                                    'assets/icons/svg/pokemons/favorite/trash_icon.svg',
                                   ),
                                 ),
-                              );
-                            },
-                            child: PokemonCardWidget(
-                              isFavoritePage: true,
-                              id: pokemon.id,
-                              name: pokemon.name,
-                              types: pokemon.types,
-                              imagePath: pokemon.imageUrl,
-                              theme: appTheme,
-                              onPressed: () => Modular.to.pushNamed(
-                                AppRoutes.pokemonDetails(),
-                                arguments: pokemon.id.toString(),
+                                onDismissed: (direction) {
+                                  favoriteStore.removeFavorite(index);
+                                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        '${pokemon.name.toCapitalized} removido',
+                                        style: appTheme.typography.poppins18px(),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: PokemonCardWidget(
+                                  isFavoritePage: true,
+                                  id: pokemon.id,
+                                  name: pokemon.name,
+                                  types: pokemon.types,
+                                  imagePath: pokemon.imageUrl,
+                                  theme: appTheme,
+                                  onPressed: () => Modular.to.pushNamed(
+                                    AppRoutes.pokemonDetails(),
+                                    arguments: pokemon.id.toString(),
+                                  ),
+                                  favoriteOnPressed: () => favoriteStore.toggleFavorite(pokemon),
+                                ),
                               ),
-                              favoriteOnPressed: () => favoriteStore.toggleFavorite(pokemon),
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
-                  ),
+                            );
+                          }),
+                        ),
+                      ),
+              ],
+            ),
           ),
         );
       },

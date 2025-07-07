@@ -75,6 +75,7 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
     return Scaffold(
       backgroundColor: appTheme.colors.whiteColor,
       appBar: CustomAppBarWidget(
+        padding: EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 8.0),
         widget: SearchTextfieldWidget(
           theme: appTheme,
           focus: _searchFocusNode,
