@@ -17,34 +17,30 @@ class EvolutionsPokemonRepositoryImpl implements EvolutionsPokemonRepository {
   Future<Either<ErrorPokemonEvolutionStageState, SuccessPokemonEvolutionStageState>>
   fetchPokemonPokemonEvolutionsByUrl({required String url}) async {
     try {
-      final response = await http.get(url: url).timeout(Duration(seconds: Constants.timeoutSeconds()));
+      final response = await http
+          .get(url: url, headers: {HttpHeaders.acceptHeader: 'application/json'})
+          .timeout(Duration(seconds: Constants.timeoutSeconds()));
 
       if (response.statusCode == 200) {
-        final contentType = response.headers['content-type'];
-        if (contentType != null && contentType.contains('application/json')) {
-          final body = json.decode(utf8.decode(response.bodyBytes));
+        final body = json.decode(response.body);
+        if (body.isNotEmpty) {
+          final chain = body['chain'];
+          List<PokemonEvolutionStageModel> stages = [];
 
-          if (body.isNotEmpty) {
-            final chain = body['chain'];
-            List<PokemonEvolutionStageModel> stages = [];
-
-            void parseChain(dynamic node) {
-              stages.add(PokemonEvolutionStageModel.fromJson(node));
-              for (final next in node['evolves_to']) {
-                parseChain(next);
-              }
+          void parseChain(dynamic node) {
+            stages.add(PokemonEvolutionStageModel.fromJson(node));
+            for (final next in node['evolves_to']) {
+              parseChain(next);
             }
-
-            parseChain(chain);
-
-            return Right(SuccessPokemonEvolutionStageState(evolutions: stages));
-          } else {
-            return Left(
-              ErrorPokemonEvolutionStageState(message: 'Não conseguimos carregar as evoluções do Pokémon'),
-            );
           }
+
+          parseChain(chain);
+
+          return Right(SuccessPokemonEvolutionStageState(evolutions: stages));
         } else {
-          return Left(ErrorPokemonEvolutionStageState(message: 'Resposta não está em formato JSON'));
+          return Left(
+            ErrorPokemonEvolutionStageState(message: 'Não conseguimos carregar as evoluções do Pokémon'),
+          );
         }
       } else {
         return Left(ErrorPokemonEvolutionStageState(message: 'Erro HTTP: ${response.statusCode}'));

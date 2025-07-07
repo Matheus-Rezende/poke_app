@@ -37,6 +37,7 @@ flutter:
       - assets/images/svg/pokemon_information/
       - assets/images/png/coaches/
       - assets/images/png/others/
+      - assets/images/png/regions/
       - assets/icons/
       - assets/icons/svg/
       - assets/icons/svg/bottom_menu/

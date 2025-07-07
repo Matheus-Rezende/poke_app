@@ -18,6 +18,9 @@ import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/details
 import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/details/pokemon_types/types_pokemon_store.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/pokemons_store.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/search/search_pokemon_store.dart';
+import 'package:poke_app/app/modules/regions/data/repositories/regions_repository_impl.dart';
+import 'package:poke_app/app/modules/regions/interactor/repositories/regions_repository.dart';
+import 'package:poke_app/app/modules/regions/interactor/stories/regions_store.dart';
 
 class MenuModule extends Module {
   @override
@@ -38,6 +41,8 @@ class MenuModule extends Module {
     i.addLazySingleton(InformationsPokemonStore.new);
     i.addLazySingleton(EvolutionsPokemonStore.new);
     i.addLazySingleton(FavoriteStore.new);
+    i.addLazySingleton(RegionsStore.new);
+    i.add<RegionsRepository>(RegionsRepositoryImpl.new);
     i.add<PokemonsRepository>(PokemonsRepositoryImpl.new);
     i.add<SearchPokemonRepository>(SearchPokemonRepositoryImpl.new);
     i.add<TypesPokemonRepository>(TypesPokemonRepositoryImpl.new);

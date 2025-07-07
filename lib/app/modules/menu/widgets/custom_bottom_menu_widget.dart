@@ -7,7 +7,7 @@ import 'package:poke_app/app/core/ui/app_theme.dart';
 import 'package:poke_app/app/modules/favorites/pages/favorites_page.dart';
 import 'package:poke_app/app/modules/pokedex/ui/pages/pokedex_page.dart';
 import 'package:poke_app/app/modules/profile/pages/profile_page.dart';
-import 'package:poke_app/app/modules/regions/pages/regions_page.dart';
+import 'package:poke_app/app/modules/regions/ui/pages/regions_page.dart';
 
 class CustomBottomMenuWidget extends StatelessWidget {
   const CustomBottomMenuWidget({super.key});
