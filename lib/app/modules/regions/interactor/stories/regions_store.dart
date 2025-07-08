@@ -1,5 +1,6 @@
 import 'package:mobx/mobx.dart';
 import 'package:poke_app/app/modules/regions/interactor/repositories/regions_repository.dart';
+import 'package:poke_app/app/modules/regions/interactor/states/pokemons_region_state.dart';
 import 'package:poke_app/app/modules/regions/interactor/states/regions_state.dart';
 part 'regions_store.g.dart';
 
@@ -19,6 +20,19 @@ abstract class RegionsStoreBase with Store {
     result.fold(
       (failure) => regionsState = ErrorRegionsState(message: failure.message),
       (success) => regionsState = SuccessRegionsState(regions: success.regions),
+    );
+  }
+
+  @observable
+  PokemonsRegionState pokemonsRegionState = InitPokemonsRegionState();
+
+  @action
+  Future<void> getPokemonsByRegion({required String url}) async {
+    pokemonsRegionState = pokemonsRegionState.loading();
+    final result = await regionsRepository.fetchPokemonsByRegion(url: url);
+    result.fold(
+      (failure) => pokemonsRegionState = ErrorPokemonsRegionState(message: failure.message),
+      (success) => pokemonsRegionState = SuccessPokemonsRegionState(pokemons: success.pokemons),
     );
   }
 }

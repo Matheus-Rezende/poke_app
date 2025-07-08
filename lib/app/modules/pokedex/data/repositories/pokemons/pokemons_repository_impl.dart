@@ -32,7 +32,6 @@ class PokemonsRepositoryImpl implements PokemonsRepository {
               .map((pokemon) => PokemonsModel.fromJson(pokemon))
               .toList();
 
-          // Realiza as requisições dos detalhes em paralelo
           await Future.wait(
             pokemons.map((pokemon) async {
               final detailsResponse = await http.get(url: pokemon.url ?? '');

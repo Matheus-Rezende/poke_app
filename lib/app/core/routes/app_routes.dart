@@ -16,7 +16,7 @@ class AppRoutes {
   //-------------------------------------------------------------------------
 
   //------------------- Rotas para o módulo Regiões -------------------------
-  static String regions() => '/regions/';
+  static String regionDetails() => '/regions/details';
   //-------------------------------------------------------------------------
 
   //------------------- Rotas para o módulo Favoritos -----------------------

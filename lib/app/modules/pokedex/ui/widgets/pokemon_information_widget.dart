@@ -43,9 +43,11 @@ class PokemonInformationWidget extends StatelessWidget {
             border: Border.all(width: 1, color: appTheme.colors.blackColor.withValues(alpha: 0.1)),
           ),
           child: Center(
-            child: Text(
-              information,
-              style: appTheme.typography.poppins18px().copyWith(fontWeight: FontWeight.w500),
+            child: FittedBox(
+              child: Text(
+                information,
+                style: appTheme.typography.poppins18px().copyWith(fontWeight: FontWeight.w500),
+              ),
             ),
           ),
         ),

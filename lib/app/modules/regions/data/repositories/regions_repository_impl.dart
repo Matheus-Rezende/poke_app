@@ -4,8 +4,11 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:poke_app/app/core/data/services/http/http_service.dart';
 import 'package:poke_app/app/core/interactor/utils/constants/constants.dart';
+import 'package:poke_app/app/core/interactor/utils/translator/pokemon_type_translator.dart';
+import 'package:poke_app/app/modules/pokedex/data/models/pokemons_model.dart';
 import 'package:poke_app/app/modules/regions/data/models/region_model.dart';
 import 'package:poke_app/app/modules/regions/interactor/repositories/regions_repository.dart';
+import 'package:poke_app/app/modules/regions/interactor/states/pokemons_region_state.dart';
 import 'package:poke_app/app/modules/regions/interactor/states/regions_state.dart';
 
 class RegionsRepositoryImpl implements RegionsRepository {
@@ -19,7 +22,6 @@ class RegionsRepositoryImpl implements RegionsRepository {
       final response = await http
           .get(url: '${Constants.urlBase()}region/', headers: {HttpHeaders.acceptHeader: 'application/json'})
           .timeout(Duration(seconds: Constants.timeoutSeconds()));
-
       if (response.statusCode == 200) {
         final body = json.decode(response.body);
 
@@ -37,8 +39,76 @@ class RegionsRepositoryImpl implements RegionsRepository {
       }
     } on HttpException catch (e) {
       return Left(ErrorRegionsState(message: e.toString()));
+    } on FormatException catch (e) {
+      return Left(ErrorRegionsState(message: 'Erro de formatação: ${e.message}'));
     } on TimeoutException {
       return Left(ErrorRegionsState(message: Constants.timeoutMessage()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorPokemonsRegionState, SuccessPokemonsRegionState>> fetchPokemonsByRegion({
+    required String url,
+  }) async {
+    try {
+      final regionResponse = await http
+          .get(url: url, headers: {HttpHeaders.acceptHeader: 'application/json'})
+          .timeout(Duration(seconds: Constants.timeoutSeconds()));
+
+      if (regionResponse.statusCode != 200) {
+        return Left(ErrorPokemonsRegionState(message: 'Erro ao buscar dados da região'));
+      }
+
+      final regionBody = json.decode(regionResponse.body);
+
+      if (regionBody['main_generation'] == null) {
+        return Left(ErrorPokemonsRegionState(message: 'Não existem pokémons nessa região.'));
+      }
+
+      final generationUrl = regionBody['main_generation']['url'];
+
+      final generationResponse = await http.get(
+        url: generationUrl,
+        headers: {HttpHeaders.acceptHeader: 'application/json'},
+      );
+
+      if (generationResponse.statusCode != 200) {
+        return Left(ErrorPokemonsRegionState(message: 'Erro ao buscar dados da geração'));
+      }
+      final generationBody = json.decode(generationResponse.body);
+      final speciesList = generationBody['pokemon_species'] as List;
+      final pokemons = speciesList.map((json) => PokemonsModel.fromJson(json)).toList();
+      pokemons.sort((a, b) => a.id.compareTo(b.id));
+
+      await Future.wait(
+        pokemons.map((pokemon) async {
+          final detailsResponse = await http
+              .get(
+                url: '${Constants.urlBase()}pokemon/${pokemon.id}/',
+                headers: {HttpHeaders.acceptHeader: 'application/json'},
+              )
+              .timeout(Duration(seconds: Constants.timeoutSeconds()));
+
+          if (detailsResponse.statusCode == 200) {
+            final detailsBody = json.decode(detailsResponse.body);
+
+            final typesList = (detailsBody['types'] as List)
+                .map((typeInfo) => typeInfo['type']['name'] as String)
+                .map((en) => pokemonTypeTranslation[en] ?? en)
+                .toList();
+
+            pokemon.types = typesList;
+          }
+        }),
+      );
+
+      return Right(SuccessPokemonsRegionState(pokemons: pokemons));
+    } on HttpException catch (e) {
+      return Left(ErrorPokemonsRegionState(message: e.toString()));
+    } on FormatException catch (e) {
+      return Left(ErrorPokemonsRegionState(message: 'Erro de formatação: ${e.message}'));
+    } on TimeoutException {
+      return Left(ErrorPokemonsRegionState(message: Constants.timeoutMessage()));
     }
   }
 }

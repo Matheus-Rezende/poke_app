@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:poke_app/app/core/interactor/utils/extensions/string_casing_extension.dart';
+import 'package:poke_app/app/core/routes/app_routes.dart';
 import 'package:poke_app/app/core/ui/app_theme.dart';
 import 'package:poke_app/app/core/ui/widgets/app_bar/custom_app_bar_widget.dart';
 import 'package:poke_app/app/core/ui/widgets/loadings/custom_loading_widget.dart';
 import 'package:poke_app/app/core/ui/widgets/messages/message_widget.dart';
 import 'package:poke_app/app/modules/regions/interactor/states/regions_state.dart';
 import 'package:poke_app/app/modules/regions/interactor/stories/regions_store.dart';
+import 'package:poke_app/app/modules/regions/interactor/utils/arguments/region_arguments.dart';
 import 'package:poke_app/app/modules/regions/ui/widgets/pokemon_region_card_widget.dart';
 
 class RegionsPage extends StatefulWidget {
@@ -65,9 +67,13 @@ class _RegionsPageState extends State<RegionsPage> {
                                 regionName: regions[index].name.toCapitalized,
                                 generationNumber: regions[index].id,
                                 backgroundImagePath: getRegionImage(regions[index].id),
-                                onPressed: () {
-                                  print('Url: ${regions[index].url}');
-                                },
+                                onPressed: () => Modular.to.pushNamed(
+                                  AppRoutes.regionDetails(),
+                                  arguments: RegionArguments(
+                                    url: regions[index].url,
+                                    regionName: regions[index].name,
+                                  ),
+                                ),
                               ),
                             );
                           }),

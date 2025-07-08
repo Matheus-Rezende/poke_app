@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:poke_app/app/core/ui/app_theme.dart';
 import 'package:poke_app/app/core/ui/widgets/loadings/custom_loading_widget.dart';
+import 'package:poke_app/app/core/ui/widgets/messages/message_widget.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/states/pokemon_description_state.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/states/pokemon_details_state.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/details/pokemon_informations/informations_pokemon_store.dart';
@@ -39,6 +40,16 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> with TickerProv
         builder: (context) {
           if (informationPokemonStore.isLoadingMainDetails) {
             return const Center(child: CustomLoadingWidget(isSliverWidget: false));
+          }
+          if (informationPokemonStore.isErrorMainDetails) {
+            return Center(
+              child: MessageWidget(
+                theme: appTheme,
+                useSliverWidget: false,
+                title: 'Não conseguimos carregar as informações do Pokémon',
+                padding: EdgeInsetsGeometry.only(left: 16.0, right: 16.0),
+              ),
+            );
           }
 
           return CustomScrollView(
