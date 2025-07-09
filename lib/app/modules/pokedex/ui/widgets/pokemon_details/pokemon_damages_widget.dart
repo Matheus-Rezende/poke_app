@@ -5,7 +5,7 @@ import 'package:poke_app/app/core/interactor/utils/translator/pokemon_type_trans
 import 'package:poke_app/app/core/ui/app_theme.dart';
 import 'package:poke_app/app/core/ui/widgets/loadings/custom_loading_widget.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/states/pokemon_type_damage_state.dart';
-import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/details/pokemon_types/types_pokemon_store.dart';
+import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/details/pokemon_types_damage/pokemon_types_damage_store.dart';
 import 'package:poke_app/app/modules/pokedex/ui/widgets/type_badge_widget.dart';
 
 class PokemonDamagesWidget extends StatefulWidget {
@@ -19,7 +19,7 @@ class PokemonDamagesWidget extends StatefulWidget {
 
 class _PokemonDamagesWidgetState extends State<PokemonDamagesWidget> {
   final appTheme = Modular.get<AppTheme>();
-  final store = Modular.get<TypesPokemonStore>();
+  final store = Modular.get<PokemonTypesDamageStore>();
   String? _lastHash;
 
   @override

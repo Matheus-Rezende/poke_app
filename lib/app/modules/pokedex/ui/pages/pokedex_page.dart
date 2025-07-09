@@ -9,7 +9,7 @@ import 'package:poke_app/app/core/ui/widgets/buttons/custom_button_widget.dart';
 import 'package:poke_app/app/core/ui/widgets/loadings/custom_loading_widget.dart';
 import 'package:poke_app/app/core/ui/widgets/messages/message_widget.dart';
 import 'package:poke_app/app/modules/favorites/interactor/stories/favorite_store.dart';
-import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/details/pokemon_types/types_pokemon_store.dart';
+import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/type/pokemons_type_store.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/pokemons_store.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/search/search_pokemon_store.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/utils/constants/background_color_type_button.dart';
@@ -29,7 +29,7 @@ class PokedexPage extends StatefulWidget {
 
 class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin {
   final pokemonsStore = Modular.get<PokemonsStore>();
-  final typesPokemonStore = Modular.get<TypesPokemonStore>();
+  final pokemonsTypeStore = Modular.get<PokemonsTypeStore>();
   final searchPokemonStore = Modular.get<SearchPokemonStore>();
 
   final favoriteStore = Modular.get<FavoriteStore>();
@@ -52,7 +52,7 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
     pokemonsStore.fetchInitial();
 
     _scrollController.addListener(() {
-      if (!typesPokemonStore.isFilterTypeSelected) {
+      if (!pokemonsTypeStore.isFilterTypeSelected) {
         if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 100) {
           pokemonsStore.fetchNext();
         }
@@ -85,7 +85,7 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
               searchPokemonStore.onSearchPokemonChanged(value);
             } else {
               pokemonsStore.showMainList;
-              typesPokemonStore.changeButtonTypePokemons(text: 'Todos os tipos');
+              pokemonsTypeStore.changeButtonTypePokemons(text: 'Todos os tipos');
             }
           },
         ),
@@ -119,10 +119,10 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
         if (searchPokemonStore.showSearchError)
           _buildError(message: searchPokemonStore.messageSearchError, useSliverWidget: true),
         if (pokemonsStore.showMainList) _buildMainList(),
-        if (typesPokemonStore.showTypeList) _buildTypeList(),
-        if (typesPokemonStore.showTypeError)
-          _buildError(message: typesPokemonStore.messageTypeError, useSliverWidget: true),
-        if (typesPokemonStore.showTypeLoading) _buildLoading(),
+        if (pokemonsTypeStore.showTypeList) _buildTypeList(),
+        if (pokemonsTypeStore.showTypeError)
+          _buildError(message: pokemonsTypeStore.messageTypeError, useSliverWidget: true),
+        if (pokemonsTypeStore.showTypeLoading) _buildLoading(),
         if (pokemonsStore.isLoadingBottom) _buildLoading(),
         if (!pokemonsStore.hasMore) _buildNoMoreItemsMessage(),
       ],
@@ -134,15 +134,15 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       sliver: SliverToBoxAdapter(
         child: CustomButtonWidget(
-          title: typesPokemonStore.textButtonTypePokemons,
+          title: pokemonsTypeStore.textButtonTypePokemons,
           titleStyle: appTheme.typography.poppins14px().copyWith(
-            color: ForegroundColorTypeButton().colors(typesPokemonStore.textButtonTypePokemons),
+            color: ForegroundColorTypeButton().colors(pokemonsTypeStore.textButtonTypePokemons),
             fontWeight: FontWeight.w600,
           ),
           borderRadius: 50.0,
           padding: 0.0,
           height: 42.0,
-          backgroundColor: BackgroundColorTypeButton().colors(typesPokemonStore.textButtonTypePokemons),
+          backgroundColor: BackgroundColorTypeButton().colors(pokemonsTypeStore.textButtonTypePokemons),
           onPressed: () => _showBottomSheet(context),
         ),
       ),
@@ -195,7 +195,7 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
   }
 
   Widget _buildTypeList() {
-    final pokemons = typesPokemonStore.pokemonTypeState.pokemons;
+    final pokemons = pokemonsTypeStore.pokemonTypeState.pokemons;
     return SliverPadding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
 
@@ -253,7 +253,7 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
       height: 700.0,
       widget: BottomSheetTypesWidget(
         theme: appTheme,
-        typesPokemonStore: typesPokemonStore,
+        pokemonsTypeStore: pokemonsTypeStore,
         pokemonsStore: pokemonsStore,
       ),
     );

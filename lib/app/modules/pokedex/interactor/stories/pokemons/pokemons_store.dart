@@ -4,7 +4,7 @@ import 'package:mobx/mobx.dart';
 import 'package:poke_app/app/modules/pokedex/data/models/pokemons_model.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/repositories/pokemons/pokemons_repository.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/states/pokemon_state.dart';
-import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/details/pokemon_types/types_pokemon_store.dart';
+import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/type/pokemons_type_store.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/search/search_pokemon_store.dart';
 
 part 'pokemons_store.g.dart';
@@ -14,11 +14,11 @@ class PokemonsStore = PokemonsStoreBase with _$PokemonsStore;
 abstract class PokemonsStoreBase with Store {
   final PokemonsRepository pokemonsRepository;
   final SearchPokemonStore pokemonSearchStore;
-  final TypesPokemonStore pokemonTypeStore;
+  final PokemonsTypeStore pokemonsTypeStore;
   PokemonsStoreBase({
     required this.pokemonsRepository,
     required this.pokemonSearchStore,
-    required this.pokemonTypeStore,
+    required this.pokemonsTypeStore,
   });
 
   final int limit = 20;
@@ -85,5 +85,5 @@ abstract class PokemonsStoreBase with Store {
   bool get showMainList =>
       pokemonSearchStore.pokemonSearchText.isEmpty &&
       pokemonState is SuccessPokemonState &&
-      !pokemonTypeStore.isFilterTypeSelected;
+      !pokemonsTypeStore.isFilterTypeSelected;
 }

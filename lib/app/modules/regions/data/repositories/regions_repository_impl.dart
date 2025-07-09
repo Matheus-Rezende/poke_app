@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:poke_app/app/core/data/services/http/http_service.dart';
 import 'package:poke_app/app/core/interactor/utils/constants/constants.dart';
-import 'package:poke_app/app/core/interactor/utils/translator/pokemon_type_translator.dart';
 import 'package:poke_app/app/modules/pokedex/data/models/pokemons_model.dart';
 import 'package:poke_app/app/modules/regions/data/models/region_model.dart';
 import 'package:poke_app/app/modules/regions/interactor/repositories/regions_repository.dart';
@@ -61,46 +60,27 @@ class RegionsRepositoryImpl implements RegionsRepository {
 
       final regionBody = json.decode(regionResponse.body);
 
-      if (regionBody['main_generation'] == null) {
+      if (regionBody['pokedexes'] == null) {
         return Left(ErrorPokemonsRegionState(message: 'Não existem pokémons nessa região.'));
       }
 
-      final generationUrl = regionBody['main_generation']['url'];
+      final pokedexUrl = regionBody['pokedexes'][0]['url'];
 
-      final generationResponse = await http.get(
-        url: generationUrl,
+      final pokedexResponse = await http.get(
+        url: pokedexUrl,
         headers: {HttpHeaders.acceptHeader: 'application/json'},
       );
 
-      if (generationResponse.statusCode != 200) {
-        return Left(ErrorPokemonsRegionState(message: 'Erro ao buscar dados da geração'));
+      if (pokedexResponse.statusCode != 200) {
+        return Left(ErrorPokemonsRegionState(message: 'Erro ao buscar dados da pokedex'));
       }
-      final generationBody = json.decode(generationResponse.body);
-      final speciesList = generationBody['pokemon_species'] as List;
-      final pokemons = speciesList.map((json) => PokemonsModel.fromJson(json)).toList();
-      pokemons.sort((a, b) => a.id.compareTo(b.id));
 
-      await Future.wait(
-        pokemons.map((pokemon) async {
-          final detailsResponse = await http
-              .get(
-                url: '${Constants.urlBase()}pokemon/${pokemon.id}/',
-                headers: {HttpHeaders.acceptHeader: 'application/json'},
-              )
-              .timeout(Duration(seconds: Constants.timeoutSeconds()));
+      final pokedexBody = json.decode(pokedexResponse.body);
+      final pokemonEntries = pokedexBody['pokemon_entries'] as List;
 
-          if (detailsResponse.statusCode == 200) {
-            final detailsBody = json.decode(detailsResponse.body);
-
-            final typesList = (detailsBody['types'] as List)
-                .map((typeInfo) => typeInfo['type']['name'] as String)
-                .map((en) => pokemonTypeTranslation[en] ?? en)
-                .toList();
-
-            pokemon.types = typesList;
-          }
-        }),
-      );
+      final pokemons = pokemonEntries
+          .map((entry) => PokemonsModel.fromJson(entry['pokemon_species']))
+          .toList();
 
       return Right(SuccessPokemonsRegionState(pokemons: pokemons));
     } on HttpException catch (e) {

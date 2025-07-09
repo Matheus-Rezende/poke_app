@@ -1,21 +1,24 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:poke_app/app/core/core_module.dart';
+import 'package:poke_app/app/core/data/repositories/pokemon_types_repository_impl.dart';
+import 'package:poke_app/app/core/interactor/repositories/pokemon_types_repository.dart';
 import 'package:poke_app/app/modules/favorites/interactor/stories/favorite_store.dart';
 import 'package:poke_app/app/modules/menu/interactor/stories/custom_bottom_menu_store.dart';
 import 'package:poke_app/app/modules/menu/widgets/custom_bottom_menu_widget.dart';
 import 'package:poke_app/app/modules/pokedex/data/repositories/pokemons/details/pokemon_evolutions/evolutions_pokemon_repository_impl.dart';
 import 'package:poke_app/app/modules/pokedex/data/repositories/pokemons/details/pokemon_informations/informations_pokemon_repository_impl.dart';
-import 'package:poke_app/app/modules/pokedex/data/repositories/pokemons/details/pokemon_types/types_pokemon_repository_impl.dart';
+import 'package:poke_app/app/modules/pokedex/data/repositories/pokemons/type/pokemons_type_repository_impl.dart';
 import 'package:poke_app/app/modules/pokedex/data/repositories/pokemons/pokemons_repository_impl.dart';
 import 'package:poke_app/app/modules/pokedex/data/repositories/pokemons/search/search_pokemon_repository_impl.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/repositories/pokemons/details/pokemon_evolutions/evolutions_pokemon_repository.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/repositories/pokemons/details/pokemon_informations/informations_pokemon_repository.dart';
-import 'package:poke_app/app/modules/pokedex/interactor/repositories/pokemons/details/pokemon_types/types_pokemon_repository.dart';
+import 'package:poke_app/app/modules/pokedex/interactor/repositories/pokemons/type/pokemons_type_repository.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/repositories/pokemons/pokemons_repository.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/repositories/pokemons/search/search_pokemon_repository.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/details/pokemon_evolutions/evolutions_pokemon_store.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/details/pokemon_informations/informations_pokemon_store.dart';
-import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/details/pokemon_types/types_pokemon_store.dart';
+import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/details/pokemon_types_damage/pokemon_types_damage_store.dart';
+import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/type/pokemons_type_store.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/pokemons_store.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/search/search_pokemon_store.dart';
 import 'package:poke_app/app/modules/regions/data/repositories/regions_repository_impl.dart';
@@ -27,11 +30,14 @@ class MenuModule extends Module {
   void binds(Injector i) {
     i.addLazySingleton(CustomBottomMenuStore.new);
     i.addLazySingleton(PokemonsStore.new);
-    i.addLazySingleton<TypesPokemonStore>(
-      () => TypesPokemonStore(typesPokemonRepository: i.get<TypesPokemonRepository>()),
+    i.addLazySingleton<PokemonsTypeStore>(
+      () => PokemonsTypeStore(
+        pokemonsTypeRepository: i.get<PokemonsTypeRepository>(),
+        pokemonTypesRepository: i.get<PokemonTypesRepository>(),
+      ),
     );
     i.addLazySingleton<SearchPokemonStore>(() {
-      final typesStore = i.get<TypesPokemonStore>();
+      final typesStore = i.get<PokemonsTypeStore>();
       return SearchPokemonStore(
         searchPokemonRepository: i.get<SearchPokemonRepository>(),
         onClearTypeSelection: typesStore.clearTypeSelection,
@@ -42,10 +48,12 @@ class MenuModule extends Module {
     i.addLazySingleton(EvolutionsPokemonStore.new);
     i.addLazySingleton(FavoriteStore.new);
     i.addLazySingleton(RegionsStore.new);
+    i.addLazySingleton(PokemonTypesDamageStore.new);
+    i.add<PokemonTypesRepository>(PokemonTypesRepositoryImpl.new);
     i.add<RegionsRepository>(RegionsRepositoryImpl.new);
     i.add<PokemonsRepository>(PokemonsRepositoryImpl.new);
     i.add<SearchPokemonRepository>(SearchPokemonRepositoryImpl.new);
-    i.add<TypesPokemonRepository>(TypesPokemonRepositoryImpl.new);
+    i.add<PokemonsTypeRepository>(PokemonsTypeRepositoryImpl.new);
     i.add<InformationsPokemonRepository>(InformationsPokemonRepositoryImpl.new);
     i.add<EvolutionsPokemonRepository>(EvolutionsPokemonRepositoryImpl.new);
     super.binds(i);

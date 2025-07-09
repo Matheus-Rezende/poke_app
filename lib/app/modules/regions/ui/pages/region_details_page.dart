@@ -9,6 +9,8 @@ import 'package:poke_app/app/core/ui/widgets/cards/pokemon_card_widget.dart';
 import 'package:poke_app/app/core/ui/widgets/loadings/custom_loading_widget.dart';
 import 'package:poke_app/app/core/ui/widgets/messages/message_widget.dart';
 import 'package:poke_app/app/modules/favorites/interactor/stories/favorite_store.dart';
+import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/search/search_pokemon_store.dart';
+import 'package:poke_app/app/modules/pokedex/ui/widgets/search_textfield_widget.dart';
 import 'package:poke_app/app/modules/regions/interactor/states/pokemons_region_state.dart';
 import 'package:poke_app/app/modules/regions/interactor/stories/regions_store.dart';
 import 'package:poke_app/app/modules/regions/interactor/utils/arguments/region_arguments.dart';
@@ -24,6 +26,9 @@ class RegionDetailsPage extends StatefulWidget {
 class _RegionDetailsPageState extends State<RegionDetailsPage> {
   final regionsStore = Modular.get<RegionsStore>();
   final favoriteStore = Modular.get<FavoriteStore>();
+  final searchPokemonStore = Modular.get<SearchPokemonStore>();
+
+  final FocusNode _searchFocusNode = FocusNode();
 
   final appTheme = Modular.get<AppTheme>();
 
@@ -37,72 +42,139 @@ class _RegionDetailsPageState extends State<RegionDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: appTheme.colors.whiteColor,
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            CustomAppBarWidget(
-              padding: EdgeInsets.only(top: 46.0),
-              backgroundColor: appTheme.colors.whiteColor,
-              widget: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () => Modular.to.pop(),
-                        icon: Icon(Icons.arrow_back, color: appTheme.colors.blackColor),
-                      ),
-                      Text(
-                        widget.arguments.regionName.toCapitalized,
-                        style: appTheme.typography.poppins18px().copyWith(fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Divider(color: appTheme.colors.greyE6Color, height: 1.0),
-                  ),
-                  Observer(
-                    builder: (context) {
-                      return switch (regionsStore.pokemonsRegionState) {
-                        InitPokemonsRegionState() => Container(),
-                        LoadingPokemonsRegionState() => CustomLoadingWidget(isSliverWidget: false),
-                        SuccessPokemonsRegionState(:final pokemons) => Column(
-                          children: List.generate(pokemons.length, (index) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8.0),
-                              child: PokemonCardWidget(
-                                theme: appTheme,
-                                name: pokemons[index].name,
-                                imagePath: pokemons[index].imageUrl,
-                                id: pokemons[index].id,
-                                types: pokemons[index].types,
-                                favoriteOnPressed: () => favoriteStore.toggleFavorite(pokemons[index]),
+      body: Observer(
+        builder: (context) {
+          return CustomScrollView(
+            physics: BouncingScrollPhysics(),
+            slivers: [
+              _buildAppBar(),
+              if (searchPokemonStore.showSearchResult) _buildSearchedPokemon(),
+              if (searchPokemonStore.showSearchLoading) _buildLoading(),
+              if (searchPokemonStore.showSearchError)
+                _buildError(message: searchPokemonStore.messageSearchError, useSliverWidget: true),
+              if (regionsStore.showMainList) _buildMainList(),
+            ],
+          );
+        },
+      ),
+    );
+  }
 
-                                onPressed: () => Modular.to.pushNamed(
-                                  AppRoutes.pokemonDetails(),
-                                  arguments: pokemons[index].name,
-                                ),
-                              ),
-                            );
-                          }),
-                        ),
-                        ErrorPokemonsRegionState(:final message) => MessageWidget(
-                          theme: appTheme,
-                          title: message,
-                          useSliverWidget: false,
-                          padding: EdgeInsetsGeometry.only(left: 16.0, right: 16.0, top: 56.0),
-                        ),
-                      };
-                    },
-                  ),
-                ],
+  Widget _buildAppBar() {
+    return SliverToBoxAdapter(
+      child: CustomAppBarWidget(
+        padding: EdgeInsets.only(top: 46.0),
+        backgroundColor: appTheme.colors.whiteColor,
+        widget: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () => Modular.to.pop(),
+                  icon: Icon(Icons.arrow_back, color: appTheme.colors.blackColor),
+                ),
+                Text(
+                  widget.arguments.regionName.toCapitalized,
+                  style: appTheme.typography.poppins18px().copyWith(fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: SearchTextfieldWidget(
+                theme: appTheme,
+                focus: _searchFocusNode,
+
+                onChanged: (value) {
+                  searchPokemonStore.changePokemonSearchText(value);
+                  if (value.isNotEmpty) {
+                    searchPokemonStore.onSearchPokemonChanged(value);
+                  } else {
+                    regionsStore.showMainList;
+                  }
+                },
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Divider(color: appTheme.colors.greyE6Color, height: 1.0),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildSearchedPokemon() {
+    final pokemon = searchPokemonStore.pokemonSearchState.pokemon;
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      sliver: SliverToBoxAdapter(
+        child: PokemonCardWidget(
+          margin: EdgeInsets.only(top: 16.0),
+          id: pokemon.id,
+          name: pokemon.name,
+          types: pokemon.types,
+          imagePath: pokemon.imageUrl,
+          theme: appTheme,
+          onPressed: () => Modular.to.pushNamed(AppRoutes.pokemonDetails(), arguments: pokemon.id.toString()),
+          favoriteOnPressed: () => favoriteStore.toggleFavorite(pokemon),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoading() {
+    return CustomLoadingWidget();
+  }
+
+  Widget _buildError({required String message, required bool useSliverWidget}) {
+    return MessageWidget(
+      theme: appTheme,
+      useSliverWidget: useSliverWidget,
+      title: message,
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 80.0),
+    );
+  }
+
+  Widget _buildMainList() {
+    if (searchPokemonStore.pokemonSearchText.isEmpty) {
+      return Observer(
+        builder: (context) {
+          return switch (regionsStore.pokemonsRegionState) {
+            InitPokemonsRegionState() => Container(),
+            LoadingPokemonsRegionState() => CustomLoadingWidget(isSliverWidget: true),
+            SuccessPokemonsRegionState(:final pokemons) => SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final pokemon = pokemons[index];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8.0),
+                  child: PokemonCardWidget(
+                    theme: appTheme,
+                    name: pokemon.name,
+                    imagePath: pokemon.imageUrl,
+                    id: pokemon.id,
+                    types: pokemon.types,
+                    favoriteOnPressed: () => favoriteStore.toggleFavorite(pokemon),
+
+                    onPressed: () =>
+                        Modular.to.pushNamed(AppRoutes.pokemonDetails(), arguments: pokemon.name),
+                  ),
+                );
+              }),
+            ),
+            ErrorPokemonsRegionState(:final message) => MessageWidget(
+              theme: appTheme,
+              title: message,
+              useSliverWidget: true,
+              padding: EdgeInsetsGeometry.only(left: 16.0, right: 16.0, top: 56.0),
+            ),
+          };
+        },
+      );
+    } else {
+      return SliverToBoxAdapter(child: Container());
+    }
   }
 }

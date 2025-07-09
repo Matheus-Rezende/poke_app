@@ -72,17 +72,13 @@ class _PokemonHeaderWidgetState extends State<PokemonHeaderWidget> {
                     Align(
                       alignment: Alignment.topCenter,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 24.0),
+                        padding: const EdgeInsets.fromLTRB(4.0, 40.0, 24.0, 40.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            InkWell(
-                              onTap: () => Modular.to.pop(),
-                              child: SizedBox(
-                                height: 24.0,
-                                width: 24.0,
-                                child: Icon(Icons.chevron_left, color: appTheme.colors.whiteColor),
-                              ),
+                            IconButton(
+                              onPressed: () => Modular.to.pop(),
+                              icon: Icon(Icons.chevron_left, color: appTheme.colors.whiteColor),
                             ),
                             InkWell(
                               onTap: () => favoriteStore.toggleFavorite(

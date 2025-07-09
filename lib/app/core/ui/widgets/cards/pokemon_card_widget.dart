@@ -37,7 +37,7 @@ class PokemonCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primaryType = types.isNotEmpty ? types[0] : 'normal';
+    final primaryType = types.isNotEmpty ? types[0] : 'Normal';
     final primaryColor = typeColors[primaryType] ?? Colors.grey;
     final primaryIcon = typeIconsTransparencyPath[primaryType] ?? '';
     final favoriteStore = Modular.get<FavoriteStore>();

@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:poke_app/app/core/ui/app_theme.dart';
 import 'package:poke_app/app/core/ui/widgets/buttons/custom_button_widget.dart';
-import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/details/pokemon_types/types_pokemon_store.dart';
+import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/type/pokemons_type_store.dart';
 import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/pokemons_store.dart';
 
 class BottomSheetTypesWidget extends StatelessWidget {
   final AppTheme theme;
-  final TypesPokemonStore typesPokemonStore;
+  final PokemonsTypeStore pokemonsTypeStore;
   final PokemonsStore pokemonsStore;
   const BottomSheetTypesWidget({
     super.key,
     required this.theme,
-    required this.typesPokemonStore,
+    required this.pokemonsTypeStore,
     required this.pokemonsStore,
   });
 
@@ -38,9 +38,9 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.blackColor.withValues(alpha: 0.75),
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Todos os tipos');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Todos os tipos');
                 pokemonsStore.fetchInitial();
-                typesPokemonStore.isFilterTypeSelected = false;
+                pokemonsTypeStore.isFilterTypeSelected = false;
                 Modular.to.pop();
               },
             ),
@@ -56,8 +56,8 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.pokemonWaterColor,
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Água');
-                typesPokemonStore.typePokemon(pokemonType: 'water');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Água');
+                pokemonsTypeStore.typePokemon(pokemonType: 'water');
                 Modular.to.pop();
               },
             ),
@@ -73,8 +73,8 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.pokemonDragonColor,
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Dragão');
-                typesPokemonStore.typePokemon(pokemonType: 'dragon');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Dragão');
+                pokemonsTypeStore.typePokemon(pokemonType: 'dragon');
 
                 Modular.to.pop();
               },
@@ -91,8 +91,8 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.pokemonEletricColor,
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Elétrico');
-                typesPokemonStore.typePokemon(pokemonType: 'electric');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Elétrico');
+                pokemonsTypeStore.typePokemon(pokemonType: 'electric');
 
                 Modular.to.pop();
               },
@@ -109,8 +109,8 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.pokemonFairyColor,
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Fada');
-                typesPokemonStore.typePokemon(pokemonType: 'fairy');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Fada');
+                pokemonsTypeStore.typePokemon(pokemonType: 'fairy');
 
                 Modular.to.pop();
               },
@@ -127,8 +127,8 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.pokemonGhostColor,
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Fantasma');
-                typesPokemonStore.typePokemon(pokemonType: 'ghost');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Fantasma');
+                pokemonsTypeStore.typePokemon(pokemonType: 'ghost');
 
                 Modular.to.pop();
               },
@@ -145,8 +145,8 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.pokemonFireColor,
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Fogo');
-                typesPokemonStore.typePokemon(pokemonType: 'fire');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Fogo');
+                pokemonsTypeStore.typePokemon(pokemonType: 'fire');
 
                 Modular.to.pop();
               },
@@ -163,8 +163,8 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.pokemonIceColor,
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Gelo');
-                typesPokemonStore.typePokemon(pokemonType: 'ice');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Gelo');
+                pokemonsTypeStore.typePokemon(pokemonType: 'ice');
 
                 Modular.to.pop();
               },
@@ -181,8 +181,8 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.pokemonGrassColor,
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Grama');
-                typesPokemonStore.typePokemon(pokemonType: 'grass');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Grama');
+                pokemonsTypeStore.typePokemon(pokemonType: 'grass');
 
                 Modular.to.pop();
               },
@@ -199,8 +199,8 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.pokemonBugColor,
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Inseto');
-                typesPokemonStore.typePokemon(pokemonType: 'bug');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Inseto');
+                pokemonsTypeStore.typePokemon(pokemonType: 'bug');
 
                 Modular.to.pop();
               },
@@ -217,8 +217,8 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.pokemonFightingColor,
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Lutador');
-                typesPokemonStore.typePokemon(pokemonType: 'fighting');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Lutador');
+                pokemonsTypeStore.typePokemon(pokemonType: 'fighting');
 
                 Modular.to.pop();
               },
@@ -235,8 +235,8 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.pokemonNormalColor,
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Normal');
-                typesPokemonStore.typePokemon(pokemonType: 'normal');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Normal');
+                pokemonsTypeStore.typePokemon(pokemonType: 'normal');
 
                 Modular.to.pop();
               },
@@ -253,8 +253,8 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.pokemonDarkColor,
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Noturno');
-                typesPokemonStore.typePokemon(pokemonType: 'dark');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Noturno');
+                pokemonsTypeStore.typePokemon(pokemonType: 'dark');
 
                 Modular.to.pop();
               },
@@ -271,8 +271,8 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.pokemonSteelColor,
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Metal');
-                typesPokemonStore.typePokemon(pokemonType: 'steel');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Metal');
+                pokemonsTypeStore.typePokemon(pokemonType: 'steel');
 
                 Modular.to.pop();
               },
@@ -289,8 +289,8 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.pokemonRockColor,
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Pedra');
-                typesPokemonStore.typePokemon(pokemonType: 'rock');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Pedra');
+                pokemonsTypeStore.typePokemon(pokemonType: 'rock');
 
                 Modular.to.pop();
               },
@@ -307,8 +307,8 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.pokemonPsynicColor,
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Psíquico');
-                typesPokemonStore.typePokemon(pokemonType: 'psychic');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Psíquico');
+                pokemonsTypeStore.typePokemon(pokemonType: 'psychic');
 
                 Modular.to.pop();
               },
@@ -325,8 +325,8 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.pokemonGroundColor,
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Terrestre');
-                typesPokemonStore.typePokemon(pokemonType: 'ground');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Terrestre');
+                pokemonsTypeStore.typePokemon(pokemonType: 'ground');
 
                 Modular.to.pop();
               },
@@ -343,8 +343,8 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.pokemonPoisonColor,
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Venenoso');
-                typesPokemonStore.typePokemon(pokemonType: 'poison');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Venenoso');
+                pokemonsTypeStore.typePokemon(pokemonType: 'poison');
 
                 Modular.to.pop();
               },
@@ -361,8 +361,8 @@ class BottomSheetTypesWidget extends StatelessWidget {
               ),
               backgroundColor: theme.colors.pokemonFlyingColor,
               onPressed: () {
-                typesPokemonStore.changeButtonTypePokemons(text: 'Voador');
-                typesPokemonStore.typePokemon(pokemonType: 'flying');
+                pokemonsTypeStore.changeButtonTypePokemons(text: 'Voador');
+                pokemonsTypeStore.typePokemon(pokemonType: 'flying');
 
                 Modular.to.pop();
               },
