@@ -29,6 +29,7 @@ class _RegionDetailsPageState extends State<RegionDetailsPage> {
   final searchPokemonStore = Modular.get<SearchPokemonStore>();
 
   final FocusNode _searchFocusNode = FocusNode();
+  final ScrollController _scrollController = ScrollController();
 
   final appTheme = Modular.get<AppTheme>();
 
@@ -36,6 +37,17 @@ class _RegionDetailsPageState extends State<RegionDetailsPage> {
   void initState() {
     super.initState();
     regionsStore.getPokemonsByRegion(url: widget.arguments.url);
+    _scrollController.addListener(() {
+      if (_searchFocusNode.hasFocus) {
+        _searchFocusNode.unfocus();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -45,6 +57,7 @@ class _RegionDetailsPageState extends State<RegionDetailsPage> {
       body: Observer(
         builder: (context) {
           return CustomScrollView(
+            controller: _scrollController,
             physics: BouncingScrollPhysics(),
             slivers: [
               _buildAppBar(),
@@ -148,22 +161,25 @@ class _RegionDetailsPageState extends State<RegionDetailsPage> {
             LoadingPokemonsRegionState() => CustomLoadingWidget(isSliverWidget: true),
             SuccessPokemonsRegionState(:final pokemons) => SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
-                final pokemon = pokemons[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8.0),
-                  child: PokemonCardWidget(
-                    theme: appTheme,
-                    name: pokemon.name,
-                    imagePath: pokemon.imageUrl,
-                    id: pokemon.id,
-                    types: pokemon.types,
-                    favoriteOnPressed: () => favoriteStore.toggleFavorite(pokemon),
-                    isLoadingPokemonTypes: regionsStore.isLoading,
+                if (index < pokemons.length) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8.0),
+                    child: PokemonCardWidget(
+                      theme: appTheme,
+                      name: pokemons[index].name,
+                      imagePath: pokemons[index].imageUrl,
+                      id: pokemons[index].id,
+                      types: pokemons[index].types,
+                      favoriteOnPressed: () => favoriteStore.toggleFavorite(pokemons[index]),
+                      isLoadingPokemonTypes: regionsStore.isLoading,
 
-                    onPressed: () =>
-                        Modular.to.pushNamed(AppRoutes.pokemonDetails(), arguments: pokemon.name),
-                  ),
-                );
+                      onPressed: () =>
+                          Modular.to.pushNamed(AppRoutes.pokemonDetails(), arguments: pokemons[index].name),
+                    ),
+                  );
+                } else {
+                  return null;
+                }
               }),
             ),
             ErrorPokemonsRegionState(:final message) => MessageWidget(
