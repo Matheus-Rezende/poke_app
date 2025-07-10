@@ -32,6 +32,9 @@ abstract class RegionsStoreBase with Store {
   @observable
   ObservableList<PokemonsModel> pokemons = ObservableList<PokemonsModel>();
 
+  @observable
+  bool isLoading = false;
+
   @action
   Future<void> getRegions() async {
     regionsState = regionsState.loading();
@@ -61,6 +64,7 @@ abstract class RegionsStoreBase with Store {
 
   Future<void> _loadPokemonTypes(List<PokemonsModel> list) async {
     const chunkSize = 10;
+    isLoading = true;
 
     for (int i = 0; i < list.length; i += chunkSize) {
       final chunk = list.skip(i).take(chunkSize);
@@ -71,6 +75,7 @@ abstract class RegionsStoreBase with Store {
         }),
       );
 
+      isLoading = false;
       pokemonsRegionState = SuccessPokemonsRegionState(pokemons: pokemons.toList());
     }
   }

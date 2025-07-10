@@ -118,6 +118,7 @@ class _RegionDetailsPageState extends State<RegionDetailsPage> {
           types: pokemon.types,
           imagePath: pokemon.imageUrl,
           theme: appTheme,
+          isLoadingPokemonTypes: false,
           onPressed: () => Modular.to.pushNamed(AppRoutes.pokemonDetails(), arguments: pokemon.id.toString()),
           favoriteOnPressed: () => favoriteStore.toggleFavorite(pokemon),
         ),
@@ -157,6 +158,7 @@ class _RegionDetailsPageState extends State<RegionDetailsPage> {
                     id: pokemon.id,
                     types: pokemon.types,
                     favoriteOnPressed: () => favoriteStore.toggleFavorite(pokemon),
+                    isLoadingPokemonTypes: regionsStore.isLoading,
 
                     onPressed: () =>
                         Modular.to.pushNamed(AppRoutes.pokemonDetails(), arguments: pokemon.name),

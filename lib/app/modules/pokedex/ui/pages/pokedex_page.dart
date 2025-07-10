@@ -161,6 +161,7 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
           types: pokemon.types,
           imagePath: pokemon.imageUrl,
           theme: appTheme,
+          isLoadingPokemonTypes: false,
           onPressed: () => Modular.to.pushNamed(AppRoutes.pokemonDetails(), arguments: pokemon.id.toString()),
           favoriteOnPressed: () => favoriteStore.toggleFavorite(pokemon),
         ),
@@ -181,6 +182,7 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
               types: pokemon.types,
               imagePath: pokemon.imageUrl,
               theme: appTheme,
+              isLoadingPokemonTypes: false,
               margin: EdgeInsets.symmetric(vertical: 6.0),
               onPressed: () =>
                   Modular.to.pushNamed(AppRoutes.pokemonDetails(), arguments: pokemon.id.toString()),
@@ -208,6 +210,7 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
             types: pokemon.types,
             imagePath: pokemon.imageUrl,
             theme: appTheme,
+            isLoadingPokemonTypes: pokemonsTypeStore.isLoadingPokemonTypes,
             margin: EdgeInsets.symmetric(vertical: 6.0),
             onPressed: () =>
                 Modular.to.pushNamed(AppRoutes.pokemonDetails(), arguments: pokemon.id.toString()),

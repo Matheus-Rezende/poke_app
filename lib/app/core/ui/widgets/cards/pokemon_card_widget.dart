@@ -21,6 +21,7 @@ class PokemonCardWidget extends StatelessWidget {
   final VoidCallback? favoriteOnPressed;
   final bool isFavoritePage;
   final EdgeInsetsGeometry? margin;
+  final bool isLoadingPokemonTypes;
 
   const PokemonCardWidget({
     super.key,
@@ -29,6 +30,7 @@ class PokemonCardWidget extends StatelessWidget {
     required this.types,
     required this.imagePath,
     required this.theme,
+    required this.isLoadingPokemonTypes,
     this.onPressed,
     this.favoriteOnPressed,
     this.isFavoritePage = false,
@@ -77,19 +79,21 @@ class PokemonCardWidget extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    FittedBox(
-                      child: Row(
-                        children: types
-                            .map(
-                              (type) => TypeBadgeWidget(
-                                type: type,
-                                theme: theme,
-                                margin: const EdgeInsets.only(right: 8.0),
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    ),
+                    isLoadingPokemonTypes
+                        ? Text('Carregando tipos...', style: theme.typography.poppins12px())
+                        : FittedBox(
+                            child: Row(
+                              children: types
+                                  .map(
+                                    (type) => TypeBadgeWidget(
+                                      type: type,
+                                      theme: theme,
+                                      margin: const EdgeInsets.only(right: 8.0),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          ),
                   ],
                 ),
               ),

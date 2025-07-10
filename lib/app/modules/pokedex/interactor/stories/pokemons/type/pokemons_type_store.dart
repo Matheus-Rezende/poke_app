@@ -31,6 +31,9 @@ abstract class PokemonsTypeStoreBase with Store {
   @observable
   ObservableList<PokemonsModel> pokemons = ObservableList<PokemonsModel>();
 
+  @observable
+  bool isLoadingPokemonTypes = false;
+
   @action
   Future<void> typePokemon({required String pokemonType}) async {
     pokemonTypeState = pokemonTypeState.loading();
@@ -48,6 +51,7 @@ abstract class PokemonsTypeStoreBase with Store {
   }
 
   Future<void> _loadPokemonTypes(List<PokemonsModel> list) async {
+    isLoadingPokemonTypes = true;
     const chunkSize = 10;
 
     for (int i = 0; i < list.length; i += chunkSize) {
@@ -58,7 +62,7 @@ abstract class PokemonsTypeStoreBase with Store {
           types.fold((failure) => pokemon.types = [], (success) => pokemon.types = success);
         }),
       );
-
+      isLoadingPokemonTypes = false;
       pokemonTypeState = SuccessPokemonTypeState(pokemons: pokemons.toList());
     }
   }

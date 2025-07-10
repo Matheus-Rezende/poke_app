@@ -89,6 +89,7 @@ class FavoritesPage extends StatelessWidget {
                                 },
                                 child: PokemonCardWidget(
                                   isFavoritePage: true,
+                                  isLoadingPokemonTypes: false,
                                   id: pokemon.id,
                                   name: pokemon.name,
                                   types: pokemon.types,
