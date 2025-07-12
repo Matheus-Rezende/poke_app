@@ -35,6 +35,8 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
   final searchPokemonStore = Modular.get<SearchPokemonStore>();
   final favoriteStore = Modular.get<FavoriteStore>();
 
+  final String scrollKey = "pokedex";
+
   late AppTheme appTheme;
 
   @override
@@ -47,16 +49,16 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
   void initState() {
     super.initState();
     pokemonsStore.fetchInitial();
-    coreStore.initScrollController(isFetchNextPokemons: true);
+    coreStore.initScrollListener(key: scrollKey, isFetchNextPokemons: true);
 
     searchPokemonStore.pokemonSearchText = '';
   }
 
-  // @override
-  // void dispose() {
-  //   coreStore.scrollController.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    coreStore.disposeScrollController(scrollKey);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +100,7 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
 
   Widget _buildContentList() {
     return CustomScrollView(
-      controller: coreStore.scrollController,
+      controller: coreStore.getScrollController(scrollKey),
       physics: const BouncingScrollPhysics(),
       slivers: [
         _buildTypeButton(),

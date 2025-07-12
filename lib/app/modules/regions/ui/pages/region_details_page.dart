@@ -30,20 +30,22 @@ class _RegionDetailsPageState extends State<RegionDetailsPage> {
   final favoriteStore = Modular.get<FavoriteStore>();
   final searchPokemonStore = Modular.get<SearchPokemonStore>();
 
+  final String scrollKey = "regions";
+
   final appTheme = Modular.get<AppTheme>();
 
   @override
   void initState() {
     super.initState();
-    coreStore.initScrollController(isFetchNextPokemons: false);
     regionsStore.getPokemonsByRegion(url: widget.arguments.url);
+    coreStore.initScrollListener(key: scrollKey, isFetchNextPokemons: false);
   }
 
-  // @override
-  // void dispose() {
-  //   coreStore.scrollController.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    coreStore.disposeScrollController(scrollKey);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,7 @@ class _RegionDetailsPageState extends State<RegionDetailsPage> {
       body: Observer(
         builder: (context) {
           return CustomScrollView(
-            controller: coreStore.scrollController,
+            controller: coreStore.getScrollController(scrollKey),
             physics: BouncingScrollPhysics(),
             slivers: [
               _buildAppBar(),

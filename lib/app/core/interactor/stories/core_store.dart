@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// core_store.dart
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
@@ -12,22 +12,44 @@ class CoreStore = CoreStoreBase with _$CoreStore;
 abstract class CoreStoreBase with Store {
   final PokemonsStore pokemonsStore;
   final PokemonsTypeStore pokemonsTypeStore;
+
   CoreStoreBase({required this.pokemonsStore, required this.pokemonsTypeStore});
 
-  final ScrollController scrollController = ScrollController();
-
+  final Map<String, ScrollController> _scrollControllers = {};
   final FocusNode searchFocusNode = FocusNode();
 
-  void initScrollController({required bool isFetchNextPokemons}) {
-    scrollController.addListener(() {
-      if (!pokemonsTypeStore.isFilterTypeSelected && isFetchNextPokemons) {
-        if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 100) {
-          pokemonsStore.fetchNext();
-        }
+  ScrollController getScrollController(String key) {
+    return _scrollControllers.putIfAbsent(key, () => ScrollController());
+  }
+
+  void initScrollListener({required String key, required bool isFetchNextPokemons}) {
+    final controller = getScrollController(key);
+
+    controller.removeListener(() => _scrollListener(key, isFetchNextPokemons));
+    controller.addListener(() => _scrollListener(key, isFetchNextPokemons));
+  }
+
+  void _scrollListener(String key, bool isFetchNextPokemons) {
+    final controller = _scrollControllers[key];
+    if (controller == null) return;
+
+    if (!pokemonsTypeStore.isFilterTypeSelected && isFetchNextPokemons) {
+      if (controller.position.pixels >= controller.position.maxScrollExtent - 100) {
+        pokemonsStore.fetchNext();
       }
-      if (searchFocusNode.hasFocus) {
-        searchFocusNode.unfocus();
-      }
-    });
+    }
+
+    if (searchFocusNode.hasFocus) {
+      searchFocusNode.unfocus();
+    }
+  }
+
+  void disposeScrollController(String key) {
+    _scrollControllers[key]?.dispose();
+    _scrollControllers.remove(key);
+  }
+
+  void disposeFocusNode() {
+    searchFocusNode.dispose();
   }
 }
