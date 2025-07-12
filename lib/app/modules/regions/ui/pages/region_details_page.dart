@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:poke_app/app/core/interactor/stories/core_store.dart';
 import 'package:poke_app/app/core/interactor/utils/extensions/string_casing_extension.dart';
 import 'package:poke_app/app/core/routes/app_routes.dart';
 import 'package:poke_app/app/core/ui/app_theme.dart';
@@ -24,31 +25,25 @@ class RegionDetailsPage extends StatefulWidget {
 }
 
 class _RegionDetailsPageState extends State<RegionDetailsPage> {
+  final coreStore = Modular.get<CoreStore>();
   final regionsStore = Modular.get<RegionsStore>();
   final favoriteStore = Modular.get<FavoriteStore>();
   final searchPokemonStore = Modular.get<SearchPokemonStore>();
-
-  final FocusNode _searchFocusNode = FocusNode();
-  final ScrollController _scrollController = ScrollController();
 
   final appTheme = Modular.get<AppTheme>();
 
   @override
   void initState() {
     super.initState();
+    coreStore.initScrollController(isFetchNextPokemons: false);
     regionsStore.getPokemonsByRegion(url: widget.arguments.url);
-    _scrollController.addListener(() {
-      if (_searchFocusNode.hasFocus) {
-        _searchFocusNode.unfocus();
-      }
-    });
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   coreStore.scrollController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +52,7 @@ class _RegionDetailsPageState extends State<RegionDetailsPage> {
       body: Observer(
         builder: (context) {
           return CustomScrollView(
-            controller: _scrollController,
+            controller: coreStore.scrollController,
             physics: BouncingScrollPhysics(),
             slivers: [
               _buildAppBar(),
@@ -97,7 +92,7 @@ class _RegionDetailsPageState extends State<RegionDetailsPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: SearchTextfieldWidget(
                 theme: appTheme,
-                focus: _searchFocusNode,
+                focus: coreStore.searchFocusNode,
 
                 onChanged: (value) {
                   searchPokemonStore.changePokemonSearchText(value);

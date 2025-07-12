@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:poke_app/app/core/interactor/stories/core_store.dart';
 import 'package:poke_app/app/core/routes/app_routes.dart';
 import 'package:poke_app/app/core/ui/app_theme.dart';
 import 'package:poke_app/app/core/ui/widgets/app_bar/custom_app_bar_widget.dart';
@@ -28,15 +29,12 @@ class PokedexPage extends StatefulWidget {
 }
 
 class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin {
+  final coreStore = Modular.get<CoreStore>();
   final pokemonsStore = Modular.get<PokemonsStore>();
   final pokemonsTypeStore = Modular.get<PokemonsTypeStore>();
   final searchPokemonStore = Modular.get<SearchPokemonStore>();
-
   final favoriteStore = Modular.get<FavoriteStore>();
 
-  final ScrollController _scrollController = ScrollController();
-
-  final FocusNode _searchFocusNode = FocusNode();
   late AppTheme appTheme;
 
   @override
@@ -48,27 +46,17 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-
     pokemonsStore.fetchInitial();
+    coreStore.initScrollController(isFetchNextPokemons: true);
 
-    _scrollController.addListener(() {
-      if (!pokemonsTypeStore.isFilterTypeSelected) {
-        if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 100) {
-          pokemonsStore.fetchNext();
-        }
-      }
-      if (_searchFocusNode.hasFocus) {
-        _searchFocusNode.unfocus();
-      }
-    });
     searchPokemonStore.pokemonSearchText = '';
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   coreStore.scrollController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +66,7 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
         padding: EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 8.0),
         widget: SearchTextfieldWidget(
           theme: appTheme,
-          focus: _searchFocusNode,
+          focus: coreStore.searchFocusNode,
           onChanged: (value) {
             searchPokemonStore.changePokemonSearchText(value);
             if (value.isNotEmpty) {
@@ -110,7 +98,7 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
 
   Widget _buildContentList() {
     return CustomScrollView(
-      controller: _scrollController,
+      controller: coreStore.scrollController,
       physics: const BouncingScrollPhysics(),
       slivers: [
         _buildTypeButton(),
