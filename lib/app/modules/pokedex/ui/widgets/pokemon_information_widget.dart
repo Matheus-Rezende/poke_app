@@ -25,13 +25,15 @@ class PokemonInformationWidget extends StatelessWidget {
         Row(
           spacing: 8.0,
           children: [
-            SvgPicture.asset(iconPath, height: 12.0, width: 12.0),
+            SvgPicture.asset(
+              iconPath,
+              height: 12.0,
+              width: 12.0,
+              colorFilter: ColorFilter.mode(appTheme.colors.greyCCColor, BlendMode.srcIn),
+            ),
             Text(
               title.toUpperCase(),
-              style: appTheme.typography.poppins12px().copyWith(
-                fontWeight: FontWeight.w500,
-                color: appTheme.colors.blackColor.withValues(alpha: 0.6),
-              ),
+              style: appTheme.typography.poppins12px().copyWith(fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -40,7 +42,7 @@ class PokemonInformationWidget extends StatelessWidget {
           constraints: BoxConstraints(minWidth: 154.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
-            border: Border.all(width: 1, color: appTheme.colors.blackColor.withValues(alpha: 0.1)),
+            border: Border.all(width: 1, color: appTheme.colors.greyCCColor),
           ),
           child: Center(
             child: FittedBox(

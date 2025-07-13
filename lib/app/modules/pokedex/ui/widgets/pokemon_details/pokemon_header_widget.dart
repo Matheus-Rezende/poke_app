@@ -151,10 +151,7 @@ class _PokemonHeaderWidgetState extends State<PokemonHeaderWidget> {
                   padding: EdgeInsetsGeometry.symmetric(horizontal: 12.0),
                   child: Text(
                     'N°${pokemon.id.toString().padLeft(3, '0')}',
-                    style: appTheme.typography.poppins16px().copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: appTheme.colors.blackColor.withValues(alpha: 0.7),
-                    ),
+                    style: appTheme.typography.poppins16px().copyWith(fontWeight: FontWeight.w500),
                   ),
                 ),
                 SizedBox(height: 24.0),
@@ -171,7 +168,12 @@ class _PokemonHeaderWidgetState extends State<PokemonHeaderWidget> {
                 SizedBox(height: 24.0),
               ],
             ),
-            ErrorPokemonDetailsState() => Container(),
+            ErrorPokemonDetailsState(:final message) => Center(
+              child: Text(
+                message,
+                style: appTheme.typography.poppins16px().copyWith(fontWeight: FontWeight.w500),
+              ),
+            ),
           };
         },
       ),

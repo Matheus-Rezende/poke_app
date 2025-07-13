@@ -66,17 +66,11 @@ class PokemonCardWidget extends StatelessWidget {
                   children: [
                     Text(
                       'N°${id.toString().padLeft(3, '0')}',
-                      style: theme.typography.poppins12px().copyWith(
-                        fontWeight: FontWeight.w500,
-                        color: theme.colors.grey33Color,
-                      ),
+                      style: theme.typography.poppins12px().copyWith(fontWeight: FontWeight.w500),
                     ),
                     Text(
                       name.toCapitalized,
-                      style: theme.typography.poppins21px().copyWith(
-                        fontWeight: FontWeight.w500,
-                        color: theme.colors.blackColor,
-                      ),
+                      style: theme.typography.poppins21px().copyWith(fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(height: 8),
                     isLoadingPokemonTypes

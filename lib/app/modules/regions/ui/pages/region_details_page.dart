@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:poke_app/app/core/interactor/stories/core_store.dart';
 import 'package:poke_app/app/core/interactor/utils/extensions/string_casing_extension.dart';
 import 'package:poke_app/app/core/routes/app_routes.dart';
 import 'package:poke_app/app/core/ui/app_theme.dart';
@@ -25,12 +24,9 @@ class RegionDetailsPage extends StatefulWidget {
 }
 
 class _RegionDetailsPageState extends State<RegionDetailsPage> {
-  final coreStore = Modular.get<CoreStore>();
   final regionsStore = Modular.get<RegionsStore>();
   final favoriteStore = Modular.get<FavoriteStore>();
   final searchPokemonStore = Modular.get<SearchPokemonStore>();
-
-  final String scrollKey = "regions";
 
   final appTheme = Modular.get<AppTheme>();
 
@@ -38,23 +34,16 @@ class _RegionDetailsPageState extends State<RegionDetailsPage> {
   void initState() {
     super.initState();
     regionsStore.getPokemonsByRegion(url: widget.arguments.url);
-    coreStore.initScrollListener(key: scrollKey, isFetchNextPokemons: false);
-  }
-
-  @override
-  void dispose() {
-    coreStore.disposeScrollController(scrollKey);
-    super.dispose();
+    regionsStore.initScrollController();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: appTheme.colors.whiteColor,
       body: Observer(
         builder: (context) {
           return CustomScrollView(
-            controller: coreStore.getScrollController(scrollKey),
+            controller: regionsStore.scrollController,
             physics: BouncingScrollPhysics(),
             slivers: [
               _buildAppBar(),
@@ -74,16 +63,12 @@ class _RegionDetailsPageState extends State<RegionDetailsPage> {
     return SliverToBoxAdapter(
       child: CustomAppBarWidget(
         padding: EdgeInsets.only(top: 46.0),
-        backgroundColor: appTheme.colors.whiteColor,
         widget: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                IconButton(
-                  onPressed: () => Modular.to.pop(),
-                  icon: Icon(Icons.arrow_back, color: appTheme.colors.blackColor),
-                ),
+                IconButton(onPressed: () => Modular.to.pop(), icon: Icon(Icons.arrow_back)),
                 Text(
                   widget.arguments.regionName.toCapitalized,
                   style: appTheme.typography.poppins18px().copyWith(fontWeight: FontWeight.w600),
@@ -94,8 +79,8 @@ class _RegionDetailsPageState extends State<RegionDetailsPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: SearchTextfieldWidget(
                 theme: appTheme,
-                focus: coreStore.searchFocusNode,
 
+                focus: regionsStore.searchFocusNode,
                 onChanged: (value) {
                   searchPokemonStore.changePokemonSearchText(value);
                   if (value.isNotEmpty) {

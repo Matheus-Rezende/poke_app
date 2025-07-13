@@ -34,7 +34,6 @@ class _RegionsPageState extends State<RegionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: appTheme.colors.whiteColor,
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(

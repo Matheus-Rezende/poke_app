@@ -87,17 +87,11 @@ class PokemonEvolutionCardWidget extends StatelessWidget {
         children: [
           Text(
             name.toCapitalized,
-            style: theme.typography.poppins16px().copyWith(
-              fontWeight: FontWeight.w500,
-              color: theme.colors.grey1AColor,
-            ),
+            style: theme.typography.poppins16px().copyWith(fontWeight: FontWeight.w500),
           ),
           Text(
             'N°${id.toString().padLeft(3, '0')}',
-            style: theme.typography.poppins12px().copyWith(
-              fontWeight: FontWeight.w500,
-              color: theme.colors.grey33Color,
-            ),
+            style: theme.typography.poppins12px().copyWith(fontWeight: FontWeight.w500),
           ),
           SizedBox(
             height: 16.0,

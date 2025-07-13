@@ -21,12 +21,7 @@ class PokemonDescriptionWidget extends StatelessWidget {
             LoadingPokemonDescriptionState() => Container(),
             SuccessPokemonDescriptionState(:final description) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                description.description ?? '',
-                style: appTheme.typography.poppins14px().copyWith(
-                  color: appTheme.colors.blackColor.withValues(alpha: 0.7),
-                ),
-              ),
+              child: Text(description.description ?? '', style: appTheme.typography.poppins14px().copyWith()),
             ),
             ErrorPokemonDescriptionState() => Container(),
           },

@@ -57,10 +57,7 @@ class MessageWidget extends StatelessWidget {
         Text(
           subtitle,
           textAlign: TextAlign.center,
-          style: theme.typography.poppins14px().copyWith(
-            color: theme.colors.grey4DColor,
-            fontWeight: FontWeight.w400,
-          ),
+          style: theme.typography.poppins14px().copyWith(fontWeight: FontWeight.w400),
         ),
       ],
     );

@@ -33,12 +33,11 @@ class CustomBottomMenuWidget extends StatelessWidget {
           height: 72,
           padding: EdgeInsets.only(bottom: 4.0),
           decoration: BoxDecoration(
-            color: appTheme.colors.whiteColor,
             boxShadow: [
               BoxShadow(
                 color: appTheme.colors.blackColor.withValues(alpha: 0.1),
                 blurRadius: 16,
-                // offset: Offset(7, 0),
+                offset: Offset(7, 0),
               ),
             ],
           ),

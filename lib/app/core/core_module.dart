@@ -11,6 +11,7 @@ class CoreModule extends Module {
     i.addInstance(AppTheme());
     i.add<HttpService>(HttpServiceImp.new);
     i.addLazySingleton<LocalStorage>(LocalStorageSharedImpl.new);
+
     super.exportedBinds(i);
   }
 }

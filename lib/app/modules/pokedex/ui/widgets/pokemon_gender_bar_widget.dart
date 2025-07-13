@@ -25,10 +25,7 @@ class PokemonGenderBarWidget extends StatelessWidget {
           ),
           Text(
             'desconhecido',
-            style: appTheme.typography.poppins12px().copyWith(
-              fontWeight: FontWeight.w500,
-              color: appTheme.colors.blackColor.withValues(alpha: 0.7),
-            ),
+            style: appTheme.typography.poppins12px().copyWith(fontWeight: FontWeight.w500),
           ),
         ],
       );
@@ -76,26 +73,26 @@ class PokemonGenderBarWidget extends StatelessWidget {
             Row(
               spacing: 4.0,
               children: [
-                SvgPicture.asset('assets/icons/svg/pokemon_informations/male_icon.svg'),
+                SvgPicture.asset(
+                  'assets/icons/svg/pokemon_informations/male_icon.svg',
+                  colorFilter: ColorFilter.mode(appTheme.colors.greyCCColor, BlendMode.srcIn),
+                ),
                 Text(
                   '${data.male.toStringAsFixed(1)}%',
-                  style: appTheme.typography.poppins12px().copyWith(
-                    fontWeight: FontWeight.w500,
-                    color: appTheme.colors.blackColor.withValues(alpha: 0.7),
-                  ),
+                  style: appTheme.typography.poppins12px().copyWith(fontWeight: FontWeight.w500),
                 ),
               ],
             ),
             Row(
               spacing: 4.0,
               children: [
-                SvgPicture.asset('assets/icons/svg/pokemon_informations/female_icon.svg'),
+                SvgPicture.asset(
+                  'assets/icons/svg/pokemon_informations/female_icon.svg',
+                  colorFilter: ColorFilter.mode(appTheme.colors.greyCCColor, BlendMode.srcIn),
+                ),
                 Text(
                   '${data.female.toStringAsFixed(1)}%',
-                  style: appTheme.typography.poppins12px().copyWith(
-                    fontWeight: FontWeight.w500,
-                    color: appTheme.colors.blackColor.withValues(alpha: 0.7),
-                  ),
+                  style: appTheme.typography.poppins12px().copyWith(fontWeight: FontWeight.w500),
                 ),
               ],
             ),

@@ -1,55 +1,39 @@
-// core_store.dart
-import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-
-import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/pokemons_store.dart';
-import 'package:poke_app/app/modules/pokedex/interactor/stories/pokemons/type/pokemons_type_store.dart';
+import 'package:poke_app/app/core/data/services/local_storage/local_storage.dart';
+import 'package:poke_app/app/core/interactor/states/app_theme_state.dart';
 
 part 'core_store.g.dart';
 
 class CoreStore = CoreStoreBase with _$CoreStore;
 
 abstract class CoreStoreBase with Store {
-  final PokemonsStore pokemonsStore;
-  final PokemonsTypeStore pokemonsTypeStore;
+  final LocalStorage localStorage;
 
-  CoreStoreBase({required this.pokemonsStore, required this.pokemonsTypeStore});
+  CoreStoreBase({required this.localStorage});
 
-  final Map<String, ScrollController> _scrollControllers = {};
-  final FocusNode searchFocusNode = FocusNode();
+  @observable
+  AppThemeState themeState = AppThemeLightState();
 
-  ScrollController getScrollController(String key) {
-    return _scrollControllers.putIfAbsent(key, () => ScrollController());
-  }
+  @computed
+  bool get isLight => themeState is AppThemeLightState;
 
-  void initScrollListener({required String key, required bool isFetchNextPokemons}) {
-    final controller = getScrollController(key);
+  final String themeKey = "isDarkTheme";
 
-    controller.removeListener(() => _scrollListener(key, isFetchNextPokemons));
-    controller.addListener(() => _scrollListener(key, isFetchNextPokemons));
-  }
-
-  void _scrollListener(String key, bool isFetchNextPokemons) {
-    final controller = _scrollControllers[key];
-    if (controller == null) return;
-
-    if (!pokemonsTypeStore.isFilterTypeSelected && isFetchNextPokemons) {
-      if (controller.position.pixels >= controller.position.maxScrollExtent - 100) {
-        pokemonsStore.fetchNext();
-      }
-    }
-
-    if (searchFocusNode.hasFocus) {
-      searchFocusNode.unfocus();
+  @action
+  changeTheme() async {
+    if (themeState is AppThemeLightState) {
+      themeState = themeState.darkTheme();
+      localStorage.setItem(key: themeKey, value: true);
+    } else if (themeState is AppThemeDarkState) {
+      themeState = themeState.lightTheme();
+      localStorage.setItem(key: themeKey, value: false);
     }
   }
 
-  void disposeScrollController(String key) {
-    _scrollControllers[key]?.dispose();
-    _scrollControllers.remove(key);
-  }
-
-  void disposeFocusNode() {
-    searchFocusNode.dispose();
+  @action
+  loadTheme() async {
+    if (await localStorage.contains(key: themeKey) && await localStorage.getItem(key: themeKey)) {
+      themeState = themeState.darkTheme();
+    }
   }
 }

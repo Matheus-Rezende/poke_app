@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
 import 'package:poke_app/app/modules/pokedex/data/models/pokemons_model.dart';
@@ -20,6 +21,31 @@ abstract class PokemonsStoreBase with Store {
     required this.pokemonSearchStore,
     required this.pokemonsTypeStore,
   });
+
+  final ScrollController scrollController = ScrollController();
+  final FocusNode searchFocusNode = FocusNode();
+
+  void initScrollController() {
+    scrollController.addListener(() {
+      if (!pokemonsTypeStore.isFilterTypeSelected) {
+        if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 100) {
+          fetchNext();
+        }
+      }
+
+      if (searchFocusNode.hasFocus) {
+        searchFocusNode.unfocus();
+      }
+    });
+  }
+
+  // void disposeScrollController() {
+  //   scrollController.dispose();
+  // }
+
+  // void disposeFocusNode() {
+  //   searchFocusNode.dispose();
+  // }
 
   final int limit = 20;
 

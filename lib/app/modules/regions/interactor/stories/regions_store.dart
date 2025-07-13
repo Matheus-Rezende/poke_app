@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
 import 'package:poke_app/app/core/interactor/repositories/pokemon_types_repository.dart';
@@ -22,6 +23,25 @@ abstract class RegionsStoreBase with Store {
     required this.pokemonTypesRepository,
     required this.pokemonSearchStore,
   });
+
+  final ScrollController scrollController = ScrollController();
+  final FocusNode searchFocusNode = FocusNode();
+
+  void initScrollController() {
+    scrollController.addListener(() {
+      if (searchFocusNode.hasFocus) {
+        searchFocusNode.unfocus();
+      }
+    });
+  }
+
+  // void disposeScrollController() {
+  //   scrollController.dispose();
+  // }
+
+  // void disposeFocusNode() {
+  //   searchFocusNode.dispose();
+  // }
 
   @observable
   RegionsState regionsState = InitRegionsState();

@@ -21,7 +21,6 @@ class FavoritesPage extends StatelessWidget {
     return Observer(
       builder: (context) {
         return Scaffold(
-          backgroundColor: appTheme.colors.whiteColor,
           body: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Column(

@@ -21,8 +21,10 @@ class CustomBottomSheetWidget extends StatelessWidget {
   }) {
     showMaterialModalBottomSheet(
       context: context,
-      backgroundColor: Colors.transparent,
       isDismissible: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0)),
+      ),
       animationCurve: Curves.easeInOutCubicEmphasized,
       builder: (context) => CustomBottomSheetWidget(height: height, widget: widget, title: title),
     );

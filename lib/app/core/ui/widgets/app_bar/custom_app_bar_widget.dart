@@ -15,12 +15,7 @@ class CustomAppBarWidget extends StatelessWidget implements PreferredSizeWidget 
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: backgroundColor ?? Colors.white,
-      padding: padding,
-      width: MediaQuery.sizeOf(context).width,
-      child: widget,
-    );
+    return Container(padding: padding, width: MediaQuery.sizeOf(context).width, child: widget);
   }
 
   @override
