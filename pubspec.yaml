@@ -39,6 +39,7 @@ flutter:
       - assets/images/png/others/
       - assets/images/png/regions/
       - assets/icons/
+      - assets/icons/png/theme/
       - assets/icons/svg/
       - assets/icons/svg/bottom_menu/
       - assets/icons/svg/search_textfield/

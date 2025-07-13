@@ -28,7 +28,12 @@ class ProfilePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(coreStore.isLight ? 'Claro' : 'Escuro', style: appTheme.typography.poppins14px()),
+
                       Switch.adaptive(
+                        activeColor: appTheme.colors.grey66Color,
+                        inactiveThumbColor: appTheme.colors.grey33Color,
+                        inactiveThumbImage: AssetImage('assets/icons/png/theme/light_theme_icon.png'),
+                        activeThumbImage: AssetImage('assets/icons/png/theme/dark_theme_icon.png'),
                         value: !coreStore.isLight,
                         onChanged: (value) => coreStore.changeTheme(),
                       ),
