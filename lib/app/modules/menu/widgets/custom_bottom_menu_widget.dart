@@ -32,15 +32,6 @@ class CustomBottomMenuWidget extends StatelessWidget {
         child: Container(
           height: 72,
           padding: EdgeInsets.only(bottom: 4.0),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: appTheme.colors.blackColor.withValues(alpha: 0.1),
-                blurRadius: 16,
-                offset: Offset(7, 0),
-              ),
-            ],
-          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: List.generate(4, (index) {
@@ -93,9 +84,10 @@ class CustomBottomMenuWidget extends StatelessWidget {
 
               return InkWell(
                 onTap: () => store.onItemTapped(index),
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
                 child: Column(
                   mainAxisAlignment: isSelected ? MainAxisAlignment.center : MainAxisAlignment.end,
-                  // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     svgIcon,
                     Text(
