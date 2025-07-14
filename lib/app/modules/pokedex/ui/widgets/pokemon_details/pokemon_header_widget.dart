@@ -168,10 +168,20 @@ class _PokemonHeaderWidgetState extends State<PokemonHeaderWidget> {
                 SizedBox(height: 24.0),
               ],
             ),
-            ErrorPokemonDetailsState(:final message) => Center(
-              child: Text(
-                message,
-                style: appTheme.typography.poppins16px().copyWith(fontWeight: FontWeight.w500),
+            ErrorPokemonDetailsState(:final message) => Padding(
+              padding: const EdgeInsets.fromLTRB(4.0, 40.0, 24.0, 40.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  IconButton(onPressed: () => Modular.to.pop(), icon: Icon(Icons.chevron_left)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      message,
+                      style: appTheme.typography.poppins14px().copyWith(fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ],
               ),
             ),
           };
