@@ -94,14 +94,12 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
       slivers: [
         _buildTypeButton(),
         if (searchPokemonStore.showSearchResult) _buildSearchedPokemon(),
-        if (searchPokemonStore.showSearchLoading ||
-            pokemonsTypeStore.showTypeLoading ||
-            pokemonsStore.isLoadingBottom)
-          _buildLoading(),
+        if (searchPokemonStore.showSearchLoading || pokemonsTypeStore.showTypeLoading) _buildLoading(),
         if (searchPokemonStore.showSearchError || pokemonsTypeStore.showTypeError)
           _buildError(message: searchPokemonStore.messageSearchError, useSliverWidget: true),
         if (pokemonsStore.showMainList) _buildMainList(),
         if (pokemonsTypeStore.showTypeList) _buildTypeList(),
+        if (pokemonsStore.isLoadingBottom) _buildLoading(),
         if (!pokemonsStore.hasMore) _buildNoMoreItemsMessage(),
       ],
     );
