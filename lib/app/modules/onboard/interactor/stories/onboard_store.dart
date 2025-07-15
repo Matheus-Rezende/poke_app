@@ -35,7 +35,7 @@ abstract class OnboardStoreBase with Store {
 
   @action
   Future<void> skipOnboard() async {
-    onboardRepository.skipOnboarding(finished: false);
+    onboardRepository.skipOnboarding(finished: true);
     state = state.skipOnboard();
   }
 }
