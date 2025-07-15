@@ -7,6 +7,6 @@ class Constants {
   //-------------------------------------------------------------------------
 
   //------------------- TIMEOUT ---------------------------------------------
-  static int timeoutSeconds() => 10;
+  static int timeoutSeconds() => 5;
   static String timeoutMessage() => 'Estamos tendo problemas para conectar ao servidor :(';
 }

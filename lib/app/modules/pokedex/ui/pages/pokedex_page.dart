@@ -50,17 +50,9 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
     searchPokemonStore.pokemonSearchText = '';
   }
 
-  // @override
-  // void dispose() {
-  //   pokemonsStore.disposeScrollController();
-  //   pokemonsStore.disposeFocusNode();
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: appTheme.colors.whiteColor,
       appBar: CustomAppBarWidget(
         padding: EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 8.0),
         widget: SearchTextfieldWidget(
@@ -102,15 +94,14 @@ class _PokedexPageState extends State<PokedexPage> with TickerProviderStateMixin
       slivers: [
         _buildTypeButton(),
         if (searchPokemonStore.showSearchResult) _buildSearchedPokemon(),
-        if (searchPokemonStore.showSearchLoading) _buildLoading(),
-        if (searchPokemonStore.showSearchError)
+        if (searchPokemonStore.showSearchLoading ||
+            pokemonsTypeStore.showTypeLoading ||
+            pokemonsStore.isLoadingBottom)
+          _buildLoading(),
+        if (searchPokemonStore.showSearchError || pokemonsTypeStore.showTypeError)
           _buildError(message: searchPokemonStore.messageSearchError, useSliverWidget: true),
         if (pokemonsStore.showMainList) _buildMainList(),
         if (pokemonsTypeStore.showTypeList) _buildTypeList(),
-        if (pokemonsTypeStore.showTypeError)
-          _buildError(message: pokemonsTypeStore.messageTypeError, useSliverWidget: true),
-        if (pokemonsTypeStore.showTypeLoading) _buildLoading(),
-        if (pokemonsStore.isLoadingBottom) _buildLoading(),
         if (!pokemonsStore.hasMore) _buildNoMoreItemsMessage(),
       ],
     );

@@ -48,7 +48,7 @@ class _RegionDetailsPageState extends State<RegionDetailsPage> {
             slivers: [
               _buildAppBar(),
               if (searchPokemonStore.showSearchResult) _buildSearchedPokemon(),
-              if (searchPokemonStore.showSearchLoading) _buildLoading(),
+              if (searchPokemonStore.showSearchLoading || regionsStore.loadingMainList) _buildLoading(),
               if (searchPokemonStore.showSearchError)
                 _buildError(message: searchPokemonStore.messageSearchError, useSliverWidget: true),
               if (regionsStore.showMainList) _buildMainList(),

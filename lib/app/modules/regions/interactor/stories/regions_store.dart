@@ -103,4 +103,7 @@ abstract class RegionsStoreBase with Store {
   @computed
   bool get showMainList =>
       pokemonSearchStore.pokemonSearchText.isEmpty && pokemonsRegionState is SuccessPokemonsRegionState;
+
+  @computed
+  bool get loadingMainList => pokemonsRegionState is LoadingPokemonsRegionState;
 }
