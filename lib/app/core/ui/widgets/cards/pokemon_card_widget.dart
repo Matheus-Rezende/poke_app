@@ -54,6 +54,7 @@ class PokemonCardWidget extends StatelessWidget {
             flex: 2,
             child: InkWell(
               splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(15.0),
                 bottomLeft: Radius.circular(15.0),

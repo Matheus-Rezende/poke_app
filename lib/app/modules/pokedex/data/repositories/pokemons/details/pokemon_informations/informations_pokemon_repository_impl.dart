@@ -69,11 +69,11 @@ class InformationsPokemonRepositoryImpl implements InformationsPokemonRepository
           return Right(SuccessPokemonDescriptionState(description: description));
         } else {
           return Left(
-            ErrorPokemonDescriptionState(message: 'Não conseguimos carregar a descrição do Pokémon'),
+            ErrorPokemonDescriptionState(message: 'Não conseguimos carregar as informações do Pokémon'),
           );
         }
       } else {
-        return Left(ErrorPokemonDescriptionState(message: 'Sem descrição'));
+        return Left(ErrorPokemonDescriptionState(message: 'Sem informação'));
       }
     } on HttpException catch (e) {
       return Left(ErrorPokemonDescriptionState(message: e.toString()));

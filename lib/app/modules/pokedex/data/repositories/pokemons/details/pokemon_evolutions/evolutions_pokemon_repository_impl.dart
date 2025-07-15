@@ -50,7 +50,7 @@ class EvolutionsPokemonRepositoryImpl implements EvolutionsPokemonRepository {
     } on TimeoutException {
       return Left(ErrorPokemonEvolutionStageState(message: Constants.timeoutMessage()));
     } on FormatException catch (e) {
-      return Left(ErrorPokemonEvolutionStageState(message: 'Erro de formatação: ${e.message}'));
+      return Left(ErrorPokemonEvolutionStageState(message: 'Erro ao decodificar a resposta: ${e.message}'));
     } catch (e) {
       return Left(ErrorPokemonEvolutionStageState(message: 'Erro desconhecido: $e'));
     }
