@@ -20,6 +20,7 @@ dependencies:
   cached_network_image: ^3.4.1
   modal_bottom_sheet: ^3.0.0
   just_audio: ^0.10.4
+  flutter_local_notifications: ^19.3.0
 
 dev_dependencies:
   flutter_test:
@@ -40,6 +41,7 @@ flutter:
       - assets/images/png/regions/
       - assets/icons/
       - assets/icons/png/theme/
+      - assets/icons/png/notifications/
       - assets/icons/svg/
       - assets/icons/svg/bottom_menu/
       - assets/icons/svg/search_textfield/

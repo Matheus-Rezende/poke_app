@@ -2,7 +2,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:poke_app/app/core/core_module.dart';
 import 'package:poke_app/app/core/data/repositories/pokemon_types_repository_impl.dart';
 import 'package:poke_app/app/core/interactor/repositories/pokemon_types_repository.dart';
-import 'package:poke_app/app/core/interactor/stories/core_store.dart';
 import 'package:poke_app/app/modules/favorites/interactor/stories/favorite_store.dart';
 import 'package:poke_app/app/modules/menu/interactor/stories/custom_bottom_menu_store.dart';
 import 'package:poke_app/app/modules/menu/widgets/custom_bottom_menu_widget.dart';
@@ -49,7 +48,6 @@ class MenuModule extends Module {
     i.addLazySingleton(EvolutionsPokemonStore.new);
     i.addLazySingleton(FavoriteStore.new);
     i.addLazySingleton(RegionsStore.new);
-    i.addLazySingleton(CoreStore.new);
     i.addLazySingleton(PokemonTypesDamageStore.new);
 
     i.add<PokemonTypesRepository>(PokemonTypesRepositoryImpl.new);
