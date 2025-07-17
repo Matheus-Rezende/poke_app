@@ -20,7 +20,7 @@ dependencies:
   cached_network_image: ^3.4.1
   modal_bottom_sheet: ^3.0.0
   just_audio: ^0.10.4
-  flutter_local_notifications: ^19.3.0
+  awesome_notifications: ^0.10.1
 
 dev_dependencies:
   flutter_test:
