@@ -59,7 +59,7 @@ class LocalNotificationsImpl extends LocalNotifications {
     }
 
     final timeZone = await AwesomeNotifications().getLocalTimeZoneIdentifier();
-    final hours = [9, 13, 18, 22];
+    final hours = [10, 14, 18, 22];
 
     for (int i = 0; i < selectedNotifications.length; i++) {
       final data = selectedNotifications[i];
@@ -75,7 +75,7 @@ class LocalNotificationsImpl extends LocalNotifications {
           notificationLayout: data['id'] == 0 ? NotificationLayout.Default : NotificationLayout.BigPicture,
           bigPicture: data['id'] == 0
               ? null
-              : 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${data['id']}.png',
+              : 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data['id']}.png',
         ),
         schedule: NotificationCalendar(
           hour: hours[i],
