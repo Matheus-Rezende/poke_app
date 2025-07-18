@@ -72,8 +72,8 @@ class LocalNotificationsImpl extends LocalNotifications {
           channelKey: 'pokemon_channel',
           title: data['title'],
           body: data['body'],
-          notificationLayout: data['id'] == 0 ? NotificationLayout.Default : NotificationLayout.BigText,
-          largeIcon: data['id'] == 0
+          notificationLayout: data['id'] == 0 ? NotificationLayout.Default : NotificationLayout.BigPicture,
+          bigPicture: data['id'] == 0
               ? null
               : 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${data['id']}.png',
         ),
