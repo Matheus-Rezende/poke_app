@@ -1,11 +1,6 @@
 class NotificationPokemonsConstant {
   List<Map<String, dynamic>> pokemonNotificationsMap = [
     {
-      'id': 0,
-      'title': 'Ama o universo pokémon?',
-      'body': 'No PokéApp você pode favoritar os pokémons que mais ama ❤️',
-    },
-    {
       'id': 25,
       'title': 'Você ama o Pikachu?',
       'body': 'No PokéApp você tem acesso as informações do Pikachu e de milhares de pokémons',

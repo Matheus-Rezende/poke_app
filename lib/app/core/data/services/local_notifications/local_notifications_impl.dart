@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:poke_app/app/core/routes/app_routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:poke_app/app/core/data/services/local_notifications/local_notifications.dart';
@@ -59,24 +60,26 @@ class LocalNotificationsImpl extends LocalNotifications {
     }
 
     final timeZone = await AwesomeNotifications().getLocalTimeZoneIdentifier();
-    final hours = [10, 14, 18, 22];
+    final hours = [10, 16, 22];
 
     for (int i = 0; i < selectedNotifications.length; i++) {
       final data = selectedNotifications[i];
-      final randomId = DateTime.now().millisecondsSinceEpoch.remainder(100000) + i;
+      final fixedId = i;
 
       await AwesomeNotifications().createNotification(
         content: NotificationContent(
-          id: randomId,
+          id: fixedId,
           autoDismissible: true,
+
           channelKey: 'pokemon_channel',
           title: data['title'],
           body: data['body'],
-          notificationLayout: data['id'] == 0 ? NotificationLayout.Default : NotificationLayout.BigPicture,
-          bigPicture: data['id'] == 0
-              ? null
-              : 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data['id']}.png',
+          payload: {'pokemonId': data['id'].toString(), 'route': AppRoutes.pokemonDetails()},
+          notificationLayout: NotificationLayout.BigPicture,
+          bigPicture:
+              'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data['id']}.png',
         ),
+
         schedule: NotificationCalendar(
           hour: hours[i],
           minute: 0,
