@@ -59,7 +59,7 @@ class LocalNotificationsImpl extends LocalNotifications {
 
     await prefs.setStringList('last_sent_ids', [selectedPokemon['id'].toString()]);
 
-    final hours = [10, 16, 22];
+    final hours = [56, 57, 58, 59];
     final lastHour = prefs.getInt('last_sent_hour');
 
     final availableHours = hours.where((h) => h != lastHour).toList();
@@ -83,7 +83,13 @@ class LocalNotificationsImpl extends LocalNotifications {
         bigPicture:
             'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${selectedPokemon['id']}.png',
       ),
-      schedule: NotificationCalendar(hour: 11, minute: 23, second: 0, timeZone: timeZone, repeats: true),
+      schedule: NotificationCalendar(
+        hour: 16,
+        minute: randomHour,
+        second: 0,
+        timeZone: timeZone,
+        repeats: true,
+      ),
     );
   }
 
