@@ -41,61 +41,50 @@ class LocalNotificationsImpl extends LocalNotifications {
     await initialize();
     final prefs = await SharedPreferences.getInstance();
     final random = Random();
-    final fullList = NotificationPokemonsConstant().pokemonNotificationsMap.toList();
 
+    final fullList = NotificationPokemonsConstant().pokemonNotificationsMap.toList();
     final lastIds = prefs.getStringList('last_sent_ids')?.map(int.parse).toList() ?? [];
 
-    List<Map<String, dynamic>> selectedNotifications = [];
-
+    Map<String, dynamic>? selectedPokemon;
     for (int attempts = 0; attempts < 10; attempts++) {
       fullList.shuffle(random);
-      final temp = fullList.take(3).toList();
-      final tempIds = temp.map((e) => e['id']).toList();
-
-      if (!_areSameSet(tempIds, lastIds)) {
-        selectedNotifications = temp;
-        await prefs.setStringList('last_sent_ids', tempIds.map((e) => e.toString()).toList());
+      final temp = fullList.first;
+      if (!lastIds.contains(temp['id'])) {
+        selectedPokemon = temp;
         break;
       }
     }
 
-    final timeZone = await AwesomeNotifications().getLocalTimeZoneIdentifier();
+    if (selectedPokemon == null) return;
+
+    await prefs.setStringList('last_sent_ids', [selectedPokemon['id'].toString()]);
+
     final hours = [10, 16, 22];
+    final lastHour = prefs.getInt('last_sent_hour');
 
-    for (int i = 0; i < selectedNotifications.length; i++) {
-      final data = selectedNotifications[i];
-      final fixedId = i;
+    final availableHours = hours.where((h) => h != lastHour).toList();
+    final randomHour = availableHours[random.nextInt(availableHours.length)];
 
-      await AwesomeNotifications().createNotification(
-        content: NotificationContent(
-          id: fixedId,
-          autoDismissible: true,
+    await prefs.setInt('last_sent_hour', randomHour);
 
-          channelKey: 'pokemon_channel',
-          title: data['title'],
-          body: data['body'],
-          payload: {'pokemonId': data['id'].toString(), 'route': AppRoutes.pokemonDetails()},
-          notificationLayout: NotificationLayout.BigPicture,
-          bigPicture:
-              'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data['id']}.png',
-        ),
+    await AwesomeNotifications().cancelAll();
 
-        schedule: NotificationCalendar(
-          hour: hours[i],
-          minute: 0,
-          second: 0,
-          timeZone: timeZone,
-          repeats: true,
-        ),
-      );
-    }
-  }
+    final timeZone = await AwesomeNotifications().getLocalTimeZoneIdentifier();
 
-  bool _areSameSet(List a, List<int> b) {
-    if (a.length != b.length) return false;
-    final aSet = a.toSet();
-    final bSet = b.toSet();
-    return aSet.length == bSet.length && aSet.difference(bSet).isEmpty;
+    await AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: 1001,
+        autoDismissible: true,
+        channelKey: 'pokemon_channel',
+        title: selectedPokemon['title'],
+        body: selectedPokemon['body'],
+        payload: {'pokemonId': selectedPokemon['id'].toString(), 'route': AppRoutes.pokemonDetails()},
+        notificationLayout: NotificationLayout.BigPicture,
+        bigPicture:
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${selectedPokemon['id']}.png',
+      ),
+      schedule: NotificationCalendar(hour: 11, minute: 23, second: 0, timeZone: timeZone, repeats: true),
+    );
   }
 
   @override
