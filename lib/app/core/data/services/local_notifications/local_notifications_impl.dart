@@ -20,11 +20,11 @@ class LocalNotificationsImpl extends LocalNotifications {
         channelKey: 'pokemon_channel',
         channelName: 'Notificações Pokémon',
         channelDescription: 'Notificações sobre Pokémons!',
-        defaultColor: AppColors().backgroundBlueColor,
-        ledColor: AppColors().whiteColor,
+        defaultColor: AppColors().blackColor,
         importance: NotificationImportance.High,
+        icon: 'resource://drawable/ic_launcher',
       ),
-    ], debug: true);
+    ]);
   }
 
   @override
