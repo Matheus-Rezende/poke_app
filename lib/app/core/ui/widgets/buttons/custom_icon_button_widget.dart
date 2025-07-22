@@ -22,6 +22,8 @@ class CustomIconButtonWidget extends StatelessWidget {
 
     return InkWell(
       onTap: onPressed,
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
       child: Wrap(
         spacing: 8.0,
         children: [

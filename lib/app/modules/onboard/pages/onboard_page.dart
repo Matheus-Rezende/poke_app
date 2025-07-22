@@ -5,7 +5,6 @@ import 'package:poke_app/app/core/routes/app_routes.dart';
 
 import 'package:poke_app/app/core/ui/app_theme.dart';
 import 'package:poke_app/app/core/ui/widgets/buttons/custom_button_widget.dart';
-import 'package:poke_app/app/core/ui/widgets/buttons/custom_icon_button_widget.dart';
 import 'package:poke_app/app/modules/onboard/interactor/states/onboard_state.dart';
 import 'package:poke_app/app/modules/onboard/interactor/stories/onboard_store.dart';
 import 'package:poke_app/app/modules/onboard/widgets/onboard_widget.dart';
@@ -25,26 +24,40 @@ class _OnboardPageState extends State<OnboardPage> {
     final sizeOf = MediaQuery.sizeOf(context);
 
     return Scaffold(
+      backgroundColor: appTheme.colors.whiteColor,
       body: Padding(
         padding: EdgeInsets.all(24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(top: 16),
-                child: CustomIconButtonWidget(
-                  icon: Icons.keyboard_arrow_right,
-                  text: 'Pular',
-                  onPressed: () => store.skipOnboard(),
-                ),
-              ),
+            Observer(
+              builder: (context) {
+                return store.state is ThirdStepOnboardState
+                    ? Expanded(
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: CustomButtonWidget(
+                            title: 'Pular',
+                            titleStyle: appTheme.typography.poppins18px().copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                            iconPosition: IconPosition.sufix,
+                            iconPath: 'assets/icons/svg/arrow_right_icon.svg',
+                            backgroundColor: appTheme.colors.whiteColor,
+                            padding: 0.0,
+                            height: 64.0,
+                            onPressed: () {
+                              store.skipOnboard();
+                              Modular.to.navigate(AppRoutes.bottomMenu());
+                            },
+                          ),
+                        ),
+                      )
+                    : Expanded(child: Container());
+              },
             ),
             Observer(
               builder: (_) {
-                if (store.state is SkipOnboardState) {
-                  Modular.to.navigate(AppRoutes.bottomMenu());
-                }
                 return switch (store.state) {
                   InitOnboardState() => Container(),
                   SkipOnboardState() => Container(),
@@ -67,40 +80,74 @@ class _OnboardPageState extends State<OnboardPage> {
                     widthCoach1: sizeOf.width * 0.55,
                     pathCoach2: 'assets/images/png/coaches/coach_5.png',
                     title: 'Está pronto para essa aventura?',
-                    subtitle: 'Vamos juntos começar a explorar o mundo dos Pokémon hoje!',
+                    subtitle: 'Basta criar uma conta e começar a explorar o mundo dos Pokémon hoje!',
                   ),
                 };
               },
             ),
-            Column(
-              children: [
-                SizedBox(height: sizeOf.width * 0.06),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+
+            Observer(
+              builder: (context) {
+                return Column(
                   children: [
-                    buildDot(FirstStepOnboardState(), context),
-                    buildDot(SecondStepOnboardState(), context),
-                    buildDot(ThirdStepOnboardState(), context),
+                    store.state is ThirdStepOnboardState
+                        ? Container()
+                        : SizedBox(height: sizeOf.width * 0.06),
+                    store.state is ThirdStepOnboardState
+                        ? Container()
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              buildDot(FirstStepOnboardState(), context),
+                              buildDot(SecondStepOnboardState(), context),
+                            ],
+                          ),
+                    SizedBox(height: sizeOf.width * 0.06),
+                    store.state is FirstStepOnboardState || store.state is SecondStepOnboardState
+                        ? CustomButtonWidget(
+                            title: store.state is FirstStepOnboardState ? 'Continuar' : 'Vamos começar!',
+                            width: sizeOf.width,
+                            height: 58.0,
+                            borderRadius: 50.0,
+                            onPressed: () => store.onPressedAdvance(),
+                            titleStyle: appTheme.typography.poppins18px().copyWith(
+                              color: appTheme.colors.whiteColor,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            backgroundColor: appTheme.colors.backgroundBlueColor,
+                          )
+                        : Column(
+                            children: [
+                              CustomButtonWidget(
+                                title: 'Criar conta',
+                                width: sizeOf.width,
+                                height: 58.0,
+                                borderRadius: 50.0,
+                                onPressed: () => store.onPressedAdvance(),
+                                titleStyle: appTheme.typography.poppins18px().copyWith(
+                                  color: appTheme.colors.whiteColor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                backgroundColor: appTheme.colors.backgroundBlueColor,
+                              ),
+                              SizedBox(height: 8.0),
+                              CustomButtonWidget(
+                                title: 'Ja tenho uma conta',
+                                width: sizeOf.width,
+                                height: 58.0,
+                                borderRadius: 50.0,
+                                onPressed: () {},
+                                titleStyle: appTheme.typography.poppins18px().copyWith(
+                                  color: appTheme.colors.backgroundBlueColor,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                backgroundColor: appTheme.colors.whiteColor,
+                              ),
+                            ],
+                          ),
                   ],
-                ),
-                SizedBox(height: sizeOf.width * 0.06),
-                Observer(
-                  builder: (context) {
-                    return CustomButtonWidget(
-                      title: store.state is ThirdStepOnboardState ? 'Entrar no app' : 'Continuar',
-                      width: sizeOf.width,
-                      height: 58.0,
-                      borderRadius: 50.0,
-                      onPressed: () => store.onPressedAdvance(),
-                      titleStyle: appTheme.typography.poppins18px().copyWith(
-                        color: appTheme.colors.whiteColor,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      backgroundColor: appTheme.colors.backgroundBlueColor,
-                    );
-                  },
-                ),
-              ],
+                );
+              },
             ),
           ],
         ),

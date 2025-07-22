@@ -25,27 +25,24 @@ class OnboardWidget extends StatelessWidget {
     return Column(
       children: [
         pathCoach2.isNotEmpty
-            ? Row(
-                spacing: 0,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Flexible(
-                    child: Image.asset(
-                      pathCoach1,
-                      filterQuality: FilterQuality.high,
-                      height: sizeOf.height * 0.2,
+            ? SizedBox(
+                width: 350.0,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Image.asset(pathCoach2, filterQuality: FilterQuality.none),
                     ),
-                  ),
-                  Flexible(
-                    child: Image.asset(
-                      pathCoach2,
-                      filterQuality: FilterQuality.high,
-                      height: sizeOf.height * 0.2,
+                    Positioned(
+                      right: 120.0,
+                      bottom: 0.0,
+                      child: Image.asset(pathCoach1, filterQuality: FilterQuality.none),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )
-            : Image.asset(pathCoach1, filterQuality: FilterQuality.high, width: sizeOf.width * 0.7),
+            : Image.asset(pathCoach1, filterQuality: FilterQuality.none, width: sizeOf.width * 0.7),
         SizedBox(height: sizeOf.height * 0.01),
         Text(
           title,
