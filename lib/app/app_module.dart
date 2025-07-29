@@ -1,6 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:poke_app/app/core/core_module.dart';
 import 'package:poke_app/app/core/interactor/stories/core_store.dart';
+import 'package:poke_app/app/modules/auth/auth_module.dart';
 import 'package:poke_app/app/modules/favorites/favorites_module.dart';
 import 'package:poke_app/app/modules/menu/menu_module.dart';
 import 'package:poke_app/app/modules/pokedex/pokedex_module.dart';
@@ -26,6 +27,8 @@ class AppModule extends Module {
     r.module('/regions', module: RegionsModule());
     r.module('/favorites', module: FavoritesModule());
     r.module('/profile', module: ProfileModule());
+    r.module('/auth', module: AuthModule());
+
     super.routes(r);
   }
 }

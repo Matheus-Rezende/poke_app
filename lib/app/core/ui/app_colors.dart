@@ -7,7 +7,8 @@ class AppColors {
   //--------- WHITE COLORS --------
   final Color whiteColor = const Color(0xFFFFFFFF);
 
-  //--------- GREY COLORS ---------
+  //--------- GREY COLORS ---------DBDCDD
+  final Color greyBorderColor = const Color(0xFFDBDCDD);
   final Color greyE6Color = const Color(0xFFE6E6E6);
   final Color greyCCColor = const Color(0xFFCCCCCC);
   final Color grey1AColor = const Color(0xFF1A1A1A);
