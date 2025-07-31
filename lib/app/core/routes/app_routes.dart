@@ -29,5 +29,6 @@ class AppRoutes {
 
   //------------------- Rotas para o módulo Auth ----------------------------
   static String preAuth() => '/auth/pre-auth-page';
+  static String auth() => '/auth/auth-page';
   //-------------------------------------------------------------------------
 }

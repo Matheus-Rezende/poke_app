@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:poke_app/app/core/routes/app_routes.dart';
 import 'package:poke_app/app/core/ui/app_theme.dart';
 import 'package:poke_app/app/core/ui/widgets/app_bar/custom_app_bar_widget.dart';
 import 'package:poke_app/app/core/ui/widgets/buttons/custom_button_widget.dart';
-import 'package:poke_app/app/modules/auth/interactor/utils/arguments/pre_auth_arguments.dart';
 
 class PreAuthPage extends StatelessWidget {
-  final PreAuthArguments args;
+  final bool isRegister;
 
-  const PreAuthPage({super.key, required this.args});
+  const PreAuthPage({super.key, required this.isRegister});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class PreAuthPage extends StatelessWidget {
                   flex: 8,
                   child: Center(
                     child: Text(
-                      args.appBarTitle,
+                      isRegister ? 'Criar conta' : 'Entrar',
                       style: appTheme.typography.poppins18px().copyWith(fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -45,6 +45,7 @@ class PreAuthPage extends StatelessWidget {
           ),
         ),
       ),
+
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -59,14 +60,21 @@ class PreAuthPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image.asset(args.coachImagePath, filterQuality: FilterQuality.none),
+                        Image.asset(
+                          isRegister
+                              ? 'assets/images/png/coaches/coach_6.png'
+                              : 'assets/images/png/coaches/coach_7.png',
+                          filterQuality: FilterQuality.none,
+                        ),
                         Text(
-                          args.title,
+                          isRegister
+                              ? 'Falta pouco para explorar esse mundo!'
+                              : 'Que bom te ver aqui novamente!',
                           style: appTheme.typography.poppins26px().copyWith(fontWeight: FontWeight.w600),
                           textAlign: TextAlign.center,
                         ),
                         Text(
-                          args.subtitle,
+                          'Como deseja se conectar?',
                           style: appTheme.typography.poppins14px().copyWith(
                             color: appTheme.colors.grey66Color,
                           ),
@@ -113,7 +121,10 @@ class PreAuthPage extends StatelessWidget {
                               width: sizeOf.width,
                               borderRadius: 50.0,
                               backgroundColor: appTheme.colors.backgroundBlueColor,
-                              onPressed: () {},
+                              onPressed: () => Modular.to.pushNamed(
+                                AppRoutes.auth(),
+                                arguments: isRegister ? true : false,
+                              ),
                             ),
                             SizedBox(height: 16.0),
                           ],

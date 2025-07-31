@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:poke_app/app/core/routes/app_routes.dart';
 import 'package:poke_app/app/core/ui/app_theme.dart';
 import 'package:poke_app/app/core/ui/widgets/buttons/custom_button_widget.dart';
-import 'package:poke_app/app/modules/auth/interactor/utils/arguments/pre_auth_arguments.dart';
 import 'package:poke_app/app/modules/onboard/interactor/states/onboard_state.dart';
 import 'package:poke_app/app/modules/onboard/interactor/stories/onboard_store.dart';
 import 'package:poke_app/app/modules/onboard/ui/widgets/onboard_widget.dart';
@@ -120,16 +119,7 @@ class _OnboardPageState extends State<OnboardPage> with TickerProviderStateMixin
                                 width: sizeOf.width,
                                 height: 58.0,
                                 borderRadius: 50.0,
-                                onPressed: () => Modular.to.pushNamed(
-                                  AppRoutes.preAuth(),
-                                  arguments: PreAuthArguments(
-                                    appBarTitle: 'Criar conta',
-                                    coachImagePath: 'assets/images/png/coaches/coach_6.png',
-                                    title: 'Falta pouco para explorar esse mundo!',
-                                    subtitle: 'Como deseja se conectar?',
-                                    isRegister: true,
-                                  ),
-                                ),
+                                onPressed: () => Modular.to.pushNamed(AppRoutes.preAuth(), arguments: true),
                                 titleStyle: appTheme.typography.poppins18px().copyWith(
                                   color: appTheme.colors.whiteColor,
                                   fontWeight: FontWeight.w500,
@@ -142,17 +132,7 @@ class _OnboardPageState extends State<OnboardPage> with TickerProviderStateMixin
                                 width: sizeOf.width,
                                 height: 58.0,
                                 borderRadius: 50.0,
-                                onPressed: () => Modular.to.pushNamed(
-                                  AppRoutes.preAuth(),
-                                  arguments: PreAuthArguments(
-                                    appBarTitle: 'Entrar',
-                                    coachImagePath: 'assets/images/png/coaches/coach_7.png',
-
-                                    title: 'Que bom te ver aqui novamente!',
-                                    subtitle: 'Como deseja se conectar?',
-                                    isRegister: false,
-                                  ),
-                                ),
+                                onPressed: () => Modular.to.pushNamed(AppRoutes.preAuth(), arguments: false),
                                 titleStyle: appTheme.typography.poppins18px().copyWith(
                                   color: appTheme.colors.backgroundBlueColor,
                                   fontWeight: FontWeight.w600,
