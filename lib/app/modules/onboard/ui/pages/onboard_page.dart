@@ -44,6 +44,7 @@ class _OnboardPageState extends State<OnboardPage> with TickerProviderStateMixin
                             ),
                             iconPosition: IconPosition.sufix,
                             iconPath: 'assets/icons/svg/arrow_right_icon.svg',
+                            iconSize: 16.0,
                             backgroundColor: appTheme.colors.whiteColor,
                             padding: 0.0,
                             height: 64.0,

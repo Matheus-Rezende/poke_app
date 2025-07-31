@@ -76,7 +76,7 @@ class PreAuthPage extends StatelessWidget {
                           spacing: 16.0,
                           children: [
                             CustomButtonWidget(
-                              title: 'Continuar com a Apple',
+                              title: 'Continuar com o Facebook',
                               titleStyle: appTheme.typography.poppins16px().copyWith(
                                 fontWeight: FontWeight.w600,
                                 color: appTheme.colors.grey4DColor,
@@ -85,7 +85,7 @@ class PreAuthPage extends StatelessWidget {
                               width: sizeOf.width,
                               iconPosition: IconPosition.prefix,
                               borderRadius: 50.0,
-                              iconPath: 'assets/icons/svg/apple_icon.svg',
+                              iconPath: 'assets/icons/svg/facebook_icon.svg',
                               backgroundColor: appTheme.colors.whiteColor,
                               borderColor: appTheme.colors.greyBorderColor,
                             ),

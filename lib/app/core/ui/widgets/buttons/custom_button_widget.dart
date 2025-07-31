@@ -14,6 +14,7 @@ class CustomButtonWidget extends StatelessWidget {
   final VoidCallback? onPressed;
   final IconPosition? iconPosition;
   final String? iconPath;
+  final double? iconSize;
   final Color? borderColor;
   const CustomButtonWidget({
     super.key,
@@ -24,6 +25,7 @@ class CustomButtonWidget extends StatelessWidget {
     this.padding = 16.0,
     this.width = 80.0,
     this.height = 32.0,
+    this.iconSize = 32.0,
     this.onPressed,
     this.iconPosition,
     this.iconPath,
@@ -50,7 +52,7 @@ class CustomButtonWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             spacing: 8.0,
             children: [
-              SvgPicture.asset(iconPath ?? ''),
+              SvgPicture.asset(iconPath ?? '', width: iconSize, height: iconSize),
               Text(title, style: titleStyle),
             ],
           ),
@@ -59,7 +61,7 @@ class CustomButtonWidget extends StatelessWidget {
             spacing: 8.0,
             children: [
               Text(title, style: titleStyle),
-              SvgPicture.asset(iconPath ?? ''),
+              SvgPicture.asset(iconPath ?? '', width: iconSize, height: iconSize),
             ],
           ),
           _ => Center(child: Text(title, style: titleStyle)),
