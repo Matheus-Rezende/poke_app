@@ -9,25 +9,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_mobx: ^2.3.0
-  flutter_modular: ^6.4.1
-  flutter_svg: ^2.2.0
-  mobx: ^2.5.0
-  shared_preferences: ^2.5.3
-  http: ^1.4.0
-  dartz: ^0.10.1
-  shimmer: ^3.0.0
-  cached_network_image: ^3.4.1
-  modal_bottom_sheet: ^3.0.0
-  just_audio: ^0.10.4
-  awesome_notifications: ^0.10.1
-
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-  mobx_codegen: ^2.7.1
-  build_runner: ^2.5.3
+  
 
 flutter:
   uses-material-design: true
