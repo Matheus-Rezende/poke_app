@@ -7,8 +7,10 @@ environment:
   sdk: ^3.8.0
 
 dependencies:
+  cached_network_image: ^3.4.1
   flutter:
     sdk: flutter
+  flutter_svg: ^2.2.1
   
 dev_dependencies:
   flutter_test:
