@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:poke_app/ui/core/themes/colors.dart';
 
-// A classe de dados permanece a mesma.
 class BottomMenuItemData {
   final String selectedIconPath;
   final String unselectedIconPath;
@@ -46,7 +45,9 @@ class CustomBottomMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // A estrutura externa do menu permanece a mesma.
+    final ThemeData theme = Theme.of(context);
+    final bool isDarkTheme = theme.brightness == Brightness.dark;
+
     return SafeArea(
       child: Container(
         height: 72,
@@ -63,43 +64,33 @@ class CustomBottomMenu extends StatelessWidget {
 
             return InkWell(
               onTap: () => onTap(index),
-              customBorder: const CircleBorder(),
-              highlightColor: Colors.transparent,
-              // splashColor: AppColors.darkblue.withOpacity(0.1),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // MUDANÇA 1: Animação de fade para o ícone.
                     AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 200),
+                      duration: const Duration(milliseconds: 300),
                       transitionBuilder: (child, animation) {
                         return FadeTransition(opacity: animation, child: child);
                       },
                       child: SvgPicture.asset(
-                        // O `key` é essencial para o AnimatedSwitcher saber qual widget é qual.
                         isSelected ? item.selectedIconPath : item.unselectedIconPath,
                         key: ValueKey(isSelected ? item.selectedIconPath : item.unselectedIconPath),
-                        //colorFilter: ColorFilter.mode(backgroundColor, BlendMode.srcIn),
                       ),
                     ),
 
-                    // MUDANÇA 2: Animação de altura para o texto do rótulo.
                     AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
+                      duration: const Duration(milliseconds: 300),
                       curve: Curves.easeInOut,
-                      height: isSelected ? 18 : 0, // O container "cresce" para mostrar o texto.
-                      child: ClipRect(
-                        // Impede que o texto seja visível enquanto o container encolhe.
-                        child: Text(
-                          item.label,
-                          overflow: TextOverflow.clip,
-                          maxLines: 1,
-                          style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                            color: AppColors.darkblue,
-                            fontWeight: FontWeight.w600,
-                          ),
+                      height: isSelected ? 18 : 0,
+                      child: Text(
+                        item.label,
+                        overflow: TextOverflow.clip,
+                        maxLines: 1,
+                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                          color: isDarkTheme ? AppColors.white1 : AppColors.darkblue,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
