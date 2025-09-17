@@ -16,7 +16,7 @@ class PokedexList extends StatelessWidget {
       );
     }
     return ListView.separated(
-      padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 112.0),
+      padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 100.0),
       itemCount: pokedex.length,
       separatorBuilder: (context, index) {
         return const SizedBox(height: 16.0);

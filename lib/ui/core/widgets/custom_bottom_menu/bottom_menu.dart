@@ -50,10 +50,10 @@ class CustomBottomMenu extends StatelessWidget {
     return SafeArea(
       child: Container(
         height: 72,
-        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        margin: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.onSecondary,
-          borderRadius: BorderRadius.circular(24.0),
+          borderRadius: BorderRadius.circular(36.0),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

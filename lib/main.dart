@@ -23,7 +23,7 @@ class MainApp extends StatelessWidget {
   }
 }
 
-@Preview(name: 'My card Pokemon', size: Size(400, 100))
+@Preview(name: 'My card Pokemon')
 Widget myCardPokemon() {
   return Column(
     spacing: 16.0,

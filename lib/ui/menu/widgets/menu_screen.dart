@@ -44,13 +44,18 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
-      body: _pages[_viewModel.currentIndex],
-      floatingActionButton: CustomBottomMenu(
-        currentIndex: _viewModel.currentIndex,
-        onTap: (index) => _viewModel.selectTab(index),
+      body: Stack(
+        children: [
+          _pages[_viewModel.currentIndex],
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: CustomBottomMenu(
+              currentIndex: _viewModel.currentIndex,
+              onTap: (index) => _viewModel.selectTab(index),
+            ),
+          ),
+        ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
