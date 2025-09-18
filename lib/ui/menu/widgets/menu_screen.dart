@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:poke_app/data/repositories/pokedex/pokedex_repository_dev.dart';
 import 'package:poke_app/ui/core/viewmodels/menu_viewmodel.dart';
 import 'package:poke_app/ui/core/widgets/custom_bottom_menu/bottom_menu.dart';
 import 'package:poke_app/ui/pokedex/viewmodels/pokedex_viewmodel.dart';
@@ -7,33 +6,35 @@ import 'package:poke_app/ui/pokedex/widgets/pokedex_screen.dart';
 import 'package:poke_app/ui/regions/widgets/regions_screen.dart';
 
 class MenuScreen extends StatefulWidget {
-  const MenuScreen({super.key});
+  final PokedexViewmodel pokedexViewmodel;
+
+  const MenuScreen({super.key, required this.pokedexViewmodel});
 
   @override
   State<MenuScreen> createState() => _MenuScreenState();
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  late final MenuViewmodel _viewModel;
+  late final MenuViewmodel _menuViewmodel;
 
-  static final List<Widget> _pages = [
-    PokedexScreen(pokedexViewmodel: PokedexViewmodel(pokedexRepository: PokedexRepositoryDev())),
+  List<Widget> get _pages => [
+    PokedexScreen(pokedexViewmodel: widget.pokedexViewmodel),
     RegionsScreen(),
-    PokedexScreen(pokedexViewmodel: PokedexViewmodel(pokedexRepository: PokedexRepositoryDev())),
-    PokedexScreen(pokedexViewmodel: PokedexViewmodel(pokedexRepository: PokedexRepositoryDev())),
+    RegionsScreen(),
+    RegionsScreen(),
   ];
 
   @override
   void initState() {
     super.initState();
-    _viewModel = MenuViewmodel();
-    _viewModel.addListener(_onViewModelChanged);
+    _menuViewmodel = MenuViewmodel();
+    _menuViewmodel.addListener(_onViewModelChanged);
   }
 
   @override
   void dispose() {
-    _viewModel.removeListener(_onViewModelChanged);
-    _viewModel.dispose();
+    _menuViewmodel.removeListener(_onViewModelChanged);
+    _menuViewmodel.dispose();
     super.dispose();
   }
 
@@ -46,12 +47,12 @@ class _MenuScreenState extends State<MenuScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          _pages[_viewModel.currentIndex],
+          _pages[_menuViewmodel.currentIndex],
           Align(
             alignment: Alignment.bottomCenter,
             child: CustomBottomMenu(
-              currentIndex: _viewModel.currentIndex,
-              onTap: (index) => _viewModel.selectTab(index),
+              currentIndex: _menuViewmodel.currentIndex,
+              onTap: (index) => _menuViewmodel.selectTab(index),
             ),
           ),
         ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:poke_app/ui/core/widgets/pokemon_type/pokemon_type_colors.dart';
 import 'package:poke_app/ui/core/widgets/pokemon_type/pokemon_type_icons.dart';
+import 'package:poke_app/utils/extensions/string_casting_extension.dart';
 
 class PokemonTypeBadge extends StatelessWidget {
   final String type;
@@ -50,7 +51,7 @@ class PokemonTypeBadge extends StatelessWidget {
                 ),
                 const SizedBox(width: 6.0),
                 Text(
-                  type,
+                  type.toCapitalized,
                   style: Theme.of(context).textTheme.labelSmall!.copyWith(
                     color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.w500,

@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:poke_app/ui/core/themes/colors.dart';
 import 'package:poke_app/ui/core/widgets/pokeball_loading.dart';
 import 'package:poke_app/ui/core/widgets/pokemon_type/pokemon_type_colors.dart';
 import 'package:poke_app/ui/core/widgets/pokemon_type/pokemon_type_transparency_icons.dart';
 import 'package:poke_app/ui/core/widgets/pokemon_cards/pokemon_type_badge.dart';
+import 'package:poke_app/utils/extensions/string_casting_extension.dart';
 
 class PokemonCard extends StatelessWidget {
   final int id;
@@ -66,7 +68,7 @@ class PokemonCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      name,
+                      name.toCapitalized,
                       style: Theme.of(context).textTheme.labelLarge!.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.w600,
@@ -138,7 +140,23 @@ class PokemonCard extends StatelessWidget {
                               'assets/icons/svg/bottom_menu/pokedex_filled.svg',
                               height: 40.0,
                             ),
-                            const Text('Imagem não encontrada', textAlign: TextAlign.center),
+                            Container(
+                              padding: EdgeInsets.all(4.0),
+                              margin: EdgeInsets.symmetric(horizontal: 8.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                color: AppColors.grey1.withValues(alpha: 0.6),
+                              ),
+                              child: Text(
+                                'Imagem não encontrada',
+                                style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.black1,
+                                  fontSize: 11.0,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                           ],
                         ),
                       ),
