@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _redirect() async {
     if (mounted) {
-      context.go(Routes.menu);
+      context.go(Routes.home);
     }
   }
 

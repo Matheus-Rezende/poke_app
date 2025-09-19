@@ -5,16 +5,16 @@ import 'package:poke_app/ui/pokedex/viewmodels/pokedex_viewmodel.dart';
 import 'package:poke_app/ui/pokedex/widgets/pokedex_screen.dart';
 import 'package:poke_app/ui/regions/widgets/regions_screen.dart';
 
-class MenuScreen extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   final PokedexViewmodel pokedexViewmodel;
 
-  const MenuScreen({super.key, required this.pokedexViewmodel});
+  const HomeScreen({super.key, required this.pokedexViewmodel});
 
   @override
-  State<MenuScreen> createState() => _MenuScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MenuScreenState extends State<MenuScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   late final MenuViewmodel _menuViewmodel;
 
   List<Widget> get _pages => [

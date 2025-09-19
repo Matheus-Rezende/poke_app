@@ -55,7 +55,6 @@ class PokemonTypeBadge extends StatelessWidget {
                   style: Theme.of(context).textTheme.labelSmall!.copyWith(
                     color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.w500,
-                    fontSize: 11,
                   ),
                 ),
               ],

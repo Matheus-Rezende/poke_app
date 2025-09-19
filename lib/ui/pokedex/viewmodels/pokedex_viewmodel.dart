@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:poke_app/data/repositories/pokedex/pokedex_repository.dart';
-import 'package:poke_app/domain/models/pokemon/pokemon.dart';
+import 'package:poke_app/domain/models/pokemon/pokemon_summary.dart';
 import 'package:poke_app/utils/commands/commands.dart';
 import 'package:poke_app/utils/result/result.dart';
-// ... outras importações
 
 class PokedexViewmodel extends ChangeNotifier {
   PokedexViewmodel({required PokedexRepository pokedexRepository})
@@ -14,8 +14,8 @@ class PokedexViewmodel extends ChangeNotifier {
 
   final PokedexRepository _pokedexRepository;
 
-  List<Pokemon> _pokedex = [];
-  List<Pokemon> get pokedex => _pokedex;
+  List<PokemonSummary> _pokedex = [];
+  List<PokemonSummary> get pokedex => _pokedex;
 
   static const _pageSize = 20;
   int _offset = 0;
@@ -23,39 +23,63 @@ class PokedexViewmodel extends ChangeNotifier {
   bool _hasMore = true;
   bool get hasMore => _hasMore;
 
-  late final Command0<List<Pokemon>> load;
-  late final Command0<List<Pokemon>> loadMore;
+  late final Command0<List<PokemonSummary>> load;
+  late final Command0<List<PokemonSummary>> loadMore;
 
-  Future<Result<List<Pokemon>>> _initialLoad() async {
-    _offset = 0;
-    _hasMore = true;
+  final _log = Logger('PokedexViewModel');
 
-    final result = await _pokedexRepository.get(limit: _pageSize, offset: _offset);
+  Future<Result<List<PokemonSummary>>> _initialLoad() async {
+    try {
+      _offset = 0;
+      _hasMore = true;
 
-    if (result is Ok<List<Pokemon>>) {
-      final newPokemons = result.value;
-      _pokedex = newPokemons;
-      _offset += newPokemons.length;
-      _hasMore = newPokemons.length == _pageSize;
+      final result = await _pokedexRepository.get(limit: _pageSize, offset: _offset);
+
+      switch (result) {
+        case Ok<List<PokemonSummary>>():
+          final newPokemons = result.value;
+          _pokedex = newPokemons;
+          _offset += newPokemons.length;
+          _hasMore = newPokemons.length == _pageSize;
+          _log.fine('Pokemons iniciais carregados com sucesso!');
+          return Result.ok(result.value);
+        default:
+          return result;
+      }
+    } on Exception catch (error, stacktrace) {
+      _log.warning('Falha ao carregar os pokemons iniciais:', error, stacktrace);
+      return Result.error(error);
+    } finally {
       notifyListeners();
     }
-    return result;
   }
 
-  Future<Result<List<Pokemon>>> _loadMore() async {
-    if (load.running || !_hasMore) {
-      return Result.ok([]);
-    }
+  Future<Result<List<PokemonSummary>>> _loadMore() async {
+    try {
+      if (load.running || !_hasMore) {
+        return Result.ok([]);
+      }
 
-    final result = await _pokedexRepository.get(limit: _pageSize, offset: _offset);
+      final result = await _pokedexRepository.get(limit: _pageSize, offset: _offset);
 
-    if (result is Ok<List<Pokemon>>) {
-      final newPokemons = result.value;
-      _pokedex.addAll(newPokemons);
-      _offset += newPokemons.length;
-      _hasMore = newPokemons.length == _pageSize;
+      switch (result) {
+        case Ok<List<PokemonSummary>>():
+          final newPokemons = result.value;
+          _pokedex.addAll(newPokemons);
+          _offset += newPokemons.length;
+          _hasMore = newPokemons.length == _pageSize;
+          _log.fine('Mais pokémons carregados com sucesso!');
+          break;
+        case Error():
+          _log.warning('Falha ao carregar mais pokémons:', result.error);
+          break;
+      }
+      return result;
+    } on Exception catch (error, stacktrace) {
+      _log.warning('Falha ao carregar mais pokémons:', error, stacktrace);
+      return Result.error(error);
+    } finally {
       notifyListeners();
     }
-    return result;
   }
 }

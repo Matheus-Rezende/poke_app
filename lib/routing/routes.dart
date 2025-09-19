@@ -1,5 +1,5 @@
 abstract final class Routes {
   static const String splash = '/';
-  static const String menu = '/menu';
-  // static String todoDetails(String id) => '$todos/$id';
+  static const String home = '/home';
+  static String pokemonDetails(String pokemonName) => '$home/$pokemonName';
 }

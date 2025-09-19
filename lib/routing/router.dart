@@ -1,7 +1,9 @@
 import 'package:go_router/go_router.dart';
 import 'package:poke_app/routing/routes.dart';
-import 'package:poke_app/ui/menu/widgets/menu_screen.dart';
+import 'package:poke_app/ui/home/widgets/home_screen.dart';
 import 'package:poke_app/ui/pokedex/viewmodels/pokedex_viewmodel.dart';
+import 'package:poke_app/ui/pokemon_details/viewmodels/pokemon_details_viewmodel.dart';
+import 'package:poke_app/ui/pokemon_details/widgets/pokemon_details_screen.dart';
 import 'package:poke_app/ui/splash/widgets/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -10,33 +12,25 @@ GoRouter routerConfig() {
     routes: [
       GoRoute(path: Routes.splash, builder: (context, state) => const SplashScreen()),
       GoRoute(
-        path: Routes.menu,
-        builder: (context, state) =>
-            MenuScreen(pokedexViewmodel: PokedexViewmodel(pokedexRepository: context.read())),
-      ),
+        path: Routes.home,
+        builder: (context, state) {
+          return HomeScreen(pokedexViewmodel: PokedexViewmodel(pokedexRepository: context.read()));
+        },
+        routes: [
+          GoRoute(
+            path: ':pokemonName',
+            builder: (context, state) {
+              final pokemonName = state.pathParameters['pokemonName']!;
+              final PokemonDetailsViewmodel pokemonDetailsViewmodel = PokemonDetailsViewmodel(
+                pokedexRepository: context.read(),
+              );
+              pokemonDetailsViewmodel.load.execute(pokemonName);
 
-      // GoRoute(
-      //   path: Routes.todos,
-      //   builder: (context, state) {
-      //     return TodoScreen(
-      //       todoViewmodel: TodoViewmodel(todosRepository: context.read(), todoUpdateUseCase: context.read()),
-      //     );
-      //   },
-      //   routes: [
-      //     GoRoute(
-      //       path: ':id',
-      //       builder: (context, state) {
-      //         final todoId = state.pathParameters['id']!;
-      //         final TodoDetailsViewmodel todoDetailsViewmodel = TodoDetailsViewmodel(
-      //           todosRepository: context.read(),
-      //           todoUpdateUsecase: context.read(),
-      //         );
-      //         todoDetailsViewmodel.load.execute(todoId);
-      //         return TodoDetailsScreen(todoDetailsViewmodel: todoDetailsViewmodel);
-      //       },
-      //     ),
-      //   ],
-      // ),
+              return PokemonDetailsScreen(pokemonDetailsViewmodel: pokemonDetailsViewmodel);
+            },
+          ),
+        ],
+      ),
     ],
   );
 }
