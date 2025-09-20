@@ -6,7 +6,7 @@ import 'package:poke_app/ui/core/widgets/pokemon_message.dart';
 import 'package:poke_app/ui/pokemon_details/viewmodels/pokemon_details_viewmodel.dart';
 import 'package:poke_app/ui/pokemon_details/widgets/pokemon_details_description.dart';
 import 'package:poke_app/ui/pokemon_details/widgets/pokemon_details_header.dart';
-import 'package:poke_app/ui/pokemon_details/widgets/pokemon_species_list.dart';
+import 'package:poke_app/ui/pokemon_details/widgets/pokemon_species_characteristics.dart';
 
 class PokemonDetailsScreen extends StatelessWidget {
   final PokemonDetailsViewmodel pokemonDetailsViewmodel;
@@ -58,7 +58,7 @@ class PokemonDetailsScreen extends StatelessWidget {
                   PokemonDetailsDescription(
                     description: pokemonDetailsViewmodel.pokemon.description,
                   ),
-                  PokemonSpeciesList(pokemonDetailsViewmodel: pokemonDetailsViewmodel),
+                  PokemonSpeciesCharacteristics(pokemonDetailsViewmodel: pokemonDetailsViewmodel),
                 ],
               ),
             );

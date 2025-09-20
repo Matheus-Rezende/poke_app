@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:poke_app/ui/core/themes/colors.dart';
 
-class PokemonSpeciesCard extends StatelessWidget {
+class PokemonSpeciesCharacteristicCard extends StatelessWidget {
   final String iconPath;
   final String title;
   final String information;
-  const PokemonSpeciesCard({
+  const PokemonSpeciesCharacteristicCard({
     super.key,
     required this.iconPath,
     required this.title,

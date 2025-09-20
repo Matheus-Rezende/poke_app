@@ -18,25 +18,23 @@ class PokemonDetailsViewmodel extends ChangeNotifier {
   late PokemonDetail _pokemon;
   PokemonDetail get pokemon => _pokemon;
 
-  /// Retorna a altura formatada em metros (m), usando vírgula como separador decimal.
   String get formattedHeight {
-    final heightAsString = pokemon.height.toStringAsFixed(1);
+    final heightToDouble = pokemon.height / 10.0;
+    final heightAsString = heightToDouble.toStringAsFixed(1);
     return '${heightAsString.replaceAll('.', ',')} m';
   }
 
-  /// Retorna o peso formatado em quilogramas (kg), usando vírgula.
   String get formattedWeight {
-    final weightAsString = pokemon.weight.toStringAsFixed(1);
+    final weightToDouble = pokemon.weight / 10.0;
+    final weightAsString = weightToDouble.toStringAsFixed(1);
     return '${weightAsString.replaceAll('.', ',')} kg';
   }
 
-  /// Retorna apenas a primeira palavra da categoria (ex: "Seed Pokémon" -> "Seed").
   String get formattedCategory {
     if (pokemon.category.isEmpty) return 'Desconhecida';
     return pokemon.category.split(' ').first;
   }
 
-  /// Retorna a primeira habilidade da lista.
   String get firstAbility {
     if (pokemon.abilities.isEmpty) return 'Nenhuma';
     return pokemon.abilities.first.toCapitalized;

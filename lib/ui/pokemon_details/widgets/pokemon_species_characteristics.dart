@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:poke_app/ui/pokemon_details/viewmodels/pokemon_details_viewmodel.dart';
-import 'package:poke_app/ui/pokemon_details/widgets/pokemon_species_card.dart';
+import 'package:poke_app/ui/pokemon_details/widgets/pokemon_species_characteristic_card.dart';
 
-class PokemonSpeciesList extends StatelessWidget {
+class PokemonSpeciesCharacteristics extends StatelessWidget {
   final PokemonDetailsViewmodel pokemonDetailsViewmodel;
 
-  const PokemonSpeciesList({super.key, required this.pokemonDetailsViewmodel});
+  const PokemonSpeciesCharacteristics({super.key, required this.pokemonDetailsViewmodel});
 
   @override
   Widget build(BuildContext context) {
@@ -19,22 +19,22 @@ class PokemonSpeciesList extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         childAspectRatio: 2.0,
         children: [
-          PokemonSpeciesCard(
+          PokemonSpeciesCharacteristicCard(
             iconPath: 'assets/icons/svg/pokemon_species/weight_icon.svg',
             title: 'peso',
             information: pokemonDetailsViewmodel.formattedWeight,
           ),
-          PokemonSpeciesCard(
+          PokemonSpeciesCharacteristicCard(
             iconPath: 'assets/icons/svg/pokemon_species/height_icon.svg',
             title: 'altura',
             information: pokemonDetailsViewmodel.formattedHeight,
           ),
-          PokemonSpeciesCard(
+          PokemonSpeciesCharacteristicCard(
             iconPath: 'assets/icons/svg/pokemon_species/category_icon.svg',
             title: 'categoria',
             information: pokemonDetailsViewmodel.formattedCategory,
           ),
-          PokemonSpeciesCard(
+          PokemonSpeciesCharacteristicCard(
             iconPath: 'assets/icons/svg/pokemon_species/ability_icon.svg',
             title: 'habilidade',
             information: pokemonDetailsViewmodel.firstAbility,

@@ -5,8 +5,8 @@ class PokemonDetail {
   final String animatedImage;
   final String sound;
   final String description;
-  final double height;
-  final double weight;
+  final int height;
+  final int weight;
   final String category;
 
   final List<String> abilities;
@@ -63,10 +63,9 @@ class PokemonDetail {
       animatedImage: json['sprites']?['other']?['showdown']?['front_default'] ?? '',
       sound: json['cries']?['latest'] ?? '',
       description: parsedDescription,
-      height: (json['height'] as int? ?? 0) / 10.0,
-      weight: (json['weight'] as int? ?? 0) / 10.0,
+      height: json['height'] ?? 0,
+      weight: json['weight'] ?? 0,
       category: parsedCategory,
-
       abilities: abilitiesList,
     );
   }
