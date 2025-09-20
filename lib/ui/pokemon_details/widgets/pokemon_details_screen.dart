@@ -4,7 +4,9 @@ import 'package:poke_app/ui/core/widgets/buttons/custom_button.dart';
 import 'package:poke_app/ui/core/widgets/pokeball_loading.dart';
 import 'package:poke_app/ui/core/widgets/pokemon_message.dart';
 import 'package:poke_app/ui/pokemon_details/viewmodels/pokemon_details_viewmodel.dart';
+import 'package:poke_app/ui/pokemon_details/widgets/pokemon_details_description.dart';
 import 'package:poke_app/ui/pokemon_details/widgets/pokemon_details_header.dart';
+import 'package:poke_app/ui/pokemon_details/widgets/pokemon_species_list.dart';
 
 class PokemonDetailsScreen extends StatelessWidget {
   final PokemonDetailsViewmodel pokemonDetailsViewmodel;
@@ -50,7 +52,14 @@ class PokemonDetailsScreen extends StatelessWidget {
           builder: (context, child) {
             return SingleChildScrollView(
               child: Column(
-                children: [PokemonDetailsHeader(pokemon: pokemonDetailsViewmodel.pokemon)],
+                spacing: 16.0,
+                children: [
+                  PokemonDetailsHeader(pokemon: pokemonDetailsViewmodel.pokemon),
+                  PokemonDetailsDescription(
+                    description: pokemonDetailsViewmodel.pokemon.description,
+                  ),
+                  PokemonSpeciesList(pokemonDetailsViewmodel: pokemonDetailsViewmodel),
+                ],
               ),
             );
           },

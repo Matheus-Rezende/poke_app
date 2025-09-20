@@ -18,13 +18,13 @@ GoRouter routerConfig() {
         },
         routes: [
           GoRoute(
-            path: ':pokemonName',
+            path: ':pokemonId',
             builder: (context, state) {
-              final pokemonName = state.pathParameters['pokemonName']!;
+              final pokemonId = state.pathParameters['pokemonId']!;
               final PokemonDetailsViewmodel pokemonDetailsViewmodel = PokemonDetailsViewmodel(
                 pokedexRepository: context.read(),
               );
-              pokemonDetailsViewmodel.load.execute(pokemonName);
+              pokemonDetailsViewmodel.load.execute(int.parse(pokemonId));
 
               return PokemonDetailsScreen(pokemonDetailsViewmodel: pokemonDetailsViewmodel);
             },

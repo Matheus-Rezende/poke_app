@@ -11,17 +11,27 @@ class PokedexRepositoryDev implements PokedexRepository {
       name: 'bulbasaur',
       image:
           'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png',
+
       types: ['grass', 'poison'],
     ),
   );
 
-  final PokemonDetail _pokemonDetail = PokemonDetail(
-    id: 1,
-    name: 'bulbasaur',
-    types: ['grass', 'poison'],
-    animatedGif:
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/1.gif',
-    sound: 'https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/1.ogg',
+  final List<PokemonDetail> _pokemonsDetail = List.generate(
+    40,
+    (index) => PokemonDetail(
+      id: index + 1,
+      name: 'bulbasaur',
+      description: 'Teste descrição',
+      animatedImage:
+          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${index + 1}.gif',
+      sound:
+          'https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${index + 1}.ogg',
+      types: ['grass', 'poison'],
+      height: 4,
+      weight: 60,
+      abilities: ['static', 'lightning-rod'],
+      category: 'Mouse Pokémon',
+    ),
   );
 
   @override
@@ -41,10 +51,11 @@ class PokedexRepositoryDev implements PokedexRepository {
   }
 
   @override
-  Future<Result<PokemonDetail>> getPokemonByName(String name) async {
+  Future<Result<PokemonDetail>> getPokemonDetailById(int id) async {
     try {
       await Future.delayed(const Duration(seconds: 1));
-      return Result.ok(_pokemonDetail);
+      final pokemonDetail = _pokemonsDetail.where((pokemon) => pokemon.id == id).first;
+      return Result.ok(pokemonDetail);
     } on Exception catch (e) {
       return Result.error(e);
     }

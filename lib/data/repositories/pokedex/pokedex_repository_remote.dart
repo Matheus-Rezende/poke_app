@@ -26,9 +26,9 @@ class PokedexRepositoryRemote implements PokedexRepository {
   }
 
   @override
-  Future<Result<PokemonDetail>> getPokemonByName(String name) async {
+  Future<Result<PokemonDetail>> getPokemonDetailById(int id) async {
     try {
-      final result = await _apiClient.getPokemonByName(name);
+      final result = await _apiClient.getPokemonDetailById(id);
 
       switch (result) {
         case Ok<PokemonDetail>():

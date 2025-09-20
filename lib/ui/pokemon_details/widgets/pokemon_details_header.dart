@@ -88,7 +88,7 @@ class _PokemonDetailsHeaderState extends State<PokemonDetailsHeader> {
                   onTap: () => _playPokemonAudio(widget.pokemon.sound),
                   splashColor: Colors.transparent,
                   child: CachedNetworkImage(
-                    imageUrl: widget.pokemon.animatedGif,
+                    imageUrl: widget.pokemon.animatedImage,
                     height: 154.0,
                     filterQuality: FilterQuality.none,
                     fit: BoxFit.fill,
