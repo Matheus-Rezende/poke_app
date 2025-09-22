@@ -8,8 +8,9 @@ class PokemonDetail {
   final int height;
   final int weight;
   final String category;
-
   final List<String> abilities;
+  final int genderRate;
+  final List<String> weaknesses;
 
   PokemonDetail({
     required this.id,
@@ -22,6 +23,8 @@ class PokemonDetail {
     required this.weight,
     required this.category,
     required this.abilities,
+    required this.genderRate,
+    required this.weaknesses,
   });
 
   factory PokemonDetail.fromJson(Map<String, dynamic> json) {
@@ -31,25 +34,23 @@ class PokemonDetail {
 
     String parsedDescription = 'Nenhuma descrição encontrada.';
     String parsedCategory = 'Desconhecida';
+    int parsedGenderRate = -1;
 
     if (json['species_data'] != null) {
       final speciesJson = json['species_data'];
-
       final descriptionEntries = (speciesJson['flavor_text_entries'] as List)
           .where((entry) => entry['language']['name'] == 'en')
           .toList();
       if (descriptionEntries.isNotEmpty) {
-        parsedDescription = (descriptionEntries.first['flavor_text'] as String)
-            .replaceAll('\n', ' ')
-            .replaceAll('\f', ' ');
+        parsedDescription = descriptionEntries.first['flavor_text'] as String;
       }
-
       final generaEntries = (speciesJson['genera'] as List)
           .where((entry) => entry['language']['name'] == 'en')
           .toList();
       if (generaEntries.isNotEmpty) {
         parsedCategory = generaEntries.first['genus'] as String;
       }
+      parsedGenderRate = speciesJson['gender_rate'] as int? ?? -1;
     }
 
     final List<String> abilitiesList = (json['abilities'] as List)
@@ -67,6 +68,8 @@ class PokemonDetail {
       weight: json['weight'] ?? 0,
       category: parsedCategory,
       abilities: abilitiesList,
+      genderRate: parsedGenderRate,
+      weaknesses: (json['weaknesses_data'] as List?)?.cast<String>() ?? [],
     );
   }
 }

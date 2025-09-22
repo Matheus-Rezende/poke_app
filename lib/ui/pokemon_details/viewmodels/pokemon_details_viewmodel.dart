@@ -18,6 +18,14 @@ class PokemonDetailsViewmodel extends ChangeNotifier {
   late PokemonDetail _pokemon;
   PokemonDetail get pokemon => _pokemon;
 
+  String get formattedNumber {
+    return 'N°${pokemon.id.toString().padLeft(3, '0')}';
+  }
+
+  String get formattedDescription {
+    return pokemon.description.replaceAll('\n', ' ').replaceAll('\f', ' ');
+  }
+
   String get formattedHeight {
     final heightToDouble = pokemon.height / 10.0;
     final heightAsString = heightToDouble.toStringAsFixed(1);
@@ -39,6 +47,19 @@ class PokemonDetailsViewmodel extends ChangeNotifier {
     if (pokemon.abilities.isEmpty) return 'Nenhuma';
     return pokemon.abilities.first.toCapitalized;
   }
+
+  double get femalePercentage {
+    final femaleRate = (pokemon.genderRate / 8.0) * 100.0;
+    return femaleRate;
+  }
+
+  double get malePercentage {
+    final femaleRate = (pokemon.genderRate / 8.0) * 100.0;
+    final maleRate = 100.0 - femaleRate;
+    return maleRate;
+  }
+
+  bool get isGenderUnknown => pokemon.genderRate == -1;
 
   Future<Result<PokemonDetail>> _load(int pokemonId) async {
     try {

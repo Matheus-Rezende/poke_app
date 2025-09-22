@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:poke_app/ui/core/themes/colors.dart';
 
 class PokemonSpeciesCharacteristicCard extends StatelessWidget {
   final String iconPath;
@@ -26,9 +25,18 @@ class PokemonSpeciesCharacteristicCard extends StatelessWidget {
               iconPath,
               height: 12.0,
               width: 12.0,
-              colorFilter: ColorFilter.mode(AppColors.grey66, BlendMode.srcIn),
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).colorScheme.secondary,
+                BlendMode.srcIn,
+              ),
             ),
-            Text(title.toUpperCase(), style: Theme.of(context).textTheme.bodySmall),
+            Text(
+              title.toUpperCase(),
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            ),
           ],
         ),
         Container(
@@ -36,11 +44,16 @@ class PokemonSpeciesCharacteristicCard extends StatelessWidget {
           constraints: BoxConstraints(minWidth: 154.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
-            border: Border.all(width: 1, color: AppColors.grey66),
+            border: Border.all(width: 1, color: Theme.of(context).colorScheme.secondary),
           ),
           child: Center(
             child: FittedBox(
-              child: Text(information, style: Theme.of(context).textTheme.bodyMedium),
+              child: Text(
+                information,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500),
+              ),
             ),
           ),
         ),

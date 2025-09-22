@@ -34,12 +34,16 @@ abstract final class AppColors {
   static const pokemonPoisonColor = Color(0xFFB567CE);
   static const pokemonFlyingColor = Color(0xFF89AAE3);
 
+  // POKEMON GENDER
+  static const pokemonMale = Color(0xFF2551C3);
+  static const pokemonFemale = Color(0xFFFF7596);
+
   // COLORS THEME
   static const lightColorScheme = ColorScheme(
     brightness: Brightness.light,
     primary: AppColors.black1,
     onPrimary: AppColors.grey4,
-    secondary: AppColors.black1,
+    secondary: AppColors.grey66,
     onSecondary: AppColors.white2,
     surface: Colors.white,
     onSurface: AppColors.black1,

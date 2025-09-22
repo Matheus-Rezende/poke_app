@@ -4,17 +4,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:logging/logging.dart';
-import 'package:poke_app/domain/models/pokemon/pokemon_detail.dart';
 import 'package:poke_app/ui/core/themes/colors.dart';
 import 'package:poke_app/ui/core/widgets/clippers/bottom_circular_clipper.dart';
 import 'package:poke_app/ui/core/widgets/pokemon_cards/pokemon_type_badge.dart';
 import 'package:poke_app/ui/core/widgets/pokemon_type/pokemon_type_colors.dart';
 import 'package:poke_app/ui/core/widgets/pokemon_type/pokemon_type_transparency_icons.dart';
+import 'package:poke_app/ui/pokemon_details/viewmodels/pokemon_details_viewmodel.dart';
 import 'package:poke_app/utils/extensions/string_casting_extension.dart';
 
 class PokemonDetailsHeader extends StatefulWidget {
-  final PokemonDetail pokemon;
-  const PokemonDetailsHeader({super.key, required this.pokemon});
+  final PokemonDetailsViewmodel pokemonDetailsViewmodel;
+  const PokemonDetailsHeader({super.key, required this.pokemonDetailsViewmodel});
 
   @override
   State<PokemonDetailsHeader> createState() => _PokemonDetailsHeaderState();
@@ -26,7 +26,7 @@ class _PokemonDetailsHeaderState extends State<PokemonDetailsHeader> {
   @override
   void initState() {
     super.initState();
-    _playPokemonAudio(widget.pokemon.sound);
+    _playPokemonAudio(widget.pokemonDetailsViewmodel.pokemon.sound);
   }
 
   @override
@@ -43,10 +43,15 @@ class _PokemonDetailsHeaderState extends State<PokemonDetailsHeader> {
                   clipper: BottomCircularClipper(),
                   child: Container(
                     height: 307.0,
-                    color: pokemonTypeColors[widget.pokemon.types[0]]!.withValues(alpha: 0.8),
+                    color: pokemonTypeColors[widget.pokemonDetailsViewmodel.pokemon.types[0]]!
+                        .withValues(alpha: 0.8),
                     child: Center(
                       child: SvgPicture.asset(
-                        pokemonTypeTransparencyIcons[widget.pokemon.types[0]] ?? '',
+                        pokemonTypeTransparencyIcons[widget
+                                .pokemonDetailsViewmodel
+                                .pokemon
+                                .types[0]] ??
+                            '',
                         height: 200.0,
                         width: 200.0,
                       ),
@@ -85,10 +90,10 @@ class _PokemonDetailsHeaderState extends State<PokemonDetailsHeader> {
               child: Align(
                 alignment: Alignment.center,
                 child: InkWell(
-                  onTap: () => _playPokemonAudio(widget.pokemon.sound),
+                  onTap: () => _playPokemonAudio(widget.pokemonDetailsViewmodel.pokemon.sound),
                   splashColor: Colors.transparent,
                   child: CachedNetworkImage(
-                    imageUrl: widget.pokemon.animatedImage,
+                    imageUrl: widget.pokemonDetailsViewmodel.pokemon.animatedImage,
                     height: 154.0,
                     filterQuality: FilterQuality.none,
                     fit: BoxFit.fill,
@@ -136,14 +141,14 @@ class _PokemonDetailsHeaderState extends State<PokemonDetailsHeader> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(
-                widget.pokemon.name.toCapitalized,
+                widget.pokemonDetailsViewmodel.pokemon.name.toCapitalized,
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
             ),
             Padding(
               padding: EdgeInsetsGeometry.symmetric(horizontal: 12.0),
               child: Text(
-                'N°${widget.pokemon.id.toString().padLeft(3, '0')}',
+                widget.pokemonDetailsViewmodel.formattedNumber,
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
                   color: Theme.of(context).colorScheme.onPrimary,
                   fontWeight: FontWeight.w500,
@@ -158,7 +163,9 @@ class _PokemonDetailsHeaderState extends State<PokemonDetailsHeader> {
           child: Wrap(
             spacing: 6.0,
             runSpacing: 4.0,
-            children: widget.pokemon.types.map((type) => PokemonTypeBadge(type: type)).toList(),
+            children: widget.pokemonDetailsViewmodel.pokemon.types
+                .map((type) => PokemonTypeBadge(type: type))
+                .toList(),
           ),
         ),
       ],

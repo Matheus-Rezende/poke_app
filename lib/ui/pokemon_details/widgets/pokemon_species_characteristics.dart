@@ -16,7 +16,8 @@ class PokemonSpeciesCharacteristics extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 16.0,
         mainAxisSpacing: 0.0,
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        physics: NeverScrollableScrollPhysics(),
+        padding: const EdgeInsets.symmetric(vertical: 0.0),
         childAspectRatio: 2.0,
         children: [
           PokemonSpeciesCharacteristicCard(

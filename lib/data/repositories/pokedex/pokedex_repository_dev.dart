@@ -31,6 +31,8 @@ class PokedexRepositoryDev implements PokedexRepository {
       weight: 60,
       abilities: ['static', 'lightning-rod'],
       category: 'Mouse Pokémon',
+      genderRate: 0,
+      weaknesses: ['fire', 'ice'],
     ),
   );
 
