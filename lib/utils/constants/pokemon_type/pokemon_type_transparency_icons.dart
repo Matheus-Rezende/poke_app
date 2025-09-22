@@ -1,4 +1,4 @@
-Map<String, String> pokemonTypeTransparencyIcons = {
+const Map<String, String> pokemonTypeTransparencyIcons = {
   "normal": 'assets/icons/svg/pokemons/elements_with_transparency/normal_element.svg',
   "fighting": 'assets/icons/svg/pokemons/elements_with_transparency/fighting_element.svg',
   "flying": 'assets/icons/svg/pokemons/elements_with_transparency/flying_element.svg',

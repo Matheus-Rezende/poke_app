@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poke_app/ui/core/themes/colors.dart';
 
-Map<String, Color> pokemonTypeColors = {
+const Map<String, Color> pokemonTypeColors = {
   "normal": AppColors.pokemonNormalColor,
   "fighting": AppColors.pokemonFightingColor,
   "flying": AppColors.pokemonFlyingColor,

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:poke_app/ui/core/themes/colors.dart';
 import 'package:poke_app/ui/core/widgets/pokeball_loading.dart';
-import 'package:poke_app/ui/core/widgets/pokemon_type/pokemon_type_colors.dart';
-import 'package:poke_app/ui/core/widgets/pokemon_type/pokemon_type_transparency_icons.dart';
+import 'package:poke_app/utils/constants/pokemon_type/pokemon_type_colors.dart';
+import 'package:poke_app/utils/constants/pokemon_type/pokemon_type_transparency_icons.dart';
 import 'package:poke_app/ui/core/widgets/pokemon_cards/pokemon_type_badge.dart';
 import 'package:poke_app/utils/extensions/string_casting_extension.dart';
 

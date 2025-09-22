@@ -1,4 +1,4 @@
-Map<String, String> pokemonTypeIcons = {
+const Map<String, String> pokemonTypeIcons = {
   "normal": 'assets/icons/svg/pokemons/elements/normal_element.svg',
   "fighting": 'assets/icons/svg/pokemons/elements/fighting_element.svg',
   "flying": 'assets/icons/svg/pokemons/elements/flying_element.svg',
