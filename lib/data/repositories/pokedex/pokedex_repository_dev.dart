@@ -1,4 +1,5 @@
 import 'package:poke_app/data/repositories/pokedex/pokedex_repository.dart';
+import 'package:poke_app/domain/models/pokemon/evolution_step.dart';
 import 'package:poke_app/domain/models/pokemon/pokemon_detail.dart';
 import 'package:poke_app/domain/models/pokemon/pokemon_summary.dart';
 import 'package:poke_app/utils/result/result.dart';
@@ -33,6 +34,15 @@ class PokedexRepositoryDev implements PokedexRepository {
       category: 'Mouse Pokémon',
       genderRate: 0,
       weaknesses: ['fire', 'ice'],
+      evolutionChain: [
+        EvolutionStep(
+          number: 'N°${1.toString().padLeft(3, '0')}',
+          name: 'Bulbasaur',
+          image:
+              'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/2.png',
+          types: ['ice', 'fire'],
+        ),
+      ],
     ),
   );
 
@@ -53,10 +63,10 @@ class PokedexRepositoryDev implements PokedexRepository {
   }
 
   @override
-  Future<Result<PokemonDetail>> getPokemonDetailById(int id) async {
+  Future<Result<PokemonDetail>> getPokemonDetailById(String id) async {
     try {
       await Future.delayed(const Duration(seconds: 1));
-      final pokemonDetail = _pokemonsDetail.where((pokemon) => pokemon.id == id).first;
+      final pokemonDetail = _pokemonsDetail.where((pokemon) => pokemon.id.toString() == id).first;
       return Result.ok(pokemonDetail);
     } on Exception catch (e) {
       return Result.error(e);

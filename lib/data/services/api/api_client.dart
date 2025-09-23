@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:poke_app/domain/helpers/evolution_formatter.dart';
+import 'package:poke_app/domain/models/pokemon/evolution_step.dart';
 import 'package:poke_app/domain/models/pokemon/pokemon_detail.dart';
 import 'package:poke_app/domain/models/pokemon/pokemon_summary.dart';
 import 'package:poke_app/utils/result/result.dart';
@@ -73,13 +75,79 @@ class ApiClient {
         _typeWeaknessCache[typeName] = weaknesses;
         return weaknesses;
       }
-    } on Exception catch (error) {
+    } catch (error) {
       print('Erro ao buscar fraquezas para o tipo $typeName: $error');
     }
     return [];
   }
 
-  Future<Result<PokemonDetail>> getPokemonDetailById(int id) async {
+  Future<List<EvolutionStep>> _fetchEvolutionChain(String chainUrl) async {
+    final client = _clientHttpFactory;
+    try {
+      final chainResponse = await client.get(Uri.parse(chainUrl));
+      if (chainResponse.statusCode != 200) return [];
+      final chainJson = jsonDecode(chainResponse.body);
+      var currentLink = chainJson['chain'];
+      final List<Map<String, dynamic>> evoData = [];
+
+      while (currentLink != null && currentLink.isNotEmpty) {
+        final species = currentLink['species'];
+        final urlParts = (species['url'] as String).split('/');
+        final id = int.parse(urlParts[urlParts.length - 2]);
+        String? trigger;
+        if (currentLink['evolution_details'] != null &&
+            (currentLink['evolution_details'] as List).isNotEmpty) {
+          trigger = formatEvolutionTrigger(currentLink['evolution_details'][0]);
+        }
+        evoData.add({'id': id, 'name': species['name'], 'trigger': trigger});
+        currentLink = (currentLink['evolves_to'] as List).isNotEmpty
+            ? currentLink['evolves_to'][0]
+            : null;
+      }
+
+      final detailFutures = evoData.map((data) async {
+        final detailUrl = Uri.https(_baseUrl, '/api/v2/pokemon/${data['id']}');
+        final response = await client.get(detailUrl);
+        if (response.statusCode == 200) {
+          final json = jsonDecode(response.body);
+
+          // MUDANÇA: Agora também extraímos a lista de tipos.
+          final List<String> typesList = (json['types'] as List)
+              .map((typeInfo) => typeInfo['type']['name'] as String)
+              .toList();
+
+          return {
+            ...data,
+            'image':
+                json['sprites']?['versions']?['generation-viii']?['icons']?['front_default'] ?? '',
+            'types': typesList, // Adicionamos os tipos ao mapa de retorno
+          };
+        }
+        return data
+          ..['image'] = ''
+          ..['types'] = <String>[];
+      }).toList();
+
+      final detailedEvoData = await Future.wait(detailFutures);
+
+      return detailedEvoData
+          .map(
+            (data) => EvolutionStep(
+              number: 'N°${data['id'].toString().padLeft(3, '0')}',
+              name: data['name'],
+              image: data['image'],
+              types: data['types'],
+              triggerDescription: data['trigger'],
+            ),
+          )
+          .toList();
+    } catch (e) {
+      print('Erro ao buscar cadeia de evolução: $e');
+      return [];
+    }
+  }
+
+  Future<Result<PokemonDetail>> getPokemonDetailById(String id) async {
     final client = _clientHttpFactory;
     try {
       final pokemonUrl = Uri.https(_baseUrl, '/api/v2/pokemon/$id');
@@ -100,19 +168,24 @@ class ApiClient {
           ? jsonDecode(primaryResponses[1].body) as Map<String, dynamic>
           : null;
 
-      final List<String> types = (pokemonJson['types'] as List)
+      final types = (pokemonJson['types'] as List)
           .map((typeInfo) => typeInfo['type']['name'] as String)
           .toList();
-
       final weaknessFutures = types.map((typeName) => _getTypeWeaknesses(typeName)).toList();
-      final weaknessesResults = await Future.wait(weaknessFutures);
 
+      List<EvolutionStep> evolutionChain = [];
+      if (speciesJson?['evolution_chain']?['url'] != null) {
+        evolutionChain = await _fetchEvolutionChain(speciesJson!['evolution_chain']['url']);
+      }
+
+      final weaknessesResults = await Future.wait(weaknessFutures);
       final uniqueWeaknesses = weaknessesResults.expand((list) => list).toSet().toList();
 
       final combinedJson = {
         ...pokemonJson,
         if (speciesJson != null) 'species_data': speciesJson,
         'weaknesses_data': uniqueWeaknesses,
+        'evolution_chain_data': evolutionChain,
       };
 
       final pokemon = PokemonDetail.fromJson(combinedJson);

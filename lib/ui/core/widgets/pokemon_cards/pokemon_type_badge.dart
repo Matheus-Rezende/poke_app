@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:poke_app/ui/core/themes/colors.dart';
 import 'package:poke_app/utils/constants/pokemon_type/pokemon_type_colors.dart';
 import 'package:poke_app/utils/constants/pokemon_type/pokemon_type_icons.dart';
 import 'package:poke_app/utils/extensions/string_casting_extension.dart';
@@ -37,7 +38,12 @@ class PokemonTypeBadge extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(color: typeColor, borderRadius: BorderRadius.circular(48.0)),
       child: isSimpleBadge
-          ? SvgPicture.asset(typeIcon, height: 9.0, width: 9.0)
+          ? SvgPicture.asset(
+              typeIcon,
+              height: 9.0,
+              width: 9.0,
+              colorFilter: ColorFilter.mode(AppColors.white1, BlendMode.srcIn),
+            )
           : Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: isContentCentralized

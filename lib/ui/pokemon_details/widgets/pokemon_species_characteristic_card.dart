@@ -32,7 +32,7 @@ class PokemonSpeciesCharacteristicCard extends StatelessWidget {
             ),
             Text(
               title.toUpperCase(),
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+              style: Theme.of(context).textTheme.labelSmall!.copyWith(
                 fontWeight: FontWeight.w600,
                 color: Theme.of(context).colorScheme.secondary,
               ),
@@ -44,7 +44,10 @@ class PokemonSpeciesCharacteristicCard extends StatelessWidget {
           constraints: BoxConstraints(minWidth: 154.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(15.0)),
-            border: Border.all(width: 1, color: Theme.of(context).colorScheme.secondary),
+            border: Border.all(
+              width: 1,
+              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+            ),
           ),
           child: Center(
             child: FittedBox(

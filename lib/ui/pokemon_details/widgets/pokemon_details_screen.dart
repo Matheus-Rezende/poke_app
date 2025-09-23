@@ -6,6 +6,7 @@ import 'package:poke_app/ui/core/widgets/pokemon_message.dart';
 import 'package:poke_app/ui/pokemon_details/viewmodels/pokemon_details_viewmodel.dart';
 import 'package:poke_app/ui/pokemon_details/widgets/pokemon_details_description.dart';
 import 'package:poke_app/ui/pokemon_details/widgets/pokemon_details_header.dart';
+import 'package:poke_app/ui/pokemon_details/widgets/pokemon_evolutions.dart';
 import 'package:poke_app/ui/pokemon_details/widgets/pokemon_gender_rate.dart';
 import 'package:poke_app/ui/pokemon_details/widgets/pokemon_species_characteristics.dart';
 import 'package:poke_app/ui/pokemon_details/widgets/pokemon_weaknesses.dart';
@@ -61,6 +62,7 @@ class PokemonDetailsScreen extends StatelessWidget {
                   PokemonSpeciesCharacteristics(pokemonDetailsViewmodel: pokemonDetailsViewmodel),
                   PokemonGenderRate(pokemonDetailsViewmodel: pokemonDetailsViewmodel),
                   PokemonWeaknesses(typeWeaknesses: pokemonDetailsViewmodel.pokemon.weaknesses),
+                  PokemonEvolutions(pokemonDetailsViewmodel: pokemonDetailsViewmodel),
                 ],
               ),
             );

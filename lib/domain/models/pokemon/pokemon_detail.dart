@@ -1,3 +1,5 @@
+import 'package:poke_app/domain/models/pokemon/evolution_step.dart';
+
 class PokemonDetail {
   final int id;
   final String name;
@@ -11,6 +13,7 @@ class PokemonDetail {
   final List<String> abilities;
   final int genderRate;
   final List<String> weaknesses;
+  final List<EvolutionStep> evolutionChain;
 
   PokemonDetail({
     required this.id,
@@ -25,6 +28,7 @@ class PokemonDetail {
     required this.abilities,
     required this.genderRate,
     required this.weaknesses,
+    required this.evolutionChain,
   });
 
   factory PokemonDetail.fromJson(Map<String, dynamic> json) {
@@ -70,6 +74,7 @@ class PokemonDetail {
       abilities: abilitiesList,
       genderRate: parsedGenderRate,
       weaknesses: (json['weaknesses_data'] as List?)?.cast<String>() ?? [],
+      evolutionChain: json['evolution_chain_data'] as List<EvolutionStep>? ?? [],
     );
   }
 }

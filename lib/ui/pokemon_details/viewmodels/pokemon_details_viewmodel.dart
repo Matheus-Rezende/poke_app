@@ -13,7 +13,7 @@ class PokemonDetailsViewmodel extends ChangeNotifier {
 
   final PokedexRepository _pokedexRepository;
 
-  late final Command1<PokemonDetail, int> load;
+  late final Command1<PokemonDetail, String> load;
 
   late PokemonDetail _pokemon;
   PokemonDetail get pokemon => _pokemon;
@@ -61,9 +61,9 @@ class PokemonDetailsViewmodel extends ChangeNotifier {
 
   bool get isGenderUnknown => pokemon.genderRate == -1;
 
-  Future<Result<PokemonDetail>> _load(int pokemonId) async {
+  Future<Result<PokemonDetail>> _load(String pokemon) async {
     try {
-      final result = await _pokedexRepository.getPokemonDetailById(pokemonId);
+      final result = await _pokedexRepository.getPokemonDetailById(pokemon);
       switch (result) {
         case Ok<PokemonDetail>():
           _pokemon = result.value;

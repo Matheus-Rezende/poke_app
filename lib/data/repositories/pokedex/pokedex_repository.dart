@@ -4,5 +4,5 @@ import 'package:poke_app/utils/result/result.dart';
 
 abstract class PokedexRepository {
   Future<Result<List<PokemonSummary>>> get({required int limit, required int offset});
-  Future<Result<PokemonDetail>> getPokemonDetailById(int id);
+  Future<Result<PokemonDetail>> getPokemonDetailById(String id);
 }
