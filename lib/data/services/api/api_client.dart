@@ -87,40 +87,42 @@ class ApiClient {
       final chainResponse = await client.get(Uri.parse(chainUrl));
       if (chainResponse.statusCode != 200) return [];
       final chainJson = jsonDecode(chainResponse.body);
-      var currentLink = chainJson['chain'];
+
       final List<Map<String, dynamic>> evoData = [];
 
-      while (currentLink != null && currentLink.isNotEmpty) {
-        final species = currentLink['species'];
+      void traverseChain(Map<String, dynamic> chainLink) {
+        final species = chainLink['species'];
         final urlParts = (species['url'] as String).split('/');
         final id = int.parse(urlParts[urlParts.length - 2]);
         String? trigger;
-        if (currentLink['evolution_details'] != null &&
-            (currentLink['evolution_details'] as List).isNotEmpty) {
-          trigger = formatEvolutionTrigger(currentLink['evolution_details'][0]);
+        if (chainLink['evolution_details'] != null &&
+            (chainLink['evolution_details'] as List).isNotEmpty) {
+          trigger = formatEvolutionTrigger(chainLink['evolution_details'][0]);
         }
         evoData.add({'id': id, 'name': species['name'], 'trigger': trigger});
-        currentLink = (currentLink['evolves_to'] as List).isNotEmpty
-            ? currentLink['evolves_to'][0]
-            : null;
+
+        if (chainLink['evolves_to'] != null && (chainLink['evolves_to'] as List).isNotEmpty) {
+          for (var nextLink in (chainLink['evolves_to'] as List)) {
+            traverseChain(nextLink);
+          }
+        }
       }
+
+      traverseChain(chainJson['chain']);
 
       final detailFutures = evoData.map((data) async {
         final detailUrl = Uri.https(_baseUrl, '/api/v2/pokemon/${data['id']}');
         final response = await client.get(detailUrl);
         if (response.statusCode == 200) {
           final json = jsonDecode(response.body);
-
-          // MUDANÇA: Agora também extraímos a lista de tipos.
           final List<String> typesList = (json['types'] as List)
               .map((typeInfo) => typeInfo['type']['name'] as String)
               .toList();
-
           return {
             ...data,
             'image':
                 json['sprites']?['versions']?['generation-viii']?['icons']?['front_default'] ?? '',
-            'types': typesList, // Adicionamos os tipos ao mapa de retorno
+            'types': typesList,
           };
         }
         return data
