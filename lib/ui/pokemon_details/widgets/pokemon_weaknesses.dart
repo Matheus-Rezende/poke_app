@@ -9,7 +9,7 @@ class PokemonWeaknesses extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 36.0),
+      padding: const EdgeInsets.all(12.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 12.0,
@@ -26,13 +26,7 @@ class PokemonWeaknesses extends StatelessWidget {
               crossAxisSpacing: 24.0,
             ),
             children: typeWeaknesses
-                .map(
-                  (type) => PokemonTypeBadge(
-                    type: type,
-                    isContentCentralized: true,
-                    //margin: const EdgeInsets.symmetric(horizontal: 0.0),
-                  ),
-                )
+                .map((type) => PokemonTypeBadge(type: type, isContentCentralized: true))
                 .toList(),
           ),
         ],

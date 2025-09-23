@@ -13,7 +13,7 @@ class PokemonEvolutions extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final bool isDarkTheme = theme.brightness == Brightness.dark;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 36.0),
+      padding: const EdgeInsets.all(12.0),
       child: Column(
         spacing: 8.0,
         crossAxisAlignment: CrossAxisAlignment.start,
