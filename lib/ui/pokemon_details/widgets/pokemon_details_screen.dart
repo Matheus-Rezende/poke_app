@@ -55,6 +55,7 @@ class PokemonDetailsScreen extends StatelessWidget {
           builder: (context, child) {
             return SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 16.0,
                 children: [
                   PokemonDetailsHeader(pokemonDetailsViewmodel: pokemonDetailsViewmodel),
