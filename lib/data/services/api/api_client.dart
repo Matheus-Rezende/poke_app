@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
 import 'package:poke_app/domain/helpers/evolution_formatter.dart';
 import 'package:poke_app/domain/models/pokemon/evolution_step.dart';
 import 'package:poke_app/domain/models/pokemon/pokemon_detail.dart';
@@ -16,6 +17,7 @@ class ApiClient {
   final String _baseUrl;
 
   final Map<String, List<String>> _typeWeaknessCache = {};
+  final _log = Logger('ApiClient');
 
   Future<Result<List<PokemonSummary>>> getPokemons({
     required int limit,
@@ -40,13 +42,14 @@ class ApiClient {
           final detailResponse = await client.get(detailUrl);
           if (detailResponse.statusCode == 200) {
             final detailJson = jsonDecode(detailResponse.body);
+            _log.fine('Detalhes do pokémon ${summary['name']} carregados com sucesso!');
             return PokemonSummary.fromJson(detailJson);
           } else {
+            _log.warning('Falha ao carregar detalhes para ${summary['name']}');
             return throw HttpException('Falha ao carregar detalhes para ${summary['name']}');
           }
         }).toList();
         final List<PokemonSummary> pokedex = await Future.wait(futuresPokemons, eagerError: true);
-
         return Result.ok(pokedex);
       } else {
         return Result.error(const HttpException('Falha ao carregar os pokémons.'));
@@ -76,7 +79,7 @@ class ApiClient {
         return weaknesses;
       }
     } catch (error) {
-      print('Erro ao buscar fraquezas para o tipo $typeName: $error');
+      _log.warning('Erro ao buscar fraquezas para o tipo $typeName: $error');
     }
     return [];
   }
@@ -85,9 +88,10 @@ class ApiClient {
     final client = _clientHttpFactory;
     try {
       final chainResponse = await client.get(Uri.parse(chainUrl));
-      if (chainResponse.statusCode != 200) return [];
-      final chainJson = jsonDecode(chainResponse.body);
 
+      if (chainResponse.statusCode != 200) return [];
+
+      final chainJson = jsonDecode(chainResponse.body);
       final List<Map<String, dynamic>> evoData = [];
 
       void traverseChain(Map<String, dynamic> chainLink) {
@@ -143,8 +147,8 @@ class ApiClient {
             ),
           )
           .toList();
-    } catch (e) {
-      print('Erro ao buscar cadeia de evolução: $e');
+    } catch (error) {
+      _log.warning('Erro ao buscar cadeia de evolução: $error');
       return [];
     }
   }

@@ -51,7 +51,7 @@ class PokemonEvolutions extends StatelessWidget {
                                 ),
                           PokemonEvolutionCard(
                             evolutionStep: evolutions[index],
-                            pokemonCurrentName: pokemonDetailsViewmodel.pokemon.name,
+                            pokemonCurrentNumber: pokemonDetailsViewmodel.formattedNumber,
                           ),
                           hasEvolutions
                               ? Row(

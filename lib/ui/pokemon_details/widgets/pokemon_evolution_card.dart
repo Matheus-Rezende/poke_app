@@ -15,11 +15,11 @@ import 'package:poke_app/utils/extensions/string_casting_extension.dart';
 
 class PokemonEvolutionCard extends StatelessWidget {
   final EvolutionStep evolutionStep;
-  final String pokemonCurrentName;
+  final String pokemonCurrentNumber;
   const PokemonEvolutionCard({
     super.key,
     required this.evolutionStep,
-    required this.pokemonCurrentName,
+    required this.pokemonCurrentNumber,
   });
 
   @override
@@ -27,10 +27,13 @@ class PokemonEvolutionCard extends StatelessWidget {
     final primaryType = evolutionStep.types.isNotEmpty ? evolutionStep.types[0] : 'normal';
     final primaryColor = pokemonTypeColors[primaryType] ?? Colors.grey;
     final primaryTypeIcon = pokemonTypeTransparencyIcons[primaryType] ?? '';
+    final pokemonNumberFormat = evolutionStep.number.replaceFirst('N°', '');
+    final pokemonNumberInt = int.parse(pokemonNumberFormat);
+
     return GestureDetector(
-      onTap: () => pokemonCurrentName == evolutionStep.name
+      onTap: () => pokemonCurrentNumber == evolutionStep.number
           ? null
-          : context.go(Routes.pokemonDetails(evolutionStep.name)),
+          : context.go(Routes.pokemonDetails(pokemonNumberInt.toString())),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(90.0),
