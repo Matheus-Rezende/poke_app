@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:poke_app/ui/core/themes/colors.dart';
+import 'package:poke_app/utils/assets/app_assets.dart';
 
 class BottomMenuItemData {
   final String selectedIconPath;
@@ -20,25 +21,25 @@ class CustomBottomMenu extends StatelessWidget {
 
   const CustomBottomMenu({super.key, required this.currentIndex, required this.onTap});
 
-  static const List<BottomMenuItemData> _menuItems = [
+  static final List<BottomMenuItemData> _menuItems = [
     BottomMenuItemData(
-      selectedIconPath: 'assets/icons/svg/bottom_menu/pokedex_filled.svg',
-      unselectedIconPath: 'assets/icons/svg/bottom_menu/pokedex.svg',
+      selectedIconPath: AppAssets.bottomMenu.pokedexFilled,
+      unselectedIconPath: AppAssets.bottomMenu.pokedex,
       label: 'Pokedéx',
     ),
     BottomMenuItemData(
-      selectedIconPath: 'assets/icons/svg/bottom_menu/regions_filled.svg',
-      unselectedIconPath: 'assets/icons/svg/bottom_menu/regions.svg',
+      selectedIconPath: AppAssets.bottomMenu.regionsFilled,
+      unselectedIconPath: AppAssets.bottomMenu.regions,
       label: 'Regiões',
     ),
     BottomMenuItemData(
-      selectedIconPath: 'assets/icons/svg/bottom_menu/favorites_filled.svg',
-      unselectedIconPath: 'assets/icons/svg/bottom_menu/favorites.svg',
+      selectedIconPath: AppAssets.bottomMenu.favoritesFilled,
+      unselectedIconPath: AppAssets.bottomMenu.favorites,
       label: 'Favoritos',
     ),
     BottomMenuItemData(
-      selectedIconPath: 'assets/icons/svg/bottom_menu/profile_filled.svg',
-      unselectedIconPath: 'assets/icons/svg/bottom_menu/profile.svg',
+      selectedIconPath: AppAssets.bottomMenu.profileFilled,
+      unselectedIconPath: AppAssets.bottomMenu.profile,
       label: 'Conta',
     ),
   ];

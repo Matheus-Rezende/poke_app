@@ -7,6 +7,8 @@ import 'package:logging/logging.dart';
 import 'package:poke_app/ui/core/themes/colors.dart';
 import 'package:poke_app/ui/core/widgets/clippers/bottom_circular_clipper.dart';
 import 'package:poke_app/ui/core/widgets/pokemon_cards/pokemon_type_badge.dart';
+import 'package:poke_app/ui/core/widgets/pokemon_error_image.dart';
+import 'package:poke_app/utils/assets/app_assets.dart';
 import 'package:poke_app/utils/constants/pokemon_type/pokemon_type_colors.dart';
 import 'package:poke_app/utils/constants/pokemon_type/pokemon_type_transparency_icons.dart';
 import 'package:poke_app/ui/pokemon_details/viewmodels/pokemon_details_viewmodel.dart';
@@ -75,7 +77,7 @@ class _PokemonDetailsHeaderState extends State<PokemonDetailsHeader> {
                     InkWell(
                       onTap: () {},
                       child: SvgPicture.asset(
-                        'assets/icons/svg/pokemons/favorite/favorite_icon.svg',
+                        AppAssets.pokemonFavorites.favorite,
                         // isPokemonFavorite
                         //     ? 'assets/icons/svg/pokemons/favorite/favorite_filled_icon.svg'
                         //     : 'assets/icons/svg/pokemons/favorite/favorite_icon.svg',
@@ -97,37 +99,13 @@ class _PokemonDetailsHeaderState extends State<PokemonDetailsHeader> {
                     height: 154.0,
                     filterQuality: FilterQuality.none,
                     fit: BoxFit.fill,
-                    placeholder: (_, __) => SvgPicture.asset(
-                      'assets/icons/svg/bottom_menu/pokedex_filled.svg',
-                      height: 40.0,
-                    ),
+                    placeholder: (_, __) =>
+                        SvgPicture.asset(AppAssets.general.pokeball, height: 40.0),
 
                     errorWidget: (_, __, ___) => Column(
                       spacing: 16.0,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/svg/bottom_menu/pokedex_filled.svg',
-                          height: 40.0,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(4.0),
-                          margin: EdgeInsets.symmetric(horizontal: 8.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                            color: AppColors.grey1.withValues(alpha: 0.6),
-                          ),
-                          child: Text(
-                            'Imagem não encontrada',
-                            style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.black1,
-                              fontSize: 11.0,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
+                      children: PokemonErrorImage.content(context),
                     ),
                   ),
                 ),

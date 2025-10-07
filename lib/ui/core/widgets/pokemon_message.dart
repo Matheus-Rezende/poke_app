@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poke_app/utils/assets/app_assets.dart';
 
 class PokemonMessage extends StatelessWidget {
   final String title;
@@ -47,7 +48,7 @@ class PokemonMessage extends StatelessWidget {
         spacing: 16.0,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset('assets/images/png/others/magikarp.png'),
+          Image.asset(AppAssets.general.magikarp),
           Text(
             title,
             textAlign: TextAlign.center,

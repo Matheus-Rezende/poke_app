@@ -1,4 +1,3 @@
-// MUDANÇA 1: Removido 'ChangeNotifier'. O repositório não gerencia estado da UI.
 import 'package:poke_app/data/repositories/pokedex/pokedex_repository.dart';
 import 'package:poke_app/data/services/api/api_client.dart';
 import 'package:poke_app/domain/models/pokemon/pokemon_detail.dart';

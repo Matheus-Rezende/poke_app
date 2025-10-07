@@ -9,6 +9,7 @@ import 'package:poke_app/routing/routes.dart';
 import 'package:poke_app/ui/core/themes/colors.dart';
 import 'package:poke_app/ui/core/widgets/pokeball_loading.dart';
 import 'package:poke_app/ui/core/widgets/pokemon_cards/pokemon_type_badge.dart';
+import 'package:poke_app/utils/assets/app_assets.dart';
 import 'package:poke_app/utils/constants/pokemon_type/pokemon_type_colors.dart';
 import 'package:poke_app/utils/constants/pokemon_type/pokemon_type_transparency_icons.dart';
 import 'package:poke_app/utils/extensions/string_casting_extension.dart';
@@ -91,9 +92,7 @@ class PokemonEvolutionCard extends StatelessWidget {
               placeholder: (_, __) => PokeballLoading(isSliverWidget: false),
               errorWidget: (_, __, ___) => Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset('assets/icons/svg/bottom_menu/pokedex_filled.svg', height: 40.0),
-                ],
+                children: [SvgPicture.asset(AppAssets.general.pokeball, height: 40.0)],
               ),
             ),
           ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:poke_app/utils/assets/app_assets.dart';
 
 class PokeballLoading extends StatefulWidget {
   final bool isSliverWidget;
@@ -40,10 +41,7 @@ class _PokeballLoadingState extends State<PokeballLoading> with TickerProviderSt
         child: Center(
           child: RotationTransition(
             turns: _animationLoading,
-            child: SvgPicture.asset(
-              'assets/icons/svg/bottom_menu/pokedex_filled.svg',
-              height: 40.0,
-            ),
+            child: SvgPicture.asset(AppAssets.general.pokeball, height: 40.0),
           ),
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poke_app/ui/pokemon_details/viewmodels/pokemon_details_viewmodel.dart';
 import 'package:poke_app/ui/pokemon_details/widgets/pokemon_species_characteristic_card.dart';
+import 'package:poke_app/utils/assets/app_assets.dart';
 
 class PokemonSpeciesCharacteristics extends StatelessWidget {
   final PokemonDetailsViewmodel pokemonDetailsViewmodel;
@@ -21,22 +22,22 @@ class PokemonSpeciesCharacteristics extends StatelessWidget {
         childAspectRatio: 2.0,
         children: [
           PokemonSpeciesCharacteristicCard(
-            iconPath: 'assets/icons/svg/pokemon_species/weight_icon.svg',
+            iconPath: AppAssets.pokemonCharacteristics.weight,
             title: 'peso',
             information: pokemonDetailsViewmodel.formattedWeight,
           ),
           PokemonSpeciesCharacteristicCard(
-            iconPath: 'assets/icons/svg/pokemon_species/height_icon.svg',
+            iconPath: AppAssets.pokemonCharacteristics.height,
             title: 'altura',
             information: pokemonDetailsViewmodel.formattedHeight,
           ),
           PokemonSpeciesCharacteristicCard(
-            iconPath: 'assets/icons/svg/pokemon_species/category_icon.svg',
+            iconPath: AppAssets.pokemonCharacteristics.category,
             title: 'categoria',
             information: pokemonDetailsViewmodel.formattedCategory,
           ),
           PokemonSpeciesCharacteristicCard(
-            iconPath: 'assets/icons/svg/pokemon_species/ability_icon.svg',
+            iconPath: AppAssets.pokemonCharacteristics.ability,
             title: 'habilidade',
             information: pokemonDetailsViewmodel.firstAbility,
           ),

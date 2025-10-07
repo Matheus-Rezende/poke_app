@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:poke_app/ui/core/themes/colors.dart';
 import 'package:poke_app/ui/pokemon_details/viewmodels/pokemon_details_viewmodel.dart';
 import 'package:poke_app/ui/pokemon_details/widgets/pokemon_evolution_card.dart';
+import 'package:poke_app/utils/assets/app_assets.dart';
 
 class PokemonEvolutions extends StatelessWidget {
   final PokemonDetailsViewmodel pokemonDetailsViewmodel;
@@ -61,7 +62,7 @@ class PokemonEvolutions extends StatelessWidget {
                                     index == evolutions.length - 1
                                         ? Container()
                                         : SvgPicture.asset(
-                                            'assets/icons/svg/pokemon_species/arrow_down_icon.svg',
+                                            AppAssets.pokemonEvolutions.arrowDown,
                                             colorFilter: ColorFilter.mode(
                                               isDarkTheme ? AppColors.white1 : AppColors.darkblue,
                                               BlendMode.srcIn,

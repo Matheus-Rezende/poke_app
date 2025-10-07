@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:poke_app/ui/core/themes/colors.dart';
 import 'package:poke_app/ui/pokemon_details/viewmodels/pokemon_details_viewmodel.dart';
+import 'package:poke_app/utils/assets/app_assets.dart';
 
 class PokemonGenderRate extends StatelessWidget {
   final PokemonDetailsViewmodel pokemonDetailsViewmodel;
@@ -26,7 +27,7 @@ class PokemonGenderRate extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SvgPicture.asset(
-                  'assets/images/svg/pokemon_information/unknown_gender_bar.svg',
+                  AppAssets.pokemonGender.unknown,
                   width: MediaQuery.sizeOf(context).width,
                   colorFilter: ColorFilter.mode(
                     Theme.of(context).colorScheme.onPrimary,
@@ -88,7 +89,7 @@ class PokemonGenderRate extends StatelessWidget {
                       spacing: 4.0,
                       children: [
                         SvgPicture.asset(
-                          'assets/icons/svg/pokemon_species/male_icon.svg',
+                          AppAssets.pokemonGender.male,
                           colorFilter: ColorFilter.mode(AppColors.grey3, BlendMode.srcIn),
                         ),
                         Text(
@@ -104,7 +105,7 @@ class PokemonGenderRate extends StatelessWidget {
                       spacing: 4.0,
                       children: [
                         SvgPicture.asset(
-                          'assets/icons/svg/pokemon_species/female_icon.svg',
+                          AppAssets.pokemonGender.female,
                           colorFilter: ColorFilter.mode(AppColors.grey3, BlendMode.srcIn),
                         ),
                         Text(
