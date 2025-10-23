@@ -92,10 +92,11 @@ class _PokemonFavoritesAssets {
 
 class _PokemonGenderAssets {
   const _PokemonGenderAssets();
-  static const _basePath = 'assets/icons/svg';
-  final String unknown = '$_basePath/pokemon_information/unknown_gender_bar.svg';
-  final String male = '$_basePath/pokemon_species/male_icon.svg';
-  final String female = '$_basePath/pokemon_species/female_icon.svg';
+  static const _baseIconPath = 'assets/icons/svg';
+  static const _baseImagePath = 'assets/images/svg';
+  final String unknown = '$_baseImagePath/pokemon_information/unknown_gender_bar.svg';
+  final String male = '$_baseIconPath/pokemon_species/male_icon.svg';
+  final String female = '$_baseIconPath/pokemon_species/female_icon.svg';
 }
 
 class _PokemonSplashAssets {
@@ -119,7 +120,7 @@ class _PokemonCharacteristicsAssets {
 class _GeneralAssets {
   const _GeneralAssets();
   static const _baseSvgPath = 'assets/icons/svg';
-  static const _basePngPath = 'assets/icons/png';
+  static const _basePngPath = 'assets/images/png';
 
   final String pokeball = '$_baseSvgPath/pokedex_filled.svg';
   final String magikarp = '$_basePngPath/others/magikarp.png';

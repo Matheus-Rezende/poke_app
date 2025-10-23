@@ -3,26 +3,32 @@ import 'package:go_router/go_router.dart';
 import 'package:poke_app/routing/routes.dart';
 import 'package:poke_app/ui/core/widgets/pokeball_loading.dart';
 import 'package:poke_app/ui/core/widgets/pokemon_cards/pokemon_card.dart';
-import 'package:poke_app/ui/pokedex/viewmodels/pokedex_viewmodel.dart';
+import 'package:poke_app/ui/pokedex/viewmodels/types_pokemon_viewmodel.dart';
 
-class PokedexList extends StatelessWidget {
-  final PokedexViewmodel pokedexViewmodel;
+class PokemonsTypeList extends StatelessWidget {
+  final TypesPokemonViewmodel typesPokemonViewmodel;
   final ScrollController scrollController;
-  const PokedexList({super.key, required this.pokedexViewmodel, required this.scrollController});
+  const PokemonsTypeList({
+    super.key,
+    required this.typesPokemonViewmodel,
+    required this.scrollController,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       controller: scrollController,
       padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 120.0),
-      itemCount: pokedexViewmodel.pokedex.length + (pokedexViewmodel.hasMore ? 1 : 0),
+      itemCount:
+          typesPokemonViewmodel.pokemonsByType.length +
+          (typesPokemonViewmodel.filteredHasMore ? 1 : 0),
       separatorBuilder: (context, index) => const SizedBox(height: 16.0),
       itemBuilder: (context, index) {
-        if (index == pokedexViewmodel.pokedex.length) {
+        if (index == typesPokemonViewmodel.pokemonsByType.length) {
           return const Center(child: PokeballLoading(isSliverWidget: false));
         }
 
-        final pokemon = pokedexViewmodel.pokedex[index];
+        final pokemon = typesPokemonViewmodel.pokemonsByType[index];
         return PokemonCard(
           id: pokemon.id,
           name: pokemon.name,

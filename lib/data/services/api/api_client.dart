@@ -200,4 +200,111 @@ class ApiClient {
       return Result.error(error);
     }
   }
+
+  Future<Result<PokemonSummary>> searchPokemon(String query) async {
+    final client = _clientHttpFactory;
+
+    final formattedQuery = query.toLowerCase().trim();
+    if (formattedQuery.isEmpty) {
+      return Result.error(const HttpException('Termo de busca não pode ser vazio.'));
+    }
+
+    try {
+      final url = Uri.https(_baseUrl, '/api/v2/pokemon/$formattedQuery');
+      _log.fine('Buscando Pokémon: $url');
+
+      final response = await client.get(url);
+
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+        final pokemonSummary = PokemonSummary.fromJson(json);
+        _log.fine('Pokémon "${pokemonSummary.name}" encontrado com sucesso.');
+        return Result.ok(pokemonSummary);
+      } else {
+        if (response.statusCode == 404) {
+          _log.warning('Pokémon "$formattedQuery" não encontrado.');
+          return Result.error(HttpException('Pokémon "$formattedQuery" não encontrado.'));
+        }
+        _log.warning('Falha na busca: Status ${response.statusCode}');
+        return Result.error(HttpException('Falha na busca: Status ${response.statusCode}'));
+      }
+    } on Exception catch (error, stackTrace) {
+      _log.severe('Erro ao buscar o Pokémon "$formattedQuery"', error, stackTrace);
+      return Result.error(error);
+    }
+  }
+
+  Future<Result<List<PokemonSummary>>> getPokemonsByType({
+    required String typeName,
+    required int limit,
+    required int offset,
+  }) async {
+    final lowerCaseTypeName = typeName.toLowerCase();
+    final client = _clientHttpFactory;
+
+    try {
+      // ETAPA 1: Busca a lista COMPLETA de resumos (nomes/URLs) para o tipo.
+      final typeUrl = Uri.https(_baseUrl, '/api/v2/type/$lowerCaseTypeName');
+      _log.fine('Buscando resumos para o tipo $lowerCaseTypeName: $typeUrl');
+      final typeResponse = await client.get(typeUrl);
+
+      if (typeResponse.statusCode == 200) {
+        final typeJson = jsonDecode(typeResponse.body);
+        final List<dynamic> allPokemonSummaries = typeJson['pokemon'];
+        _log.fine('Recebidos ${allPokemonSummaries.length} resumos do tipo $lowerCaseTypeName.');
+
+        // ETAPA 2: Aplica a paginação na lista de resumos.
+        final paginatedSummaries = allPokemonSummaries.skip(offset).take(limit).toList();
+
+        if (paginatedSummaries.isEmpty) {
+          _log.info(
+            'Não há mais pokémons do tipo $lowerCaseTypeName para paginar (offset: $offset).',
+          );
+          return Result.ok([]); // Retorna lista vazia se a página estiver vazia.
+        }
+        _log.fine(
+          'Processando ${paginatedSummaries.length} pokémons para a página atual (offset: $offset).',
+        );
+
+        // ETAPA 3: Busca os detalhes APENAS para a página atual, em paralelo.
+        final List<Future<PokemonSummary>> futuresPokemons = paginatedSummaries.map((
+          pokemonEntry,
+        ) async {
+          final summary = pokemonEntry['pokemon'];
+          final detailUrl = Uri.parse(summary['url']);
+          final detailResponse = await client.get(detailUrl);
+          if (detailResponse.statusCode == 200) {
+            final detailJson = jsonDecode(detailResponse.body);
+            _log.finer('Detalhes carregados para ${summary['name']} (Tipo: $lowerCaseTypeName)');
+            return PokemonSummary.fromJson(detailJson);
+          } else {
+            _log.warning(
+              'Falha ao carregar detalhes para ${summary['name']} (Tipo: $lowerCaseTypeName): ${detailResponse.statusCode}',
+            );
+            throw HttpException('Falha ao carregar detalhes para ${summary['name']}');
+          }
+        }).toList();
+
+        // Aguarda todos os detalhes da PÁGINA ATUAL serem carregados
+        final List<PokemonSummary> pokedexPage = await Future.wait(
+          futuresPokemons,
+          eagerError: true,
+        );
+        _log.info(
+          'Página (offset: $offset) de ${pokedexPage.length} pokémons do tipo $lowerCaseTypeName carregada com sucesso.',
+        );
+        return Result.ok(pokedexPage); // Retorna apenas a página processada
+      } else {
+        _log.severe(
+          'Falha ao carregar dados do tipo $lowerCaseTypeName: ${typeResponse.statusCode}',
+        );
+        return Result.error(
+          HttpException('Falha ao carregar dados do tipo: ${typeResponse.statusCode}'),
+        );
+      }
+    } on Exception catch (error, stackTrace) {
+      _log.severe('Erro ao buscar pokémons por tipo $lowerCaseTypeName', error, stackTrace);
+      return Result.error(error);
+    }
+  }
 }

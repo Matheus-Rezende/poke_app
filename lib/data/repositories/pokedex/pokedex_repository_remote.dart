@@ -39,4 +39,44 @@ class PokedexRepositoryRemote implements PokedexRepository {
       return Result.error(error);
     }
   }
+
+  @override
+  Future<Result<PokemonSummary>> searchPokemon(String query) async {
+    try {
+      final result = await _apiClient.searchPokemon(query);
+
+      switch (result) {
+        case Ok<PokemonSummary>():
+          return Result.ok(result.value);
+        default:
+          return result;
+      }
+    } on Exception catch (error) {
+      return Result.error(error);
+    }
+  }
+
+  @override
+  Future<Result<List<PokemonSummary>>> getPokemonsByType({
+    required String typeName,
+    required int limit,
+    required int offset,
+  }) async {
+    try {
+      final result = await _apiClient.getPokemonsByType(
+        typeName: typeName,
+        limit: limit,
+        offset: offset,
+      );
+
+      switch (result) {
+        case Ok<List<PokemonSummary>>():
+          return Result.ok(result.value);
+        default:
+          return result;
+      }
+    } on Exception catch (error) {
+      return Result.error(error);
+    }
+  }
 }

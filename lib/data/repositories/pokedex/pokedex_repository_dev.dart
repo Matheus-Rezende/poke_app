@@ -72,4 +72,20 @@ class PokedexRepositoryDev implements PokedexRepository {
       return Result.error(e);
     }
   }
+
+  @override
+  Future<Result<PokemonSummary>> searchPokemon(String query) {
+    // TODO: implement searchPokemon
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Result<List<PokemonSummary>>> getPokemonsByType({
+    required String typeName,
+    required int limit,
+    required int offset,
+  }) {
+    // TODO: implement getPokemonsByType
+    throw UnimplementedError();
+  }
 }
