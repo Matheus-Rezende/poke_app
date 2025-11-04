@@ -6,6 +6,7 @@ import 'package:poke_app/ui/pokedex/viewmodels/search_pokemon_viewmodel.dart';
 import 'package:poke_app/ui/pokedex/viewmodels/types_pokemon_viewmodel.dart';
 import 'package:poke_app/ui/pokemon_details/viewmodels/pokemon_details_viewmodel.dart';
 import 'package:poke_app/ui/pokemon_details/widgets/pokemon_details_screen.dart';
+import 'package:poke_app/ui/regions/viewmodels/regions_viewmodel.dart';
 import 'package:poke_app/ui/splash/widgets/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +21,7 @@ GoRouter routerConfig() {
             pokedexViewmodel: PokedexViewmodel(pokedexRepository: context.read()),
             searchPokemonViewmodel: SearchPokemonViewmodel(pokedexRepository: context.read()),
             typesPokemonViewmodel: TypesPokemonViewmodel(pokedexRepository: context.read()),
+            regionsViewmodel: RegionsViewmodel(regionsRepository: context.read()),
           );
         },
         routes: [

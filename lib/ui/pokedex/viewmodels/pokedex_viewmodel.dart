@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:poke_app/data/repositories/pokedex/pokedex_repository.dart';
-import 'package:poke_app/domain/models/pokemon/pokemon_summary.dart';
+import 'package:poke_app/domain/models/pokemons/pokemon_summary.dart';
 import 'package:poke_app/utils/commands/commands.dart';
 import 'package:poke_app/utils/result/result.dart';
 
@@ -33,7 +33,7 @@ class PokedexViewmodel extends ChangeNotifier {
       _offset = 0;
       _hasMore = true;
 
-      final result = await _pokedexRepository.get(limit: _pageSize, offset: _offset);
+      final result = await _pokedexRepository.getPokemons(limit: _pageSize, offset: _offset);
 
       switch (result) {
         case Ok<List<PokemonSummary>>():
@@ -60,7 +60,7 @@ class PokedexViewmodel extends ChangeNotifier {
         return Result.ok([]);
       }
 
-      final result = await _pokedexRepository.get(limit: _pageSize, offset: _offset);
+      final result = await _pokedexRepository.getPokemons(limit: _pageSize, offset: _offset);
 
       switch (result) {
         case Ok<List<PokemonSummary>>():

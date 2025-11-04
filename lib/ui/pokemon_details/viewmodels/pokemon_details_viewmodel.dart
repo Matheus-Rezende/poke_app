@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poke_app/data/repositories/pokedex/pokedex_repository.dart';
-import 'package:poke_app/domain/models/pokemon/pokemon_detail.dart';
+import 'package:poke_app/domain/models/pokemons/pokemon_detail.dart';
 import 'package:poke_app/utils/commands/commands.dart';
 import 'package:poke_app/utils/extensions/string_casting_extension.dart';
 import 'package:poke_app/utils/result/result.dart';
@@ -62,19 +62,20 @@ class PokemonDetailsViewmodel extends ChangeNotifier {
   bool get isGenderUnknown => pokemon.genderRate == -1;
 
   Future<Result<PokemonDetail>> _load(String pokemon) async {
-    try {
-      final result = await _pokedexRepository.getPokemonDetailById(pokemon);
-      switch (result) {
-        case Ok<PokemonDetail>():
-          _pokemon = result.value;
-          return Result.ok(result.value);
-        default:
-          return result;
-      }
-    } on Exception catch (error) {
-      return Result.error(error);
-    } finally {
-      notifyListeners();
-    }
+    throw Exception();
+    // try {
+    //   final result = await _pokedexRepository.getPokemonDetailById(pokemon);
+    //   switch (result) {
+    //     case Ok<PokemonDetail>():
+    //       _pokemon = result.value;
+    //       return Result.ok(result.value);
+    //     default:
+    //       return result;
+    //   }
+    // } on Exception catch (error) {
+    //   return Result.error(error);
+    // } finally {
+    //   notifyListeners();
+    // }
   }
 }

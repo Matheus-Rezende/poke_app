@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:poke_app/data/repositories/pokedex/pokedex_repository.dart';
-import 'package:poke_app/domain/models/pokemon/pokemon_summary.dart';
+import 'package:poke_app/domain/models/pokemons/pokemon_summary.dart';
 import 'package:poke_app/ui/core/themes/colors.dart';
 import 'package:poke_app/utils/commands/commands.dart';
 import 'package:poke_app/utils/result/result.dart';
@@ -40,30 +40,32 @@ class TypesPokemonViewmodel extends ChangeNotifier {
     _filteredHasMore = true;
     _pokemonsByType = [];
 
-    try {
-      final result = await _pokedexRepository.getPokemonsByType(
-        typeName: type,
-        limit: _pageSize,
-        offset: _filteredOffset,
-      );
+    throw Exception();
 
-      switch (result) {
-        case Ok<List<PokemonSummary>>():
-          final newPokemons = result.value;
-          _pokemonsByType = newPokemons;
-          _filteredOffset += newPokemons.length;
-          _filteredHasMore = newPokemons.length == _pageSize;
-          _log.fine('Primeira página do tipo $type carregada com sucesso!');
-          return Result.ok(result.value);
-        default:
-          return result;
-      }
-    } on Exception catch (error, stacktrace) {
-      _log.warning('Falha ao carregar os pokemons:', error, stacktrace);
-      return Result.error(error);
-    } finally {
-      notifyListeners();
-    }
+    // try {
+    //   final result = await _pokedexRepository.getPokemonsByType(
+    //     typeName: type,
+    //     limit: _pageSize,
+    //     offset: _filteredOffset,
+    //   );
+
+    //   switch (result) {
+    //     case Ok<List<PokemonSummary>>():
+    //       final newPokemons = result.value;
+    //       _pokemonsByType = newPokemons;
+    //       _filteredOffset += newPokemons.length;
+    //       _filteredHasMore = newPokemons.length == _pageSize;
+    //       _log.fine('Primeira página do tipo $type carregada com sucesso!');
+    //       return Result.ok(result.value);
+    //     default:
+    //       return result;
+    //   }
+    // } on Exception catch (error, stacktrace) {
+    //   _log.warning('Falha ao carregar os pokemons:', error, stacktrace);
+    //   return Result.error(error);
+    // } finally {
+    //   notifyListeners();
+    // }
   }
 
   Future<Result<List<PokemonSummary>>> _loadMoreByType() async {
@@ -71,34 +73,36 @@ class TypesPokemonViewmodel extends ChangeNotifier {
       return Result.ok([]);
     }
 
-    try {
-      final result = await _pokedexRepository.getPokemonsByType(
-        typeName: _pokemonTypeText,
-        limit: _pageSize,
-        offset: _filteredOffset,
-      );
-      switch (result) {
-        case Ok<List<PokemonSummary>>():
-          final newPokemons = result.value;
-          _pokemonsByType.addAll(newPokemons);
-          _filteredOffset += newPokemons.length;
-          _filteredHasMore = newPokemons.length == _pageSize;
-          _log.fine('Mais pokémons do tipo $_pokemonTypeText carregados com sucesso!');
-          return Result.ok(result.value);
-        default:
-          return result;
-      }
-    } on Exception catch (error, stacktrace) {
-      _log.warning(
-        'Erro inesperado ao carregar mais pokémons do tipo $_pokemonTypeText:',
-        error,
-        stacktrace,
-      );
+    throw Exception();
 
-      return Result.error(error);
-    } finally {
-      notifyListeners();
-    }
+    // try {
+    //   final result = await _pokedexRepository.getPokemonsByType(
+    //     typeName: _pokemonTypeText,
+    //     limit: _pageSize,
+    //     offset: _filteredOffset,
+    //   );
+    //   switch (result) {
+    //     case Ok<List<PokemonSummary>>():
+    //       final newPokemons = result.value;
+    //       _pokemonsByType.addAll(newPokemons);
+    //       _filteredOffset += newPokemons.length;
+    //       _filteredHasMore = newPokemons.length == _pageSize;
+    //       _log.fine('Mais pokémons do tipo $_pokemonTypeText carregados com sucesso!');
+    //       return Result.ok(result.value);
+    //     default:
+    //       return result;
+    //   }
+    // } on Exception catch (error, stacktrace) {
+    //   _log.warning(
+    //     'Erro inesperado ao carregar mais pokémons do tipo $_pokemonTypeText:',
+    //     error,
+    //     stacktrace,
+    //   );
+
+    //   return Result.error(error);
+    // } finally {
+    //   notifyListeners();
+    // }
   }
 
   set pokemonTypeText(String type) {

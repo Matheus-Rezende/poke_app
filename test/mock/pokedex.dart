@@ -1,5 +1,5 @@
-import 'package:poke_app/domain/models/pokemon/pokemon_detail.dart';
-import 'package:poke_app/domain/models/pokemon/pokemon_summary.dart';
+import 'package:poke_app/domain/models/pokemons/pokemon_detail.dart';
+import 'package:poke_app/domain/models/pokemons/pokemon_summary.dart';
 
 final List<PokemonSummary> mockGetPokedex = [
   PokemonSummary(

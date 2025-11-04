@@ -9,6 +9,7 @@ class AppAssets {
   static const pokemonGender = _PokemonGenderAssets();
   static const pokemonCharacteristics = _PokemonCharacteristicsAssets();
   static const pokemonSplash = _PokemonSplashAssets();
+  static const pokemonRegions = _PokemonRegionsAssets();
   static const general = _GeneralAssets();
 }
 
@@ -115,6 +116,22 @@ class _PokemonCharacteristicsAssets {
   final String height = '$_basePath/height_icon.svg';
   final String category = '$_basePath/category_icon.svg';
   final String ability = '$_basePath/ability_icon.svg';
+}
+
+class _PokemonRegionsAssets {
+  const _PokemonRegionsAssets();
+  static const _basePath = 'assets/images/png/regions';
+  final String defaultRegion = '$_basePath/region_default.webp';
+  final String alola = '$_basePath/region_alola.png';
+  final String galar = '$_basePath/region_galar.png';
+  final String hisui = '$_basePath/region_hisui.png';
+  final String hoenn = '$_basePath/region_hoenn.png';
+  final String johto = '$_basePath/region_johto.png';
+  final String kalos = '$_basePath/region_kalos.png';
+  final String kanto = '$_basePath/region_kanto.png';
+  final String paldea = '$_basePath/region_paldea.jpg';
+  final String sinnoh = '$_basePath/region_sinnoh.png';
+  final String unova = '$_basePath/region_unova.png';
 }
 
 class _GeneralAssets {

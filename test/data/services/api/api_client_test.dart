@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:poke_app/data/services/api/api_client.dart';
-import 'package:poke_app/domain/models/pokemon/pokemon_detail.dart';
-import 'package:poke_app/domain/models/pokemon/pokemon_summary.dart';
+import 'package:poke_app/domain/models/pokemons/pokemon_detail.dart';
+import 'package:poke_app/domain/models/pokemons/pokemon_summary.dart';
 import 'package:poke_app/utils/result/result.dart';
 
 import '../../../helpers/mock_helpers.dart';

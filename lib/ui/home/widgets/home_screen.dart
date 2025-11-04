@@ -5,17 +5,20 @@ import 'package:poke_app/ui/pokedex/viewmodels/pokedex_viewmodel.dart';
 import 'package:poke_app/ui/pokedex/viewmodels/search_pokemon_viewmodel.dart';
 import 'package:poke_app/ui/pokedex/viewmodels/types_pokemon_viewmodel.dart';
 import 'package:poke_app/ui/pokedex/widgets/pokedex_screen.dart';
+import 'package:poke_app/ui/regions/viewmodels/regions_viewmodel.dart';
 import 'package:poke_app/ui/regions/widgets/regions_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final PokedexViewmodel pokedexViewmodel;
   final SearchPokemonViewmodel searchPokemonViewmodel;
   final TypesPokemonViewmodel typesPokemonViewmodel;
+  final RegionsViewmodel regionsViewmodel;
   const HomeScreen({
     super.key,
     required this.pokedexViewmodel,
     required this.searchPokemonViewmodel,
     required this.typesPokemonViewmodel,
+    required this.regionsViewmodel,
   });
 
   @override
@@ -31,9 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
       searchPokemonViewmodel: widget.searchPokemonViewmodel,
       typesPokemonViewmodel: widget.typesPokemonViewmodel,
     ),
-    RegionsScreen(),
-    RegionsScreen(),
-    RegionsScreen(),
+    RegionsScreen(regionsViewmodel: widget.regionsViewmodel),
+    RegionsScreen(regionsViewmodel: widget.regionsViewmodel),
+    RegionsScreen(regionsViewmodel: widget.regionsViewmodel),
   ];
 
   @override

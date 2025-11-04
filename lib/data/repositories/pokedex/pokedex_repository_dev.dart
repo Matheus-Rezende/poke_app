@@ -1,7 +1,7 @@
 import 'package:poke_app/data/repositories/pokedex/pokedex_repository.dart';
-import 'package:poke_app/domain/models/pokemon/evolution_step.dart';
-import 'package:poke_app/domain/models/pokemon/pokemon_detail.dart';
-import 'package:poke_app/domain/models/pokemon/pokemon_summary.dart';
+import 'package:poke_app/domain/models/pokemons/evolution_step.dart';
+import 'package:poke_app/domain/models/pokemons/pokemon_detail.dart';
+import 'package:poke_app/domain/models/pokemons/pokemon_summary.dart';
 import 'package:poke_app/utils/result/result.dart';
 
 class PokedexRepositoryDev implements PokedexRepository {
@@ -47,7 +47,10 @@ class PokedexRepositoryDev implements PokedexRepository {
   );
 
   @override
-  Future<Result<List<PokemonSummary>>> get({required int limit, required int offset}) async {
+  Future<Result<List<PokemonSummary>>> getPokemons({
+    required int limit,
+    required int offset,
+  }) async {
     try {
       await Future.delayed(const Duration(seconds: 1));
 

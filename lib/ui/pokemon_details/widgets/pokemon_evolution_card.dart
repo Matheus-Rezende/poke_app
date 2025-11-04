@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:poke_app/domain/models/pokemon/evolution_step.dart';
+import 'package:poke_app/domain/models/pokemons/evolution_step.dart';
 import 'package:poke_app/routing/routes.dart';
 import 'package:poke_app/ui/core/themes/colors.dart';
 import 'package:poke_app/ui/core/widgets/pokeball_loading.dart';

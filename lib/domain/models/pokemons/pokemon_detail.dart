@@ -1,4 +1,4 @@
-import 'package:poke_app/domain/models/pokemon/evolution_step.dart';
+import 'package:poke_app/domain/models/pokemons/evolution_step.dart';
 
 class PokemonDetail {
   final int id;
