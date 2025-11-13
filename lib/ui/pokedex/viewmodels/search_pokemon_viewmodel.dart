@@ -34,23 +34,22 @@ class SearchPokemonViewmodel extends ChangeNotifier {
   final _log = Logger('SearchPokemonViewmodel');
 
   Future<Result<PokemonSummary>> _search(String query) async {
-    throw Exception();
-    // try {
-    //   final result = await _pokedexRepository.searchPokemon(query);
+    try {
+      final result = await _pokedexRepository.searchPokemon(query);
 
-    //   switch (result) {
-    //     case Ok<PokemonSummary>():
-    //       _log.fine('Pokemon ${result.value.name} encontrado com sucesso!');
-    //       _pokemon = result.value;
-    //       return Result.ok(result.value);
-    //     default:
-    //       return result;
-    //   }
-    // } on Exception catch (error, stacktrace) {
-    //   _log.warning('Falha ao carregar o pokemon:', error, stacktrace);
-    //   return Result.error(error);
-    // } finally {
-    //   notifyListeners();
-    // }
+      switch (result) {
+        case Ok<PokemonSummary>():
+          _log.fine('Pokemon ${result.value.name} encontrado com sucesso!');
+          _pokemon = result.value;
+          return Result.ok(result.value);
+        default:
+          return result;
+      }
+    } on Exception catch (error, stacktrace) {
+      _log.warning('Falha ao carregar o pokemon:', error, stacktrace);
+      return Result.error(error);
+    } finally {
+      notifyListeners();
+    }
   }
 }

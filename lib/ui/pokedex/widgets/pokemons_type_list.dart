@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:poke_app/routing/routes.dart';
 import 'package:poke_app/ui/core/widgets/pokeball_loading.dart';
 import 'package:poke_app/ui/core/widgets/pokemon_cards/pokemon_card.dart';
-import 'package:poke_app/ui/pokedex/viewmodels/types_pokemon_viewmodel.dart';
+import 'package:poke_app/ui/pokedex/viewmodels/types_pokemons_viewmodel.dart';
 
 class PokemonsTypeList extends StatelessWidget {
   final TypesPokemonViewmodel typesPokemonViewmodel;

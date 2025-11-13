@@ -1,4 +1,5 @@
 import 'package:poke_app/data/repositories/pokedex/pokedex_repository.dart';
+import 'package:poke_app/data/services/api/model/pokedex/pokemon_detail_api_model.dart';
 import 'package:poke_app/domain/models/pokemons/evolution_step.dart';
 import 'package:poke_app/domain/models/pokemons/pokemon_detail.dart';
 import 'package:poke_app/domain/models/pokemons/pokemon_summary.dart';

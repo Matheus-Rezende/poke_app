@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:poke_app/ui/core/themes/colors.dart';
 import 'package:poke_app/ui/core/widgets/buttons/custom_button.dart';
 import 'package:poke_app/ui/pokedex/viewmodels/pokedex_viewmodel.dart';
-import 'package:poke_app/ui/pokedex/viewmodels/types_pokemon_viewmodel.dart';
+import 'package:poke_app/ui/pokedex/viewmodels/types_pokemons_viewmodel.dart';
 import 'package:poke_app/utils/constants/pokemon_type/pokemon_type_colors.dart';
 import 'package:poke_app/utils/extensions/string_casting_extension.dart';
 
@@ -31,7 +31,7 @@ class PokemonTypesBottomSheet extends StatelessWidget {
               height: 42.0,
               titleStyle: Theme.of(
                 context,
-              ).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w600),
+              ).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w600, color: AppColors.grey1),
               backgroundColor: AppColors.grey5,
               onPressed: () {
                 typesPokemonViewmodel.selectAllTypes();
@@ -54,9 +54,11 @@ class PokemonTypesBottomSheet extends StatelessWidget {
                   child: CustomButton(
                     height: 42.0,
                     title: typeName.toCapitalized,
-                    titleStyle: Theme.of(
-                      context,
-                    ).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w600),
+
+                    titleStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.grey1,
+                    ),
                     backgroundColor: typeColor.withValues(alpha: 1.5),
                     onPressed: () {
                       print('tipo selecionado: $typeName');

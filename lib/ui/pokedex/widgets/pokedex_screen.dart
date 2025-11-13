@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:poke_app/routing/routes.dart';
+import 'package:poke_app/ui/core/themes/colors.dart';
 import 'package:poke_app/ui/core/widgets/bottom_sheet/custom_bottom_sheet.dart';
 import 'package:poke_app/ui/core/widgets/buttons/custom_button.dart';
 import 'package:poke_app/ui/core/widgets/pokeball_loading.dart';
@@ -11,7 +12,7 @@ import 'package:poke_app/ui/core/widgets/pokemon_message.dart';
 import 'package:poke_app/ui/core/widgets/textfields/custom_textfield.dart';
 import 'package:poke_app/ui/pokedex/viewmodels/pokedex_viewmodel.dart';
 import 'package:poke_app/ui/pokedex/viewmodels/search_pokemon_viewmodel.dart';
-import 'package:poke_app/ui/pokedex/viewmodels/types_pokemon_viewmodel.dart';
+import 'package:poke_app/ui/pokedex/viewmodels/types_pokemons_viewmodel.dart';
 import 'package:poke_app/ui/pokedex/widgets/pokedex_list.dart';
 import 'package:poke_app/ui/pokedex/widgets/pokemon_types_bottom_sheet.dart';
 import 'package:poke_app/ui/pokedex/widgets/pokemons_type_list.dart';
@@ -87,10 +88,12 @@ class _PokedexScreenState extends State<PokedexScreen> {
                   child: CustomButton(
                     title: widget.typesPokemonViewmodel.pokemonTypeText,
                     width: sizeOf.width,
+
                     height: 48.0,
-                    titleStyle: Theme.of(
-                      context,
-                    ).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.w600),
+                    titleStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.grey1,
+                    ),
                     backgroundColor: widget.typesPokemonViewmodel.pokemonTypeColor,
                     onPressed: () => showCustomBottomSheet(
                       context: context,

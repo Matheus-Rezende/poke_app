@@ -3,7 +3,7 @@ import 'package:poke_app/routing/routes.dart';
 import 'package:poke_app/ui/home/widgets/home_screen.dart';
 import 'package:poke_app/ui/pokedex/viewmodels/pokedex_viewmodel.dart';
 import 'package:poke_app/ui/pokedex/viewmodels/search_pokemon_viewmodel.dart';
-import 'package:poke_app/ui/pokedex/viewmodels/types_pokemon_viewmodel.dart';
+import 'package:poke_app/ui/pokedex/viewmodels/types_pokemons_viewmodel.dart';
 import 'package:poke_app/ui/pokemon_details/viewmodels/pokemon_details_viewmodel.dart';
 import 'package:poke_app/ui/pokemon_details/widgets/pokemon_details_screen.dart';
 import 'package:poke_app/ui/regions/viewmodels/regions_viewmodel.dart';

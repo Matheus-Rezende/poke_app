@@ -17,8 +17,8 @@ abstract class PokemonDetailApiModel with _$PokemonDetailApiModel {
 
   factory PokemonDetailApiModel.fromApiJson(Map<String, dynamic> json) {
     return PokemonDetailApiModel(
-      id: json['id'] as int,
-      name: json['name'] as String,
+      id: json['id'] as int? ?? 0,
+      name: json['name'] as String? ?? '',
       types:
           (json['types'] as List<dynamic>?)?.map((e) => e['type']['name'] as String).toList() ?? [],
       imageUrl: json['sprites']?['front_default'] as String? ?? '',

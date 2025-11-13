@@ -47,7 +47,7 @@ class ApiClient {
     }
   }
 
-  Future<Result<PokemonDetailApiModel>> getPokemonDetails(String url) async {
+  Future<Result<PokemonDetailApiModel>> getPokemonDetailsByUrl(String url) async {
     try {
       final client = _clientHttpFactory;
       final uri = Uri.parse(url);
@@ -62,6 +62,29 @@ class ApiClient {
         return Result.ok(detail);
       } else {
         _log.warning('Falha ao carregar detalhes do pokémon ($url)');
+        return Result.error(HttpException('Falha ao carregar detalhes.'));
+      }
+    } on Exception catch (error) {
+      _log.severe('Erro ao carregar detalhes do pokémon: $error');
+      return Result.error(error);
+    }
+  }
+
+  Future<Result<PokemonDetailApiModel>> getPokemonDetailsByQuery(String query) async {
+    try {
+      final client = _clientHttpFactory;
+      final uri = Uri.https(_baseUrl, '/api/v2/pokemon/$query');
+
+      final response = await client.get(uri);
+
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body) as Map<String, dynamic>;
+        final detail = PokemonDetailApiModel.fromApiJson(json);
+
+        _log.fine('Detalhes do pokémon ${detail.name} carregados com sucesso!');
+        return Result.ok(detail);
+      } else {
+        _log.warning('Falha ao carregar detalhes do pokémon ($query)');
         return Result.error(HttpException('Falha ao carregar detalhes.'));
       }
     } on Exception catch (error) {
@@ -107,6 +130,36 @@ class ApiClient {
       }
     } on Exception catch (error) {
       _log.warning('Erro ao buscar detalhes da região: $error');
+      return Result.error(error);
+    }
+  }
+
+  Future<Result<List<PokemonSummaryApiModel>>> getPokemonsByType({required String typeName}) async {
+    try {
+      final client = _clientHttpFactory;
+      final uri = Uri.https(_baseUrl, '/api/v2/type/$typeName');
+
+      final response = await client.get(uri);
+
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body) as Map<String, dynamic>;
+        final pokemonList = json['pokemon'] as List<dynamic>;
+
+        // Cada item tem estrutura { "pokemon": { "name": ..., "url": ... }, "slot": ... }
+        final pokemons = pokemonList
+            .map((e) => PokemonSummaryApiModel.fromJson(e['pokemon'] as Map<String, dynamic>))
+            .toList();
+
+        _log.fine('Lista de ${pokemons.length} pokémons do tipo $typeName carregada com sucesso!');
+        return Result.ok(pokemons);
+      } else {
+        _log.warning(
+          'Falha ao carregar pokémons por tipo $typeName. Código: ${response.statusCode}',
+        );
+        return Result.error(HttpException('Falha ao carregar pokémons por tipo.'));
+      }
+    } on Exception catch (error) {
+      _log.severe('Erro ao buscar pokémons por tipo $typeName: $error');
       return Result.error(error);
     }
   }
