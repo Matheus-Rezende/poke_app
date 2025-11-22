@@ -8,9 +8,19 @@ abstract class PokemonSummary with _$PokemonSummary {
   const factory PokemonSummary({
     required int id,
     required String name,
-    required String image,
     required List<String> types,
+    required String imageUrl,
   }) = _PokemonSummary;
 
   factory PokemonSummary.fromJson(Map<String, dynamic> json) => _$PokemonSummaryFromJson(json);
+
+  factory PokemonSummary.fromApiJson(Map<String, dynamic> json) {
+    return PokemonSummary(
+      id: json['id'] as int? ?? 0,
+      name: json['name'] as String? ?? '',
+      types:
+          (json['types'] as List<dynamic>?)?.map((e) => e['type']['name'] as String).toList() ?? [],
+      imageUrl: json['sprites']?['front_default'] as String? ?? '',
+    );
+  }
 }

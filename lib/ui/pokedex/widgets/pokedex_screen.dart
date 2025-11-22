@@ -168,7 +168,7 @@ class _PokedexScreenState extends State<PokedexScreen> {
                       id: searchViewmodel.pokemon!.id,
                       name: searchViewmodel.pokemon!.name,
                       types: searchViewmodel.pokemon!.types,
-                      imagePath: searchViewmodel.pokemon!.image,
+                      imagePath: searchViewmodel.pokemon!.imageUrl,
                       onPressed: () => context.push(
                         Routes.pokemonDetails(searchViewmodel.pokemon!.id.toString()),
                       ),

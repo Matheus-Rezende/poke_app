@@ -27,7 +27,7 @@ class PokedexList extends StatelessWidget {
           id: pokemon.id,
           name: pokemon.name,
           types: pokemon.types,
-          imagePath: pokemon.image,
+          imagePath: pokemon.imageUrl,
           onPressed: () => context.push(Routes.pokemonDetails(pokemon.id.toString())),
           favoriteOnPressed: () => print('Apertou no favorito'),
         );

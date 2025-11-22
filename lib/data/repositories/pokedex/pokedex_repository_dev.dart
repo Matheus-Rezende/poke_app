@@ -1,8 +1,7 @@
 import 'package:poke_app/data/repositories/pokedex/pokedex_repository.dart';
-import 'package:poke_app/data/services/api/model/pokedex/pokemon_detail_api_model.dart';
+import 'package:poke_app/domain/models/pokemons/pokemon_summary.dart';
 import 'package:poke_app/domain/models/pokemons/evolution_step.dart';
 import 'package:poke_app/domain/models/pokemons/pokemon_detail.dart';
-import 'package:poke_app/domain/models/pokemons/pokemon_summary.dart';
 import 'package:poke_app/utils/result/result.dart';
 
 class PokedexRepositoryDev implements PokedexRepository {
@@ -11,7 +10,7 @@ class PokedexRepositoryDev implements PokedexRepository {
     (index) => PokemonSummary(
       id: index + 1,
       name: 'bulbasaur',
-      image:
+      imageUrl:
           'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png',
 
       types: ['grass', 'poison'],

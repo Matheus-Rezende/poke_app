@@ -1,19 +1,18 @@
 import 'package:logging/logging.dart';
-import 'package:poke_app/data/services/api/api_client.dart';
-import 'package:poke_app/data/services/api/model/pokedex/pokemon_detail_api_model.dart';
-import 'package:poke_app/data/services/api/model/pokedex/pokemon_summary_api_model.dart';
+import 'package:poke_app/data/datasources/pokemon_remote_datasource.dart';
 import 'package:poke_app/domain/models/pokemons/pokemon_summary.dart';
+import 'package:poke_app/domain/models/pokemons/pokemon_summary_basic.dart';
 import 'package:poke_app/utils/result/result.dart';
 
 import 'pokedex_repository.dart';
 
 class PokedexRepositoryRemote implements PokedexRepository {
-  PokedexRepositoryRemote({required ApiClient apiClient}) : _apiClient = apiClient;
+  PokedexRepositoryRemote({required PokemonRemoteDataSource dataSource}) : _dataSource = dataSource;
 
-  final ApiClient _apiClient;
+  final PokemonRemoteDataSource _dataSource;
   final _log = Logger('PokedexRepositoryRemote');
 
-  final Map<String, PokemonDetailApiModel> _cachedPokemons = {};
+  final Map<String, PokemonSummary> _cachedPokemons = {};
 
   @override
   Future<Result<List<PokemonSummary>>> getPokemons({
@@ -21,28 +20,22 @@ class PokedexRepositoryRemote implements PokedexRepository {
     required int offset,
   }) async {
     try {
-      final listResult = await _apiClient.getPokemons(limit: limit, offset: offset);
-      if (listResult is Error<List<PokemonSummaryApiModel>>) {
+      final listResult = await _dataSource.getPokemons(limit: limit, offset: offset);
+      if (listResult is Error<List<PokemonSummaryBasic>>) {
         return Result.error(listResult.error);
       }
       final summaries = listResult.asOk.value;
 
       // Buscar detalhes em paralelo
       final futures = summaries.map((summary) async {
-        final detailsResult = await _apiClient.getPokemonDetailsByUrl(summary.url);
+        final detailsResult = await _dataSource.getPokemonDetailsByUrl(summary.url);
 
         switch (detailsResult) {
-          case Error<PokemonDetailApiModel>():
+          case Error<PokemonSummary>():
             _log.warning('Erro ao buscar detalhes de ${summary.name}');
             return null;
-          case Ok<PokemonDetailApiModel>():
-            final details = detailsResult.value;
-            return PokemonSummary(
-              id: details.id,
-              name: details.name,
-              image: details.imageUrl,
-              types: details.types,
-            );
+          case Ok<PokemonSummary>():
+            return detailsResult.value;
         }
       });
 
@@ -61,9 +54,9 @@ class PokedexRepositoryRemote implements PokedexRepository {
     required int offset,
   }) async {
     try {
-      final listResult = await _apiClient.getPokemonsByType(typeName: typeName);
+      final listResult = await _dataSource.getPokemonsByType(typeName: typeName);
 
-      if (listResult is Error<List<PokemonSummaryApiModel>>) {
+      if (listResult is Error<List<PokemonSummaryBasic>>) {
         return Result.error(listResult.error);
       }
 
@@ -72,21 +65,15 @@ class PokedexRepositoryRemote implements PokedexRepository {
       final paginatedList = allPokemons.skip(offset).take(limit).toList();
 
       final futures = paginatedList.map((summary) async {
-        final detailsResult = await _apiClient.getPokemonDetailsByUrl(summary.url);
+        final detailsResult = await _dataSource.getPokemonDetailsByUrl(summary.url);
 
         switch (detailsResult) {
-          case Error<PokemonDetailApiModel>():
+          case Error<PokemonSummary>():
             _log.warning('Erro ao buscar detalhes de ${summary.name}');
             return null;
 
-          case Ok<PokemonDetailApiModel>():
-            final details = detailsResult.value;
-            return PokemonSummary(
-              id: details.id,
-              name: details.name,
-              image: details.imageUrl,
-              types: details.types,
-            );
+          case Ok<PokemonSummary>():
+            return detailsResult.value;
         }
       });
 
@@ -106,22 +93,15 @@ class PokedexRepositoryRemote implements PokedexRepository {
   @override
   Future<Result<PokemonSummary>> searchPokemon(String query) async {
     try {
-      final result = await _apiClient.getPokemonDetailsByQuery(query);
+      final result = await _dataSource.getPokemonDetails(query);
 
       switch (result) {
-        case Ok<PokemonDetailApiModel>():
+        case Ok<PokemonSummary>():
           final details = result.value;
           _cachedPokemons[query] = details;
-          return Result.ok(
-            PokemonSummary(
-              id: details.id,
-              name: details.name,
-              image: details.imageUrl,
-              types: details.types,
-            ),
-          );
+          return result;
         default:
-          if (result is Error<PokemonDetailApiModel>) {
+          if (result is Error<PokemonSummary>) {
             return Result.error(result.error);
           }
           return Result.error(Exception('Resultado inesperado ao buscar pokémon'));

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widget_previews.dart';
-import 'package:poke_app/domain/models/pokemons/pokemon_detail.dart';
 import 'package:poke_app/routing/router.dart';
 import 'package:poke_app/ui/core/themes/theme.dart';
 import 'package:poke_app/ui/core/widgets/pokemon_cards/pokemon_card.dart';
