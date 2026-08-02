@@ -65,7 +65,6 @@ class PokedexRepositoryDev implements PokedexRepository {
     }
   }
 
-  @override
   Future<Result<PokemonDetail>> getPokemonDetailById(String id) async {
     try {
       await Future.delayed(const Duration(seconds: 1));

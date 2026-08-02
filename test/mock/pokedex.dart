@@ -5,31 +5,31 @@ final List<PokemonSummary> mockGetPokedex = [
   PokemonSummary(
     id: 1,
     name: 'bulbasaur',
-    image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
+    imageUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
     types: ['grass', 'poison'],
   ),
   PokemonSummary(
     id: 2,
     name: 'ivysaur',
-    image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png',
+    imageUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png',
     types: ['grass', 'poison'],
   ),
   PokemonSummary(
     id: 3,
     name: 'venusaur',
-    image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png',
+    imageUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png',
     types: ['grass', 'poison'],
   ),
   PokemonSummary(
     id: 4,
     name: 'charmander',
-    image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
+    imageUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
     types: ['fire'],
   ),
   PokemonSummary(
     id: 5,
     name: 'charmeleon',
-    image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png',
+    imageUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png',
     types: ['fire'],
   ),
 ];

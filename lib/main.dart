@@ -3,8 +3,6 @@ import 'package:flutter/widget_previews.dart';
 import 'package:poke_app/routing/router.dart';
 import 'package:poke_app/ui/core/themes/theme.dart';
 import 'package:poke_app/ui/core/widgets/pokemon_cards/pokemon_card.dart';
-import 'package:poke_app/ui/pokemon_details/widgets/pokemon_details_header.dart';
-import 'main_development.dart' as develop;
 import 'main_staging.dart' as staging;
 
 void main() => staging.main();

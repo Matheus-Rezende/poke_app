@@ -11,6 +11,7 @@ class PokemonDetailsViewmodel extends ChangeNotifier {
     load = Command1(_load);
   }
 
+  // ignore: unused_field
   final PokedexRepository _pokedexRepository;
 
   late final Command1<PokemonDetail, String> load;
